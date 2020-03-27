@@ -52,47 +52,44 @@
         				<tr>
         					<td align="justify" style="font-size: 20px; color: aliceblue;font-family:courier,arial,helvética;">
                     <p>
-Este sera un breve post el cual explicare algo muy trivial que se puede encontrar en muchas plataformas y sistemas web como son las Re-direcciones, esto nos permite enviar a un usuario a dominios que controlamos con código malicioso (phishing) .
+Este sera un breve post el cual explicare algo muy trivial que se puede encontrar en muchas plataformas y sistemas web como son las Re-direcciones, esto nos permite enviar a un usuario a dominios que controlamos con código malicioso (phishing).<br><br>
+Bueno esto se pueden encontrar fácilmente en portales cautivos, re-dirección por autorizaciones, to_back, url, o en variables callback que a veces tenemos unos Jquery por ahí, etc. eso dependerá del sitio y sus variables.<br><br>
 
-Bueno esto se pueden encontrar fácilmente en portales cautivos, re-dirección por autorizaciones, to_back, url, o en variables callback que a veces tenemos unos Jquery por ahí, etc. eso dependerá del sitio y sus variables.
+Un ejemplo seria así:<br><br>
 
-Un ejemplo seria así:
+https://www.domain.com/login/to_back=https://www.domain.com<br><br>
 
-https://www.domain.com/login/to_back=https://www.domain.com
+Modificada:<br><br>
 
-Modificada:
+https://www.domain.com/login/to_back=https://www.exploiting.cl<br><br>
 
-https://www.domain.com/login/to_back=https://www.exploiting.cl
+Bueno para ir resumiendo la misma empresa que ofrece el sistema SBM (Solutions Business Manager) tiene la vulnerabilidad, si es así podríamos pensar que la versión mas actual tiene este ¡¡¡ BuG !!!.<br><br>
 
-Bueno para ir resumiendo la misma empresa que ofrece el sistema SBM (Solutions Business Manager) tiene la vulnerabilidad, si es así podríamos pensar que la versión mas actual tiene este ¡¡¡ BuG !!!.
+<img src="https://miro.medium.com/max/1400/1*Dg21oja7Hd1CUFw3KsWgeg.png" width="500px"><br><br>
 
+La vulnerabilidad se encuentra en una condición window.location.hash la cual toma el valor de un hash fsid=0bf9cee3146742c096a42b50247e65bb y la variable continue=https://www.exploiting.cl, donde es movida a la variable newActionURL para que luego sea cargada como atributo al form $(“#LoginForm”).attr(“action”, newActionURL).<br><br>
 
-<img src="https://miro.medium.com/max/1400/1*Dg21oja7Hd1CUFw3KsWgeg.png" width="300px">
+Ahora para que se produzca la vulnerabilidad debemos quitar el hash de la variable fsid.<br><br>
 
+— — Login From — —<br><br>
 
-La vulnerabilidad se encuentra en una condición window.location.hash la cual toma el valor de un hash fsid=0bf9cee3146742c096a42b50247e65bb y la variable continue=https://www.exploiting.cl, donde es movida a la variable newActionURL para que luego sea cargada como atributo al form $(“#LoginForm”).attr(“action”, newActionURL).
+<img src="https://miro.medium.com/max/1400/1*MhV_56w_-T5EQzEtsEmy-w.png" width="600px"><br><br>
 
-Ahora para que se produzca la vulnerabilidad debemos quitar el hash de la variable fsid.
+— — PostRedirect Form — —<br><br>
 
-— — Login From — —
-
-<img src="https://miro.medium.com/max/1400/1*MhV_56w_-T5EQzEtsEmy-w.png" width="300px">
-
-— — PostRedirect Form — —
-
-<img src="https://miro.medium.com/max/1400/1*Y7vdimxIN5xi4-WeI-BzTw.png" width="300px">
+<img src="https://miro.medium.com/max/1400/1*Y7vdimxIN5xi4-WeI-BzTw.png" width="600px"><br><br>
 
 Ahora se viene lo mejor creo yo. Si Micro Focus que es la empresa que ofrece este servicio vulnerable a Open Redirect y que además lo utilizan ellos mismos 😅, podemos pensar en lo obvio la empresa o instituciones que utilicen el producto seria vulnerable o me equivoco 😎.
 
-Departamento de Estado EE.UU — Vulnerable.
+Departamento de Estado EE.UU — Vulnerable.<br><br>
 
-<img src="https://miro.medium.com/max/1400/1*upOhak_3tX1Dan7ZbSTmoQ.png" width="300px">
+<img src="https://miro.medium.com/max/1400/1*upOhak_3tX1Dan7ZbSTmoQ.png" width="600px"><br><br>
 
-así como también
+así como también<br><br>
 
-Armada de EE.UU — Vulnerable.
+Armada de EE.UU — Vulnerable.<br><br>
 
-<img src="https://miro.medium.com/max/1400/1*FxPYrjNv-bmE7A3epGb7-w.png" width="300px">
+<img src="https://miro.medium.com/max/1400/1*FxPYrjNv-bmE7A3epGb7-w.png" width="600px">
 
                       <br><br>
                       Description:<br>
