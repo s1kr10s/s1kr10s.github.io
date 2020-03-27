@@ -65,7 +65,7 @@ https://www.domain.com/login/to_back=https://www.exploiting.cl<br><br>
 
 Bueno para ir resumiendo la misma empresa que ofrece el sistema SBM (Solutions Business Manager) tiene la vulnerabilidad, si es así podríamos pensar que la versión mas actual tiene este ¡¡¡ BuG !!!.<br><br>
 
-<img src="https://miro.medium.com/max/1400/1*Dg21oja7Hd1CUFw3KsWgeg.png" width="500px"><br><br>
+<center><img src="https://miro.medium.com/max/1400/1*Dg21oja7Hd1CUFw3KsWgeg.png" width="500px"></center><br><br>
 
 La vulnerabilidad se encuentra en una condición window.location.hash la cual toma el valor de un hash fsid=0bf9cee3146742c096a42b50247e65bb y la variable continue=https://www.exploiting.cl, donde es movida a la variable newActionURL para que luego sea cargada como atributo al form $(“#LoginForm”).attr(“action”, newActionURL).<br><br>
 
@@ -73,21 +73,21 @@ Ahora para que se produzca la vulnerabilidad debemos quitar el hash de la variab
 
 — — Login From — —<br><br>
 
-<img src="https://miro.medium.com/max/1400/1*MhV_56w_-T5EQzEtsEmy-w.png" width="800px"><br><br>
+<center><img src="https://miro.medium.com/max/1400/1*MhV_56w_-T5EQzEtsEmy-w.png" width="800px"></center><br><br>
 
 — — PostRedirect Form — —<br><br>
 
-<img src="https://miro.medium.com/max/1400/1*Y7vdimxIN5xi4-WeI-BzTw.png" width="800px" align="center"><br><br>
+<center><img src="https://miro.medium.com/max/1400/1*Y7vdimxIN5xi4-WeI-BzTw.png" width="800px"></center><br><br>
 
 Ahora se viene lo mejor creo yo. Si Micro Focus que es la empresa que ofrece este servicio vulnerable a Open Redirect y que además lo utilizan ellos mismos 😅, podemos pensar en lo obvio la empresa o instituciones que utilicen el producto seria vulnerable o me equivoco 😎.<br><br>
 
 Departamento de Estado EE.UU — Vulnerable.<br><br>
 
-<img src="https://miro.medium.com/max/1400/1*upOhak_3tX1Dan7ZbSTmoQ.png" width="600px"><br><br>
+<center><img src="https://miro.medium.com/max/1400/1*upOhak_3tX1Dan7ZbSTmoQ.png" width="600px"></center><br><br>
 
 Armada de EE.UU — Vulnerable.<br><br>
 
-<img src="https://miro.medium.com/max/1400/1*FxPYrjNv-bmE7A3epGb7-w.png" width="600px">
+<center><img src="https://miro.medium.com/max/1400/1*FxPYrjNv-bmE7A3epGb7-w.png" width="600px"></center>
 
                       <br><br>
                       Description:<br>
