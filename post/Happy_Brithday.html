@@ -55,25 +55,25 @@
 		                      Primero que todo quisiera agradecer a mi amigo <b>@dplastico</b> que me permitio aportar con un grano de arenas que fue este binario para la seccion de cracking.
 		                      <br><br>
 		                      Description:<br>
-				      Este post sera bien breve ya que el binario no tomaba mucho tiempo en resolver. Ahora existian dos caminos para solucionar este reto uno lago y otro corto. El corto solo se necesitaba parchar el binario y obtener la flag y el largo se necesitaba analizar que hacia el binario en si. Ahora esto hace la diferencia entre un reverse y un competidor de ctf ya que el reverse aunque sabe como resolver rapidamente el reto, de igual manera quiere entender el flujo y se lleva todo el tiempo jeje.<br><br>
+				      Este post sera bien breve ya que el binario no tomaba mucho tiempo en resolver. Ahora existían dos caminos para solucionar este reto uno lago y otro corto. El corto solo se necesitaba parchar el binario y obtener la flag y el largo se necesitaba analizar que hacia el binario en si. Ahora esto hace la diferencia entre un reverse y un competidor de ctf ya que el reverse aunque sabe como resolver rápidamente el reto, de igual manera quiere entender el flujo y se lleva todo el tiempo jeje.<br><br>
 		                      
 				 	Lo primero es ver que devuelve el binario cuando se ejecuta. Como resultado tenemos un "Try Harder..." entonces vamos a un nivel mas bajo.<br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf1.png" width="500px"></center><br><br>
-					Despues de cargar el binario en un interactive disassembler como IDA, observamos el main() del binario y algunas de sus condiciones. Otra cosa a mencionar es que este binario contiene multiples funciones anti-debug.<br><br>
+					Despues de cargar el binario en un interactive disassembler como IDA, observamos el main() del binario y algunas de sus condiciones. Otra cosa a mencionar es que este binario contiene múltiples funciones anti-debug.<br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf2.png" width="400px"></center><br><br>
-					Ahora pasamos a una pincelada de analisis, donde se observa la función flag1() que imprime el mensaje "Try Harder..." y que necesita un argumento para seguir pr el flujo correcto.<br><br>
+					Ahora pasamos a una pincelada de análisis, donde se observa la función flag1() que imprime el mensaje "Try Harder..." y que necesita un argumento para seguir con el flujo correcto.<br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf3.png" width="800px"></center><br><br>
-					Cuando seguimos con el flujo se nos da la condicion de seguir por la funcion flag2() que tiene un flag falso o thetime(), todo depende si pasamos la comprobacion de <b>IsDebuggerPresent().</b><br><br>
+					Cuando seguimos con el flujo se nos da la condición de seguir por la función flag2() que tiene un flag falso o thetime(), todo depende si pasamos la comprobacion de <b>IsDebuggerPresent().</b><br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf4.png" width="800px"></center><br><br>
-					Si hacemos el bypass correcto de las funciones IsDebuggerPresent(), thetime() y anti_debug() que todas estas nos envian a fuera por estar depurando, nos encontramos con el ultimo obstaculo un fs:30h ¿que es esto?. Bueno en resumidas cuando se llama a un FS:[0x30] estamos cargando una dirección de Thread Environment Block (TEB) a PEB con desplazamiento 68h a NtGlobalFlag.<br><br>Ya de haber evitado esto ultimo, entramos a la rutina para obtener el flag correcto.<br><br>Leer mas de TEB <a href="https://www.aldeid.com/wiki/TEB-Thread-Environment-Block" target="_blank">aquí</a>.<br><br>
+					Si hacemos el bypass correcto de las funciones IsDebuggerPresent(), thetime() y anti_debug() que todas estas nos envían a fuera por estar depurando, nos encontramos con el ultimo obstaculo un fs:30h ¿que es esto?. Bueno en resumidas cuando se llama a un FS:[0x30] estamos cargando una dirección de Thread Environment Block (TEB) a PEB con desplazamiento 68h a NtGlobalFlag.<br><br>Despues de evitar esto ultimo, entramos a la rutina para obtener el flag correcto.<br><br>Leer mas de TEB <a href="https://www.aldeid.com/wiki/TEB-Thread-Environment-Block" target="_blank">aquí</a>.<br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf5.png" width="800px"></center><br><br>
-					Aca encontamos un array de caracteres que seran utilizados para generar el string final del flag. Estos son calculados de la siguiente manera:<br><br>
+					Acá encontramos un array de caracteres que serán utilizados para generar el string final del flag. Estos son calculados de la siguiente manera:<br><br>
 					    - Toma los primeros byte de los array y los calcula 0x69^0x11=0x78<br>
-					    - El resultado es xoreado con 0x122 y asi sucesivamente con cada resultado.<br><br>
-					    Despues al finalizar se realiza una lectura con size 0x29 en un for() donde es mayor al primer buffer[7], Entoces podemos leer todo los buffer que estan por debajo.<br>
+					    - El resultado es xoreado con 0x122 y así sucesivamente con cada resultado.<br><br>
+					    Despues al finalizar se realiza una lectura con size 0x29 en un for() donde es mayor al primer buffer[7], Entonces podemos leer todo los buffer que están por debajo.<br>
 					    <br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf6.png" width="600px"></center><br><br>
-					Este es el algotirmo que calcula mediante XOR los caracteres entre si.<br><br>
+					Este es el algoritmo que calcula mediante XOR los caracteres entre si.<br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf7.png" width="500px"></center><br><br>
 					    Video:<br>
 		                      <a href="https://www.youtube.com/watch?v=TyDNR2UXC6w" style="color: aliceblue">https://www.youtube.com/watch?v=TyDNR2UXC6w</a>
