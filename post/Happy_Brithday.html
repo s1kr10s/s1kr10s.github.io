@@ -69,7 +69,8 @@
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf5.png" width="800px"></center><br><br>
 					Aca encontamos un array de caracteres que seran utilizados para generar el string final del flag. Estos son calculados de la siguiente manera:<br><br>
 					    * Toma los primeros byte de los array y los calcula 0x69^0x11=0x78<br>
-					    * El resultado es xoreado con 0x122 y asi sucesivamente con cada resultado. Despues al finalizar se realiza ua lectura de 0x29 byte donde tenemos una mayor al primer buffer deonde podemos filtar todo los bytes.<br>
+					    *El resultado es xoreado con 0x122 y asi sucesivamente con cada resultado.<br><br>
+					    Despues al finalizar se realiza ua lectura de 0x29 byte donde tenemos una mayor al primer buffer deonde podemos filtar todo los bytes.<br>
 					    <br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf6.png" width="600px"></center><br><br>
 					Este es el algotirmo que calcula mediante XOR los caracteres entre si.<br><br>
