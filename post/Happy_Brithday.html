@@ -63,9 +63,9 @@
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf2.png" width="400px"></center><br><br>
 					Ahora pasamos a una pincelada de analisis, donde se observa la función flag1() que imprime el mensaje "Try Harder..." y que necesita un argumento para seguir pr el flujo correcto.<br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf3.png" width="800px"></center><br><br>
-					adsdasd<br><br>
+					Cuando seguimos con el flujo se nos da la condicion de seguir por la funcion flag2() que tiene un flag falso o thetime(), todo depende si pasamos la comprobacion de <b>IsDebuggerPresent().<b><br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf4.png" width="800px"></center><br><br>
-					asdasd<br><br>
+					Si hacemos el bypass correcto de las funciones IsDebuggerPresent(), thetime() y anti_debug() que todas estas nos envian a fuera por estar depurando, nos encontramos con el ultimo obstaculo, un fs:30h ¿que es esto?. Bueno en resumidas, cuando se llama a un fs estamos cargando una direccion de Process Environment Block (PEB)<br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf5.png" width="800px"></center><br><br>
 					asdasd<br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf6.png" width="600px"></center><br><br>
