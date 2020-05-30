@@ -65,7 +65,7 @@
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf3.png" width="800px"></center><br><br>
 					Cuando seguimos con el flujo se nos da la condicion de seguir por la funcion flag2() que tiene un flag falso o thetime(), todo depende si pasamos la comprobacion de <b>IsDebuggerPresent().</b><br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf4.png" width="800px"></center><br><br>
-					Si hacemos el bypass correcto de las funciones IsDebuggerPresent(), thetime() y anti_debug() que todas estas nos envian a fuera por estar depurando, nos encontramos con el ultimo obstaculo un fs:30h ¿que es esto?. Bueno en resumidas cuando se llama a un FS:[0x30] estamos cargando una dirección de Thread Environment Block (TEB) a PEB con desplazamiento 68h a NtGlobalFlag<br><br>
+					Si hacemos el bypass correcto de las funciones IsDebuggerPresent(), thetime() y anti_debug() que todas estas nos envian a fuera por estar depurando, nos encontramos con el ultimo obstaculo un fs:30h ¿que es esto?. Bueno en resumidas cuando se llama a un FS:[0x30] estamos cargando una dirección de Thread Environment Block (TEB) a PEB con desplazamiento 68h a NtGlobalFlag.<br><br>Ya de haber evitado esto ultimo<br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf5.png" width="800px"></center><br><br>
 					asdasd<br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf6.png" width="600px"></center><br><br>
