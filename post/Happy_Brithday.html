@@ -67,9 +67,12 @@
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf4.png" width="800px"></center><br><br>
 					Si hacemos el bypass correcto de las funciones IsDebuggerPresent(), thetime() y anti_debug() que todas estas nos envian a fuera por estar depurando, nos encontramos con el ultimo obstaculo un fs:30h ¿que es esto?. Bueno en resumidas cuando se llama a un FS:[0x30] estamos cargando una dirección de Thread Environment Block (TEB) a PEB con desplazamiento 68h a NtGlobalFlag.<br><br>Ya de haber evitado esto ultimo, entramos a la rutina para obtener el flag correcto.<br><br>Leer mas de TEB <a href="https://www.aldeid.com/wiki/TEB-Thread-Environment-Block" target="_blank">aquí</a>.<br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf5.png" width="800px"></center><br><br>
-					Aca econtamos un array de caracteres<br><br>
+					Aca encontamos un array de caracteres que seran utilizados para generar el string final del flag. Estos son calculados de la siguiente manera:<br><br>
+					    * Toma los primeros byte de los array y los calcula 0x69^0x11=0x78<br>
+					    * El resultado es xoreado con 0x122 y asi sucesivamente con cada resultado. Despues al finalizar se realiza ua lectura de 0x29 byte donde tenemos una mayor al primer buffer deonde podemos filtar todo los bytes.<br>
+					    <br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf6.png" width="600px"></center><br><br>
-					asdasd<br><br>
+					Este es el algotirmo que calcula mediante XOR los caracteres entre si.<br><br>
 					    <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf7.png" width="350px"></center><br><br>
 		                    </p>
         				</td>
