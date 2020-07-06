@@ -65,8 +65,9 @@
                       Con este primer socket identifique algunos buffer en heap llamado a malloc() y otros bytes que seteaban tamaños y desplazamientos "offset" del buffer y otras variables. Aqui se identifico una funcion de respuesta como send() la que utilice para filtrar memoria de 0x20 bytes, 
                       esto me ayudo a obtener direcciones stack, return, calcular punteros a vtable y sus funciones, chunk en heap, etc.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/leak1.png" width="50%"></center><br><br>
-                      Despues de realizar un leak de 0x19C0 bytes la conexion se cierra y crea una nueva en el puerto 4930 el que se genera multiplicando 8888 * 2 con la instruccion <b>shl eax, 1</b> y espera un segundo envio de payload.
+                      Despues de realizar un leak de 0x19C0 bytes la conexion se cierra y crea una nueva en el puerto 4930 el que se genera multiplicando 8888 * 2 con la instruccion <b style="color: brown;>shl eax, 1</b> y espera un segundo envio de payload.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/new_port1.png" width="50%"></center><br><br>
+                      En esta segunda conexion debo evitar algunas comparaciones de GetTickCount() que nos develve un valor random evitando que siga por el flujo
                       <br><br>
                       <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/diagramaUAF.png" width="90%"></center><br><br>
                       <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/IDA.png" width="60%"></center>
