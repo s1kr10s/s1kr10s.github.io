@@ -71,6 +71,9 @@
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/vulnerable1.png" width="50%"></center><br><br>
                       Debo evitar algunas comparaciones de <b style="color: brown;">GetTickCount()</b> que nos develve un valor random evitando que siga por el flujo, por suerte existe un envio de esta data, asi que solo debo recibir estos bytes utilizarlos como bypass y ademas de calcular algunas constantes con este valor para saltar al las rutinas que me llevaran a comprobar la vulnerabilidad.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/gettickcount1.png" width="60%"></center><br><br>
+                      ya evitando el valor random debemos calcular este mismo valor con una constante para saltar a la funcion con el bug. Estos valores son los siguientes: (98543268h, 98543269h, 9854326Ch, 98543267h, 9854326Ah, 9854326Bh, <b style="color: brown;">9854326Dh</b>, 98543265h). 
+                      La que resalta es la que nos interesa por lo tanto el calculo que debo hacer es asi <b style="color: brown;">9854326D-vRandom=Result</b> y al revertir la resta de <b style="color: brown;">Result+vRandom=jmp_function</b> con esto ya solucionamos el salto.<br><br>ahora solo nos queda 
+                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/calculo_func1.png" width="60%"></center><br><br>
                       <br><br>
                       <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/diagramaUAF.png" width="90%"></center><br><br>
                       <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/IDA.png" width="60%"></center>
