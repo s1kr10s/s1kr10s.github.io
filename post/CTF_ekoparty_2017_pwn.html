@@ -68,9 +68,9 @@
                       Despues de realizar un leak de 0x19C0 bytes la conexion se cierra y crea una nueva en el puerto 4930 el que se genera multiplicando 8888 * 2 con la instruccion <b style="color: brown;">shl eax, 1</b> y espera un segundo envio de payload.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/new_port1.png" width="50%"></center><br><br>
                       En esta segunda conexion analizamos la siguiente función que renombre como <b style="color: brown;">vulnerable</b>. Luego de comprobar si el socket esta correcto entramos a las validaciones.
-                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/leak1.png" width="50%"></center><br><br>
+                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/vulnerable1.png" width="50%"></center><br><br>
                       Debo evitar algunas comparaciones de <b style="color: brown;">GetTickCount()</b> que nos develve un valor random evitando que siga por el flujo, por suerte existe un envio de esta data, asi que solo debo recibir estos bytes utilizarlos como bypass y ademas de calcular algunas constantes con este valor para saltar al las rutinas que me llevaran a comprobar la vulnerabilidad.
-                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/leak1.png" width="50%"></center><br><br>
+                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/gettickcount1.png" width="50%"></center><br><br>
                       <br><br>
                       <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/diagramaUAF.png" width="90%"></center><br><br>
                       <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/IDA.png" width="60%"></center>
