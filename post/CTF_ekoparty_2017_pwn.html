@@ -74,8 +74,7 @@
                       ya evitando el valor random debemos calcular este mismo valor con una constante para saltar a la funcion con el bug. Estos valores son los siguientes: (98543268h, 98543269h, 9854326Ch, 98543267h, 9854326Ah, 9854326Bh, <b style="color: brown;">9854326Dh</b>, 98543265h). 
                       La que resalta es la que nos interesa "hice un analisis previo". Por lo tanto el calculo que debo hacer es asi <b style="color: brown;">9854326D-vRandom=Result</b> y al revertir la resta de <b style="color: brown;">Result+vRandom=9854326D</b> con esto ya solucionamos el salto.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/calculo_func1.png" width="60%"></center><br><br>
-                      Solo nos queda reversiar un poco mas y ver como podemos explotar esta vulnerabilidad. Pero antes de pasar al detalle dejo este diagrama que realice, para poder explicar de manera grafica como hice esta asaña y como evite el primer puntero de la función de vtable.
-                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/diagramaUAF.png" width="90%"></center><br><br>
+                      Solo nos queda reversiar un poco mas y ver como podemos explotar esta vulnerabilidad:<br><br>
                       1 - En 9854326Dh encontre un <b style="color: brown;">free()</b> luego de un <b style="color: brown;">malloc()</b> y un <b style="color: brown;">strncpy()</b>. con estas funciones pude liberar una bloque luego volver a utilizar y copiar la data enviada en el primer payload a ese espacio como punteros.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/uaf1.png" width="60%"></center><br><br>
                       2 - Realizo una la llamada a la funcion obtenida de la vtable. Aqui hay un pequeño gran problema, lo que pasa es que existe una indirecion de <b style="color: brown;">rax+0x18</b>, donde calcula el inicio de vtable hacia nuestra función que controlamos, el problema es que el primer puntero a la función no son bytes ejecutables etonces si saltamos ahi donde normalmente deberia estar el inicio de nuestra shellcode este no ejecuta y se bloquea. Para solucionar este problema tuve que calcular el offset de donde quedo mi chunk en le heap y dejarlo en <b style="color: brown;">rax</b> para asi utilizar la indireccion de <b style="color: brown;">rax+0x18</b> dentro de mi data y no a los punteros de las funciones.
@@ -83,6 +82,10 @@
                       3 - Con esto solucionado deje un desplazamiento de 0x18 dentro de mi data que es el primer puntero a mi ROP.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/IDA.png" width="100%"></center><br><br>
                       4 - La logica del ROP que utilice hace un stack pivot a los punteros escritos en la funcion controlada, luego de procesar todos los gadget retorno al stack original y ejecuto system evitando una lectura fuera de limites.<br><br>
+                      
+                      Antes de pasar al detalle dejo este diagrama que realice, para poder explicar de manera grafica como hice esta asaña y como evite el primer puntero de la función de vtable.
+                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/diagramaUAF.png" width="90%"></center><br><br>
+
                           * hago un stack pivot a los a ROP donde esta mi funcion falsa de vtable<br>
                             <b style="color: brown;">xchg rsp, rcx / add rsp, 28h / retn</b><br><br>
 
