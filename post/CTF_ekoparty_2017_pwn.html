@@ -81,28 +81,28 @@
                       2 - Realizo una la llamada a la funcion obtenida de la vtable. Aqui hay un pequeño gran problema, lo que pasa es que existe una indirecion de <b style="color: brown;">rax+0x18</b>, donde calcula el inicio de vtable hacia nuestra función que controlamos, el problema es que el primer puntero a la función no son bytes ejecutables etonces si saltamos ahi donde normalmente deberia estar el inicio de nuestra shellcode este no ejecuta y se bloquea. Para solucionar este problema tuve que calcular el offset de donde quedo mi chunk en le heap y dejarlo en <b style="color: brown;">rax</b> para asi utilizar la indireccion de <b style="color: brown;">rax+0x18</b> dentro de mi data y no a los punteros de las funciones.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/free1.png" width="60%"></center><br><br>
                       3 - Con esto solucionado deje un desplazamiento de 0x18 dentro de mi data que es el primer puntero a mi ROP.
-                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/IDA.png" width="90%"></center><br><br>
+                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/IDA.png" width="100%"></center><br><br>
                       4 - La logica del ROP que utilice hace un stack pivot a los punteros escritos en la funcion controlada, luego de procesar todos los gadget retorno al stack original y ejecuto system evitando una lectura fuera de limites.<br><br>
                           * hago un stack pivot a los a ROP donde esta mi funcion falsa de vtable<br>
-                            xchg rsp, rcx / add rsp, 28h / retn<br><br>
+                            <b style="color: brown;">xchg rsp, rcx / add rsp, 28h / retn</b><br><br>
 
                           * guardo el puntero a calc en rcx
-                            pop rcx / add [rax],al / add rsp, 38h / retn<br><br>
+                            <b style="color: brown;">pop rcx / add [rax],al / add rsp, 38h / retn</b><br><br>
 
                           * guardo el puntero a system desde funcion a rbx<br>
-                            pop rbx / retn<br><br>
+                            <b style="color: brown;">pop rbx / retn</b><br><br>
 
                           * muevo el puntero a system a rax para su copia<br>
-                            mov rax,rbx / add rsp,20h / pop rbx / retn<br><br>
+                            <b style="color: brown;">mov rax,rbx / add rsp,20h / pop rbx / retn</b><br><br>
 
                           * aprovechando el pop rbx de la instruccion anterior guardo la direccion de stack original<br>
-                            pop rbx<br><br>
+                            <b style="color: brown;">pop rbx</b><br><br>
 
                           * hago una copia del puntero a system en la direccion del stack original<br>
-                            mov [rbx],rax / add rsp,20h / pop rbx / retn<br><br>
+                            <b style="color: brown;">mov [rbx],rax / add rsp,20h / pop rbx / retn</b><br><br>
 
                           * por ultimo paso la direccion del stack original a rsp donde se encuentra el puntero a system y salto a ahi<br>
-                            pop rsp / retn<br><br>
+                            <b style="color: brown;">pop rsp / retn</b><br><br>
                       <br><br>
                       Video:<br>
                       <a href="https://www.youtube.com/watch?v=REy0G5abyas" style="color: aliceblue" target="_blank">https://www.youtube.com/watch?v=REy0G5abyas</a>
