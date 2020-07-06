@@ -73,16 +73,16 @@
                       ya evitando el valor random debemos calcular este mismo valor con una constante para saltar a la función con el bug. Estos valores son los siguientes: (98543268h, 98543269h, 9854326Ch, 98543267h, 9854326Ah, 9854326Bh, <b style="color: brown;">9854326Dh</b>, 98543265h). 
                       La que resalta es la que nos interesa "hice un análisis previo". Por lo tanto el cálculo que debo hacer es asi <b style="color: brown;">9854326D-vRandom=Result</b> y al revertir la resta de <b style="color: brown;">Result+vRandom=9854326D</b> con esto ya solucionamos el salto.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/calculo_func1.png" width="60%"></center><br><br>
-                      Solo nos queda reversiar un poco mas y ver como podemos explotar esta vulnerabilidad:<br><br>
-                      1 - En 9854326Dh encontre un <b style="color: brown;">free()</b> luego de un <b style="color: brown;">malloc()</b> y un <b style="color: brown;">strncpy()</b>. con estas funciones pude liberar una bloque luego volver a utilizar y copiar la data enviada en el primer payload a ese espacio como punteros.
+                      Solo nos queda revertir un poco más y ver como podemos explotar esta vulnerabilidad:<br><br>
+                      1 - En 9854326Dh encontré un <b style="color: brown;">free()</b> luego de un <b style="color: brown;">malloc()</b> y un <b style="color: brown;">strncpy()</b>. Con estas funciones pude liberar una bloque luego volver a utilizar y copiar la data enviada en el primer payload a ese espacio como punteros.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/uaf1.png" width="60%"></center><br><br>
-                      2 - Realizo una la llamada a la funcion obtenida de la vtable. Aqui hay un pequeño gran problema, lo que pasa es que existe una indirecion de <b style="color: brown;">rax+0x18</b>, donde calcula el inicio de vtable hacia nuestra función que controlamos, el problema es que el primer puntero a la función no son bytes ejecutables etonces si saltamos ahi donde normalmente deberia estar el inicio de nuestra shellcode este no ejecuta y se bloquea. Para solucionar este problema tuve que calcular el offset de donde quedo mi chunk en le heap y dejarlo en <b style="color: brown;">rax</b> para asi utilizar la indireccion de <b style="color: brown;">rax+0x18</b> dentro de mi data y no a los punteros de las funciones.
+                      2 - Realizo una la llamada a la función obtenida de la vtable. Aquí hay un pequeño gran problema, lo que pasa es que existe una indirección de <b style="color: brown;">rax+0x18</b>, donde calcula el inicio de vtable hacia nuestra función que controlamos, el problema es que el primer puntero a la función no son bytes ejecutables entonces si saltamos ahí donde normalmente debería estar el inicio de nuestra shellcode este no ejecuta y se bloquea. Para solucionar este problema tuve que calcular el offset de donde quedo mi chunk en le heap y dejarlo en rax para así utilizar la indirección de <b style="color: brown;">rax+0x18</b> dentro de mi data y no a los punteros de las funciones.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/free1.png" width="60%"></center><br><br>
                       3 - Con esto solucionado deje un desplazamiento de 0x18 dentro de mi data que es el primer puntero a mi ROP.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/IDA.png" width="100%"></center><br><br>
-                      4 - La logica del ROP que utilice hace un stack pivot a los punteros escritos en la funcion controlada, luego de procesar todos los gadget retorno al stack original y ejecuto system evitando una lectura fuera de limites.<br><br>
+                      4 - La lógica del ROP que utilice hace un stack pivot a los punteros escritos en la función controlada, luego de procesar todos los gadget retorno al stack original y ejecuto system evitando una lectura fuera de límites.<br><br>
                       
-                      Antes de pasar al detalle dejo este diagrama que realice, para poder explicar de manera grafica como hice esta asaña y como evite el primer puntero de la función de vtable.
+                      Antes de pasar al detalle dejo este diagrama que realice, para poder explicar de manera gráfica como hice esta hazaña y como evite el primer puntero de la función de vtable.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/diagramaUAF.png" width="90%"></center><br><br>
 
                           * hago un stack pivot a los a ROP donde esta mi funcion falsa de vtable<br>
@@ -91,19 +91,19 @@
                           * guardo el puntero a calc en rcx<br>
                             <b style="color: brown;">pop rcx / add [rax],al / add rsp, 38h / retn</b><br><br>
 
-                          * guardo el puntero a system desde funcion a rbx<br>
+                          * guardo el puntero a system desde función a rbx<br>
                             <b style="color: brown;">pop rbx / retn</b><br><br>
 
                           * muevo el puntero a system a rax para su copia<br>
                             <b style="color: brown;">mov rax,rbx / add rsp,20h / pop rbx / retn</b><br><br>
 
-                          * aprovechando el pop rbx de la instruccion anterior guardo la direccion de stack original<br>
+                          * aprovechando el pop rbx de la instrucción anterior guardo la dirección de stack original<br>
                             <b style="color: brown;">pop rbx</b><br><br>
 
-                          * hago una copia del puntero a system en la direccion del stack original<br>
+                          * hago una copia del puntero a system en la dirección del stack original<br>
                             <b style="color: brown;">mov [rbx],rax / add rsp,20h / pop rbx / retn</b><br><br>
 
-                          * por ultimo paso la direccion del stack original a rsp donde se encuentra el puntero a system y salto a ahi<br>
+                          * por último paso la dirección del stack original a rsp donde se encuentra el puntero a system y salto a ahí<br>
                             <b style="color: brown;">pop rsp / retn</b><br><br>
                       <br><br>
                       Video:<br>
