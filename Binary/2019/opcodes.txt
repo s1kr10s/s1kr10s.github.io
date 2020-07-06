@@ -1,0 +1,1645 @@
+---------0488B01C3C3C3C3---------
+add byte [rax - 0x75], cl
+add ebx, eax
+ret
+ret
+ret
+---------1488B01C3C3C3C3---------
+add dword [rax - 0x75], ecx
+add ebx, eax
+ret
+ret
+ret
+---------2488B01C3C3C3C3---------
+add cl, byte [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------3488B01C3C3C3C3---------
+add ecx, dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------4488B01C3C3C3C3---------
+add al, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------5488B01C3C3C3C3---------
+add eax, 0xc3018b48
+ret
+ret
+ret
+---------6488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------7488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------8488B01C3C3C3C3---------
+or byte [rax - 0x75], cl
+add ebx, eax
+ret
+ret
+ret
+---------9488B01C3C3C3C3---------
+or dword [rax - 0x75], ecx
+add ebx, eax
+ret
+ret
+ret
+---------a488B01C3C3C3C3---------
+or cl, byte [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------b488B01C3C3C3C3---------
+or ecx, dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------c488B01C3C3C3C3---------
+or al, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------d488B01C3C3C3C3---------
+or eax, 0xc3018b48
+ret
+ret
+ret
+---------e488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------f488B01C3C3C3C3---------
+cmovs ecx, dword [rbx - 0x3c3c3cff]
+ret
+---------10488B01C3C3C3C3---------
+adc byte [rax - 0x75], cl
+add ebx, eax
+ret
+ret
+ret
+---------11488B01C3C3C3C3---------
+adc dword [rax - 0x75], ecx
+add ebx, eax
+ret
+ret
+ret
+---------12488B01C3C3C3C3---------
+adc cl, byte [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------13488B01C3C3C3C3---------
+adc ecx, dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------14488B01C3C3C3C3---------
+adc al, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------15488B01C3C3C3C3---------
+adc eax, 0xc3018b48
+ret
+ret
+ret
+---------16488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------17488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------18488B01C3C3C3C3---------
+sbb byte [rax - 0x75], cl
+add ebx, eax
+ret
+ret
+ret
+---------19488B01C3C3C3C3---------
+sbb dword [rax - 0x75], ecx
+add ebx, eax
+ret
+ret
+ret
+---------1a488B01C3C3C3C3---------
+sbb cl, byte [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------1b488B01C3C3C3C3---------
+sbb ecx, dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------1c488B01C3C3C3C3---------
+sbb al, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------1d488B01C3C3C3C3---------
+sbb eax, 0xc3018b48
+ret
+ret
+ret
+---------1e488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------1f488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------20488B01C3C3C3C3---------
+and byte [rax - 0x75], cl
+add ebx, eax
+ret
+ret
+ret
+---------21488B01C3C3C3C3---------
+and dword [rax - 0x75], ecx
+add ebx, eax
+ret
+ret
+ret
+---------22488B01C3C3C3C3---------
+and cl, byte [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------23488B01C3C3C3C3---------
+and ecx, dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------24488B01C3C3C3C3---------
+and al, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------25488B01C3C3C3C3---------
+and eax, 0xc3018b48
+ret
+ret
+ret
+---------26488B01C3C3C3C3---------
+mov rax, qword es:[rcx]
+ret
+ret
+ret
+ret
+---------27488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------28488B01C3C3C3C3---------
+sub byte [rax - 0x75], cl
+add ebx, eax
+ret
+ret
+ret
+---------29488B01C3C3C3C3---------
+sub dword [rax - 0x75], ecx
+add ebx, eax
+ret
+ret
+ret
+---------2a488B01C3C3C3C3---------
+sub cl, byte [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------2b488B01C3C3C3C3---------
+sub ecx, dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------2c488B01C3C3C3C3---------
+sub al, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------2d488B01C3C3C3C3---------
+sub eax, 0xc3018b48
+ret
+ret
+ret
+---------2e488B01C3C3C3C3---------
+mov rax, qword cs:[rcx]
+ret
+ret
+ret
+ret
+---------2f488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------30488B01C3C3C3C3---------
+xor byte [rax - 0x75], cl
+add ebx, eax
+ret
+ret
+ret
+---------31488B01C3C3C3C3---------
+xor dword [rax - 0x75], ecx
+add ebx, eax
+ret
+ret
+ret
+---------32488B01C3C3C3C3---------
+xor cl, byte [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------33488B01C3C3C3C3---------
+xor ecx, dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------34488B01C3C3C3C3---------
+xor al, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------35488B01C3C3C3C3---------
+xor eax, 0xc3018b48
+ret
+ret
+ret
+---------36488B01C3C3C3C3---------
+mov rax, qword ss:[rcx]
+ret
+ret
+ret
+ret
+---------37488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------38488B01C3C3C3C3---------
+cmp byte [rax - 0x75], cl
+add ebx, eax
+ret
+ret
+ret
+---------39488B01C3C3C3C3---------
+cmp dword [rax - 0x75], ecx
+add ebx, eax
+ret
+ret
+ret
+---------3a488B01C3C3C3C3---------
+cmp cl, byte [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------3b488B01C3C3C3C3---------
+cmp ecx, dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------3c488B01C3C3C3C3---------
+cmp al, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------3d488B01C3C3C3C3---------
+cmp eax, 0xc3018b48
+ret
+ret
+ret
+---------3e488B01C3C3C3C3---------
+mov rax, qword ds:[rcx]
+ret
+ret
+ret
+ret
+---------3f488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------40488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------41488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------42488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------43488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------44488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------45488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------46488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------47488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------48488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------49488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------4a488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------4b488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------4c488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------4d488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------4e488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------4f488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------50488B01C3C3C3C3---------
+push rax
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------51488B01C3C3C3C3---------
+push rcx
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------52488B01C3C3C3C3---------
+push rdx
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------53488B01C3C3C3C3---------
+push rbx
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------54488B01C3C3C3C3---------
+push rsp
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------55488B01C3C3C3C3---------
+push rbp
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------56488B01C3C3C3C3---------
+push rsi
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------57488B01C3C3C3C3---------
+push rdi
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------58488B01C3C3C3C3---------
+pop rax
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------59488B01C3C3C3C3---------
+pop rcx
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------5a488B01C3C3C3C3---------
+pop rdx
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------5b488B01C3C3C3C3---------
+pop rbx
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------5c488B01C3C3C3C3---------
+pop rsp
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------5d488B01C3C3C3C3---------
+pop rbp
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------5e488B01C3C3C3C3---------
+pop rsi
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------5f488B01C3C3C3C3---------
+pop rdi
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------60488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------61488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------62488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------63488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------64488B01C3C3C3C3---------
+mov rax, qword fs:[rcx]
+ret
+ret
+ret
+ret
+---------65488B01C3C3C3C3---------
+mov rax, qword gs:[rcx]
+ret
+ret
+ret
+ret
+---------66488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------67488B01C3C3C3C3---------
+mov rax, dword [ecx]
+ret
+ret
+ret
+ret
+---------68488B01C3C3C3C3---------
+push -0x3cfe74b8
+ret
+ret
+ret
+---------69488B01C3C3C3C3---------
+imul ecx, dword [rax - 0x75], 0xc3c3c301
+ret
+---------6a488B01C3C3C3C3---------
+push 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------6b488B01C3C3C3C3---------
+imul ecx, dword [rax - 0x75], 1
+ret
+ret
+ret
+ret
+---------6c488B01C3C3C3C3---------
+insb byte [rdi], dx
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------6d488B01C3C3C3C3---------
+insd dword [rdi], dx
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------6e488B01C3C3C3C3---------
+outsb dx, byte [rsi]
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------6f488B01C3C3C3C3---------
+outsd dx, dword [rsi]
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------70488B01C3C3C3C3---------
+jo 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------71488B01C3C3C3C3---------
+jno 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------72488B01C3C3C3C3---------
+jb 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------73488B01C3C3C3C3---------
+jae 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------74488B01C3C3C3C3---------
+je 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------75488B01C3C3C3C3---------
+jne 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------76488B01C3C3C3C3---------
+jbe 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------77488B01C3C3C3C3---------
+ja 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------78488B01C3C3C3C3---------
+js 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------79488B01C3C3C3C3---------
+jns 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------7a488B01C3C3C3C3---------
+jp 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------7b488B01C3C3C3C3---------
+jnp 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------7c488B01C3C3C3C3---------
+jl 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------7d488B01C3C3C3C3---------
+jge 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------7e488B01C3C3C3C3---------
+jle 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------7f488B01C3C3C3C3---------
+jg 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------80488B01C3C3C3C3---------
+or byte [rax - 0x75], 1
+ret
+ret
+ret
+ret
+---------81488B01C3C3C3C3---------
+or dword [rax - 0x75], 0xc3c3c301
+ret
+---------82488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------83488B01C3C3C3C3---------
+or dword [rax - 0x75], 1
+ret
+ret
+ret
+ret
+---------84488B01C3C3C3C3---------
+test byte [rax - 0x75], cl
+add ebx, eax
+ret
+ret
+ret
+---------85488B01C3C3C3C3---------
+test dword [rax - 0x75], ecx
+add ebx, eax
+ret
+ret
+ret
+---------86488B01C3C3C3C3---------
+xchg byte [rax - 0x75], cl
+add ebx, eax
+ret
+ret
+ret
+---------87488B01C3C3C3C3---------
+xchg dword [rax - 0x75], ecx
+add ebx, eax
+ret
+ret
+ret
+---------88488B01C3C3C3C3---------
+mov byte [rax - 0x75], cl
+add ebx, eax
+ret
+ret
+ret
+---------89488B01C3C3C3C3---------
+mov dword [rax - 0x75], ecx
+add ebx, eax
+ret
+ret
+ret
+---------8a488B01C3C3C3C3---------
+mov cl, byte [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------8b488B01C3C3C3C3---------
+mov ecx, dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------8c488B01C3C3C3C3---------
+mov word [rax - 0x75], cs
+add ebx, eax
+ret
+ret
+ret
+---------8d488B01C3C3C3C3---------
+lea ecx, dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------8e488B01C3C3C3C3---------
+mov cs, word [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------8f488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------90488B01C3C3C3C3---------
+nop
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------91488B01C3C3C3C3---------
+xchg eax, ecx
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------92488B01C3C3C3C3---------
+xchg eax, edx
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------93488B01C3C3C3C3---------
+xchg eax, ebx
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------94488B01C3C3C3C3---------
+xchg eax, esp
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------95488B01C3C3C3C3---------
+xchg eax, ebp
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------96488B01C3C3C3C3---------
+xchg eax, esi
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------97488B01C3C3C3C3---------
+xchg eax, edi
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------98488B01C3C3C3C3---------
+cwde
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------99488B01C3C3C3C3---------
+cdq
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------9a488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------9b488B01C3C3C3C3---------
+wait
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------9c488B01C3C3C3C3---------
+pushfq
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------9d488B01C3C3C3C3---------
+popfq
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------9e488B01C3C3C3C3---------
+sahf
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------9f488B01C3C3C3C3---------
+lahf
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------a0488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------a1488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------a2488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------a3488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------a4488B01C3C3C3C3---------
+movsb byte [rdi], byte ptr [rsi]
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------a5488B01C3C3C3C3---------
+movsd dword [rdi], dword ptr [rsi]
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------a6488B01C3C3C3C3---------
+cmpsb byte [rsi], byte ptr [rdi]
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------a7488B01C3C3C3C3---------
+cmpsd dword [rsi], dword ptr [rdi]
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------a8488B01C3C3C3C3---------
+test al, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------a9488B01C3C3C3C3---------
+test eax, 0xc3018b48
+ret
+ret
+ret
+---------aa488B01C3C3C3C3---------
+stosb byte [rdi], al
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------ab488B01C3C3C3C3---------
+stosd dword [rdi], eax
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------ac488B01C3C3C3C3---------
+lodsb al, byte [rsi]
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------ad488B01C3C3C3C3---------
+lodsd eax, dword [rsi]
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------ae488B01C3C3C3C3---------
+scasb al, byte [rdi]
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------af488B01C3C3C3C3---------
+scasd eax, dword [rdi]
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------b0488B01C3C3C3C3---------
+mov al, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------b1488B01C3C3C3C3---------
+mov cl, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------b2488B01C3C3C3C3---------
+mov dl, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------b3488B01C3C3C3C3---------
+mov bl, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------b4488B01C3C3C3C3---------
+mov ah, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------b5488B01C3C3C3C3---------
+mov ch, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------b6488B01C3C3C3C3---------
+mov dh, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------b7488B01C3C3C3C3---------
+mov bh, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------b8488B01C3C3C3C3---------
+mov eax, 0xc3018b48
+ret
+ret
+ret
+---------b9488B01C3C3C3C3---------
+mov ecx, 0xc3018b48
+ret
+ret
+ret
+---------ba488B01C3C3C3C3---------
+mov edx, 0xc3018b48
+ret
+ret
+ret
+---------bb488B01C3C3C3C3---------
+mov ebx, 0xc3018b48
+ret
+ret
+ret
+---------bc488B01C3C3C3C3---------
+mov esp, 0xc3018b48
+ret
+ret
+ret
+---------bd488B01C3C3C3C3---------
+mov ebp, 0xc3018b48
+ret
+ret
+ret
+---------be488B01C3C3C3C3---------
+mov esi, 0xc3018b48
+ret
+ret
+ret
+---------bf488B01C3C3C3C3---------
+mov edi, 0xc3018b48
+ret
+ret
+ret
+---------c0488B01C3C3C3C3---------
+ror byte [rax - 0x75], 1
+ret
+ret
+ret
+ret
+---------c1488B01C3C3C3C3---------
+ror dword [rax - 0x75], 1
+ret
+ret
+ret
+ret
+---------c2488B01C3C3C3C3---------
+ret 0x8b48
+add ebx, eax
+ret
+ret
+ret
+---------c3488B01C3C3C3C3---------
+ret
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------c4488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------c5488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------c6488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------c7488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------c8488B01C3C3C3C3---------
+enter -0x74b8, 1
+ret
+ret
+ret
+ret
+---------c9488B01C3C3C3C3---------
+leave
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------ca488B01C3C3C3C3---------
+retf 0x8b48
+add ebx, eax
+ret
+ret
+ret
+---------cb488B01C3C3C3C3---------
+retf
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------cc488B01C3C3C3C3---------
+int3
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------cd488B01C3C3C3C3---------
+int 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------ce488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------cf488B01C3C3C3C3---------
+iretd
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------d0488B01C3C3C3C3---------
+ror byte [rax - 0x75], 1
+add ebx, eax
+ret
+ret
+ret
+---------d1488B01C3C3C3C3---------
+ror dword [rax - 0x75], 1
+add ebx, eax
+ret
+ret
+ret
+---------d2488B01C3C3C3C3---------
+ror byte [rax - 0x75], cl
+add ebx, eax
+ret
+ret
+ret
+---------d3488B01C3C3C3C3---------
+ror dword [rax - 0x75], cl
+add ebx, eax
+ret
+ret
+ret
+---------d4488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------d5488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------d6488B01C3C3C3C3---------
+salc
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------d7488B01C3C3C3C3---------
+xlatb
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------d8488B01C3C3C3C3---------
+fmul dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------d9488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------da488B01C3C3C3C3---------
+fimul dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------db488B01C3C3C3C3---------
+fisttp dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------dc488B01C3C3C3C3---------
+fmul qword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------dd488B01C3C3C3C3---------
+fisttp qword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------de488B01C3C3C3C3---------
+fimul word [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------df488B01C3C3C3C3---------
+fisttp word [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------e0488B01C3C3C3C3---------
+loopne 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------e1488B01C3C3C3C3---------
+loope 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------e2488B01C3C3C3C3---------
+loop 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------e3488B01C3C3C3C3---------
+jrcxz 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------e4488B01C3C3C3C3---------
+in al, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------e5488B01C3C3C3C3---------
+in eax, 0x48
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------e6488B01C3C3C3C3---------
+out 0x48, al
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------e7488B01C3C3C3C3---------
+out 0x48, eax
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------e8488B01C3C3C3C3---------
+call 0xffffffffc3018b4d
+ret
+ret
+ret
+---------e9488B01C3C3C3C3---------
+jmp 0xffffffffc3018b4d
+ret
+ret
+ret
+---------ea488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------eb488B01C3C3C3C3---------
+jmp 0x4a
+mov eax, dword [rcx]
+ret
+ret
+ret
+ret
+---------ec488B01C3C3C3C3---------
+in al, dx
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------ed488B01C3C3C3C3---------
+in eax, dx
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------ee488B01C3C3C3C3---------
+out dx, al
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------ef488B01C3C3C3C3---------
+out dx, eax
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------f0488B01C3C3C3C3---------
+invalid
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------f1488B01C3C3C3C3---------
+int1
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------f2488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------f3488B01C3C3C3C3---------
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------f4488B01C3C3C3C3---------
+hlt
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------f5488B01C3C3C3C3---------
+cmc
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------f6488B01C3C3C3C3---------
+test byte [rax - 0x75], 1
+ret
+ret
+ret
+ret
+---------f7488B01C3C3C3C3---------
+test dword [rax - 0x75], 0xc3c3c301
+ret
+---------f8488B01C3C3C3C3---------
+clc
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------f9488B01C3C3C3C3---------
+stc
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------fa488B01C3C3C3C3---------
+cli
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------fb488B01C3C3C3C3---------
+sti
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------fc488B01C3C3C3C3---------
+cld
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------fd488B01C3C3C3C3---------
+std
+mov rax, qword [rcx]
+ret
+ret
+ret
+ret
+---------fe488B01C3C3C3C3---------
+dec byte [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
+---------ff488B01C3C3C3C3---------
+dec dword [rax - 0x75]
+add ebx, eax
+ret
+ret
+ret
