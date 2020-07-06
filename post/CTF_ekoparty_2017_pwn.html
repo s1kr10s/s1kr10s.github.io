@@ -75,10 +75,10 @@
                       La que resalta es la que nos interesa "hice un analisis previo". Por lo tanto el calculo que debo hacer es asi <b style="color: brown;">9854326D-vRandom=Result</b> y al revertir la resta de <b style="color: brown;">Result+vRandom=9854326D</b> con esto ya solucionamos el salto.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/calculo_func1.png" width="60%"></center><br><br>
                       Solo nos queda reversiar un poco mas y ver como podemos explotar esta vulnerabilidad:<br><br>
-                      1 - En 9854326Dh encontramos un <b style="color: brown;">free()</b> luego de un <b style="color: brown;">malloc()</b> y un <b style="color: brown;">strncpy()</b>. con estas funciones odemos liberar una bloque luego volver a utilizar y copiamos la data enviada en el primer payload a ese espacio como punteros.
-                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/free1.png" width="60%"></center><br><br>
-                      2 - Se realiza la llamada a la funcion obtenida de la vtable
+                      1 - En 9854326Dh encontre un <b style="color: brown;">free()</b> luego de un <b style="color: brown;">malloc()</b> y un <b style="color: brown;">strncpy()</b>. con estas funciones pude liberar una bloque luego volver a utilizar y copiar la data enviada en el primer payload a ese espacio como punteros.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/uaf1.png" width="60%"></center><br><br>
+                      2 - Realizo una la llamada a la funcion obtenida de la vtable
+                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/free1.png" width="60%"></center><br><br>
                       3 - dddd
                       <br><br>
                       Para dejar mas claro hice este diagrama que explica como lo hice para evitar el pirmer puntero de la funcion de vtable.
