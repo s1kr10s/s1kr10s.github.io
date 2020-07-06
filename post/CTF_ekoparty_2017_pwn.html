@@ -52,7 +52,19 @@
                 <tr>
                   <td align="justify" style="font-size: 20px; color: aliceblue;font-family:courier,arial,helvética;">
                     <p>
-                      asdasdsad
+                      Este reto se trataba de desarrollar un exploit el cual debiamos obtener una ejecución de codigo a partir del binario. Este ejecutable fue de los CTF de Ekoparty 2017, de igual manera desarrolle los del 2018 y 2019 que lo pueden encontrar en el repositorio al final del post. 
+                      <br><br>
+                      Ahora la idea de este post fue porque no existia un review de la solución y lo mas importante que al final yo aprendo mas explicando o enseñando como lo desarrolle.
+                      Entonces para empezar con el analisis lo primero que hago es cagar el binario a IDA para ver su arquitectura y validar algunas cosas que pueden dar información rapida, este punto fue complicado ya que no tenia los simbolos y con mas de 500 funciones.
+                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/simbolos1.png" width="90%"></center><br><br>
+                      Asi que el paso siguiente fue identificar cosas pequeñas de estas funciones y reversiar para ver que hacian. Esto tomo un poco de tiempo pero se pude identificar algunas relevantes como main y socket y luego pase a renombrarlas, asi marco un camino en el analisis. 
+                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/main1.png" width="90%"></center><br><br>
+                      
+                      Como habia dicho sobre un socket, este se listaba en el puero 8888 esperando alguna interacción. Despues de esto se debia cumplir algunas condiciones para ejecutar otro socket al puerto 4930.
+                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/socket1.png" width="90%"></center><br><br>
+                      Con este primer socket identifique algunos buffer en heap llamado a malloc() y otros bytes que seteaban tamaños y desplazamientos "offset" del buffer y otras variables. Aqui se identifico una funcion de respuesta como send() la que utilice para filtrar memoria de 8 bytes, 
+                      esto me ayudo a obtener direcciones stack, return, calcular punteros a vtable y sus funciones, chunk en heap,etc.
+                      <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/leak1.png" width="90%"></center><br><br>
                       <br><br>
                       <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/diagramaUAF.png" width="90%"></center><br><br>
                       <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/IDA.png" width="90%"></center>
