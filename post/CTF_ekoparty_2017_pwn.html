@@ -54,7 +54,7 @@
                     <p>
                       Este reto se trataba de desarrollar un exploit el cual debiamos obtener una ejecución de codigo a partir del binario. Este ejecutable fue de los CTF de Ekoparty 2017, de igual manera desarrolle los del 2018 y 2019 que lo pueden encontrar en el repositorio al final del post. 
                       <br><br>
-                      Ahora la idea de este post fue porque no existia un review de la solución y lo mas importante que al final yo aprendo mas explicando o enseñando como lo desarrolle.
+                      Ahora la idea de este post fue porque no existia un review de la solución y personalmente creo que es importante plasmar estos desarrollos en algun paper o lo que sea, ya me ayuda a aprender mas mientras estoy explicando o enseñando de como lo desarrolle.<br>
                       Entonces para empezar con el analisis lo primero que hago es cagar el binario a IDA para ver su arquitectura y validar algunas cosas que pueden dar información rapida, este punto fue complicado ya que no tenia los simbolos y con mas de 500 funciones.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/simbolos1.png" width="90%"></center><br><br>
                       Asi que el paso siguiente fue identificar cosas pequeñas de estas funciones y reversiar para ver que hacian. Esto tomo un poco de tiempo pero se pude identificar algunas relevantes como main y socket y luego pase a renombrarlas, asi marco un camino en el analisis. 
@@ -65,7 +65,7 @@
                       Con este primer socket identifique algunos buffer en heap llamado a malloc() y otros bytes que seteaban tamaños y desplazamientos "offset" del buffer y otras variables. Aqui se identifico una funcion de respuesta como send() la que utilice para filtrar memoria de 0x20 bytes, 
                       esto me ayudo a obtener direcciones stack, return, calcular punteros a vtable y sus funciones, chunk en heap, etc.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/leak1.png" width="50%"></center><br><br>
-                      Despues de realizar un leak de 0x19C0 bytes la conexion se cierra y crea una nueva en el puerto 4930 el que se genera multiplicando 8888 * 2 con la instruccion <b style="color: brown;>shl eax, 1</b> y espera un segundo envio de payload.
+                      Despues de realizar un leak de 0x19C0 bytes la conexion se cierra y crea una nueva en el puerto 4930 el que se genera multiplicando 8888 * 2 con la instruccion <b style="color: brown;">shl eax, 1</b> y espera un segundo envio de payload.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/new_port1.png" width="50%"></center><br><br>
                       En esta segunda conexion debo evitar algunas comparaciones de GetTickCount() que nos develve un valor random evitando que siga por el flujo
                       <br><br>
