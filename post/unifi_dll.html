@@ -59,19 +59,19 @@
                       Vendor: Ubiquiti<br>
                       WebSite: https://www.ui.com
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ui_1.png" width="50%"></center><br><br>
-                      1- Primero validamos qué biblioteca carga el binario y desde qué ubicación usamos (procmon).
+                      1- Primero validamos qué biblioteca carga el binario y desde qué ubicación usamos.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ui_2.png" width="50%"></center><br><br>
                       
-                      2- Como se puede ver en la imagen, el binario no pudo encontrar la librería MSVCR100.dll, de esta forma posiblemente podamos suplantar la librería de la ruta actual del binario. En este paso, identifique la biblioteca nativa MSVCR100.dll en el sistema Windows y modifique algunas funciones.
+                      2- Como se puede ver en la imagen, el binario no pudo encontrar la librería <b style="color: brown;">MSVCR100.dll</b>, de esta forma posiblemente podamos suplantar la librería de la ruta actual del binario. En este paso, identifique la biblioteca nativa <b style="color: brown;">MSVCR100.dll</b> en el sistema Windows y modifique algunas funciones.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ui_3.png" width="50%"></center><br><br>
                       
-                      3- Para comprobar la vulnerabilidad cargue rápidamente la librería en IDA y luego identifique la función _ malloc donde esta función era la que modifiqué para poder saltar a un MessageBoxA con las variables ya definidas como constantes en el binario, la que Modifiqué para mostrar mi texto.
+                      3- Para comprobar la vulnerabilidad cargue rápidamente la librería en IDA y luego identifique la función <b style="color: brown;">_ malloc</b> donde esta función era la que modifiqué para poder saltar a un <b style="color: brown;">MessageBoxA()</b> con las variables ya definidas como constantes en el binario, la que modifiqué para mostrar mi texto.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ui_4.png" width="50%"></center><br><br>
                        
-                      4- Dentro de ese _malloc pude modificar el ensamblado agregando la instrucción JMP donde saltaría a la rutina ya estructurada con sus argumentos, cuál de ellos fue modificado para verificar la vulnerabilidad.
+                      4- Dentro de ese <b style="color: brown;">_malloc</b> pude modificar el ensamblado agregando la instrucción <b style="color: brown;">JMP</b> donde saltaría a la rutina ya estructurada con sus argumentos, cuál de ellos fue modificado para verificar la vulnerabilidad.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ui_5.png" width="50%"></center><br><br>
                       
-                      5- Después de eso, solo queda guardar los cambios en el dll MSVCR100.dll y ejecutar el binario.
+                      5- Después de eso, solo queda guardar los cambios en el dll <b style="color: brown;">MSVCR100.dll</b> y ejecutar el binario.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ui_6.png" width="50%"></center><br><br>
                       
                       <br><br>
