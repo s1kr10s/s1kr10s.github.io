@@ -57,7 +57,7 @@
                       Ahora la idea de este post fue porque no existía un review de la solución y personalmente creo que es importante plasmar estos desarrollos en algún paper o lo que sea, ya me ayuda a aprender más mientras estoy explicando o enseñando de como lo desarrolle. 
                       Entonces para empezar con el análisis lo primero que hago es cagar el binario a IDA para ver su arquitectura y validar algunas cosas que pueden dar información rápida, este punto fue complicado, ya que no tenía los símbolos y con más de 500 funciones.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/simbolos1.png" width="90%"></center><br><br>
-                      Así que el paso siguiente fue identificar cosas pequeñas de estas funciones y revertir para ver que hacían. Esto tomo un poco de tiempo pero sé pude identificar algunas relevantes como main y socket y luego pase a renombrarlas, así marco un camino en el análisis.
+                      Así que el paso siguiente fue identificar cosas pequeñas de estas funciones y revertir para ver que hacían. Esto tomo un poco de tiempo pero pude identificar algunas relevantes como main y socket y luego pase a renombrarlas, así marco un camino en el análisis.
                       <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/main1.png" width="50%"></center><br><br>
                       
                       Como había dicho sobre un socket, este se listaba en el puerto 8888 esperando alguna interacción. Después de esto se debía cumplir algunas condiciones para ejecutar otro socket al puerto 4930.
