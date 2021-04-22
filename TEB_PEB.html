@@ -39,7 +39,11 @@
           <p class="mt-5 text-grey text-spacey">
               <table border=1>
                 <tr style="background-color: #17b06b;height: 70px">
-                  <td align="center">Bytes Type</td><td align="center">offset (32-bit, FS)</td><td align="center">offset (64-bit, GS)</td><td align="center">Windows Versions</td><td align="center">Description</td>
+                  <td align="center" width="150px">Bytes Type</td>
+                  <td align="center" width="150px">offset (32-bit, FS)</td>
+                  <td align="center" width="150px">offset (64-bit, GS)</td>
+                  <td align="center" width="150px">Windows Versions</td>
+                  <td align="center">Description</td>
                 </tr>
                 <tr><td>pointer</td><td>FS:[0x00]</td><td>GS:[0x00]</td><td>Win9x and NT</td><td>Current Structured Exception Handling (SEH) frame<br>Note: the 64-bit version of Windows uses stack unwinding<br>done in kernel mode instead.</td></tr>
                   <tr><td>pointer</td><td>FS:[0x08]</td><td>GS:[0x10]</td><td>Win9x and NT</td><td>Stack Limit / Ceiling of stack (low address)</td></tr>
