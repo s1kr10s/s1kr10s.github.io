@@ -57,7 +57,7 @@
 						Como todos los años participo de Ekoparty Conference e intento absorber lo mas que pueda en conocimiento de los speaker y de personas que voy conociendo en el camino. Por esta razón, muchas veces me pierdo de divertidos retos y termino resolviéndolos después de tiempo.<br><br>
 						Perdiendo la oportunidad de algún tipo de recompensa jeje. Pero bueno lo importante es resolverlo, aun así, se gana experiencia.<br><br>
 						Entonces para ya comenzar con lo importante que es resolver el reto de este año, primero pasaremos por los requisitos impuestos por <b style="color: brown;">Blue Frost Security Labs en Ekoparty 2022</b>.<br><br>
-						Requisitos:<br>
+						Requisitos:<br><br>
 						1.	Solo se aceptarán soluciones de Python sin bibliotecas externas<br>
 						2.	El objetivo es ejecutar la Calculadora de Windows (calc.exe)<br>
 						3.	La solución debería funcionar en Windows 10 o Windows 11<br>
@@ -197,12 +197,13 @@ except Exception as e:
 						Ahora ya estamos casi al final del reto, pero para lograrlo hay que solucionar el problema de <b style="color: brown;">iret</b> ya que demás de la dirección de retorno (EIP/RIP) ubicada en el stack, también necesita otros argumentos.<br><br>
 						El iret es una instrucción que generalmente se llama desde el código del kernel antes de regresar a un proceso de espacio de usuario.<br><br>
 
-						En el siguiente documento muestra mas información sobre iret:<br>
-						<a href="https://www.inventati.org/nophear/download_tesi.pdf" style="color: #a69c0d" target="_blank">https://www.inventati.org/nophear/download_tesi.pdf</a><br><br>
+						Referencias sobre iret y segmentación Intel:<br>
+						<a href="https://www.inventati.org/nophear/download_tesi.pdf" style="color: #a69c0d" target="_blank">https://www.inventati.org/nophear/download_tesi.pdf</a><br>
+						<a href="http://jamesmolloy.co.uk/tutorial_html/10.-User%20Mode.html" style="color: #a69c0d" target="_blank">http://jamesmolloy.co.uk/tutorial_html/10.-User Mode.html</a><br>
+						<a href="https://nixhacker.com/segmentation-in-intel-64-bit/" style="color: #a69c0d" target="_blank">https://nixhacker.com/segmentation-in-intel-64-bit</a><br>
+						<a href="https://www.malwaretech.com/2014/02/the-0x33-segment-selector-heavens-gate.html" style="color: #a69c0d" target="_blank">https://www.malwaretech.com/2014/02/the-0x33-segment-selector-heavens-gate.html</a><br><br>
 
-						En la página 52 y 53 del pdf, podemos encontrar una referencia a la estructura utilizada por iret.<br><br>
-
-						El <b style="color: brown;">Fake iret Frame</b> que debemos crear, debe contener los siguientes parámetros en el stack.<br><br>
+						Por hora lo que debemos lograr hacer es un <b style="color: brown;">Fake iret Frame</b> en el stack, y debe contener los siguientes parámetros.<br><br>
 						<center>
 							<table border="1">
 								<tr><td><b style="color: chartreuse;">EIP</b></td><td>The instruction to continue execution at – the value of EIP</td></tr>
@@ -219,26 +220,22 @@ except Exception as e:
 						• <b style="color: chartreuse;">ESP</b> es una dirección en medio del buffer ubicado en el heap, pero debe estar por debajo de la shellcode y tampoco debe ser el final como 0x10000600.<br>
 						• <b style="color: chartreuse;">SS</b> indexa la Global Descriptor Table (GDT) con su descriptor code/data en kernel (ring0) y user (ring3).<br><br>
 
-						Una manera fácil de obtener el EFLAGS, es mediante el depurador windbg y obteniendo el valor del registro <b style="color: brown;">efl</b>.<br><br>
+						Una manera fácil de obtener el valor de <b style="color: chartreuse;">EFLAGS</b> es mediante el registro <b style="color: brown;">efl</b>, que se puede visualizar co el depurador windbg.<br><br>
 						<center><img src="../images/bfs13.png" width="55%"></center><br>
 
-						Ahora vamos a calcular el CS/SS que son los mas difícil de obtener. Cuando se configura el GDT, se configuran 5 selectores primero un selector nulo, un selector de code/data en modo kernel y un selector de code/data en modo usuario.<br><br>
+						Ahora vamos a calcular el valor de <b style="color: chartreuse;">CS</b> y <b style="color: chartreuse;">SS</b>, ya que son los mas difícil de obtener.<br><br>Cuando se configura el GDT se configuran 5 selectores como el selector nulo, un selector de code/data en modo kernel y un selector de code/data en modo usuario.<br><br>
 
-						Todos tienen un tamaño de 8 bytes, por lo que los índices del selector son:<br>
-						• 0x00: Null descriptor<br>
-						• 0x10: Kernel code segment<br>
-						• 0x18: Kernel data segment<br>
-						• 0x20: User code segment<br>
-						• 0x28: User data segment<br><br>
+						Los índices entre Kernel y usuario tiene un tamaño de 16 bytes y entre code y data por cada modo es de 8 bytes, por lo que los índices del selector son:<br><br>
+						• <b style="color: violet;">0x00</b>: Null Descriptor<br>
+						• <b style="color: violet;">0x10</b>: Kernel Code Segment<br>
+						• <b style="color: violet;">0x18</b>: Kernel Data Segment<br>
+						• <b style="color: violet;">0x20</b>: User Code Segment<br>
+						• <b style="color: violet;">0x28</b>: User Data Segment<br><br>
 
-						Entonces si queremos pasar a modo usuario (ring3) debemos configurar en 3. Para esto nuestro selector de code segment será [0x20+0x3=<b style="color: brown;">0x23</b>] y el selector de data segment será [0x28+x03=<b style="color: brown;">0x2b</b>].<br><br>
+						Entonces si queremos pasar a modo usuario (ring3) debemos configurar en 3. Para esto nuestro selector de code segment será [<b style="color: violet;">0x20+0x3=0x23</b>] y el selector de data segment será [<b style="color: violet;">0x28+x03=0x2b</b>].<br><br>
 						<center><img src="../images/bfs14.png" width="55%"></center><br><br>
 
-						Mas referencias sobre iret y segmentación Intel:<br>
-						<a href="https://www.inventati.org/nophear/download_tesi.pdf" style="color: #a69c0d" target="_blank">https://www.inventati.org/nophear/download_tesi.pdf</a><br>
-						<a href="http://jamesmolloy.co.uk/tutorial_html/10.-User%20Mode.html" style="color: #a69c0d" target="_blank">http://jamesmolloy.co.uk/tutorial_html/10.-User%20Mode.html</a><br>
-						<a href="https://nixhacker.com/segmentation-in-intel-64-bit/" style="color: #a69c0d" target="_blank">https://nixhacker.com/segmentation-in-intel-64-bit/</a><br>
-						<a href="https://www.malwaretech.com/2014/02/the-0x33-segment-selector-heavens-gate.html" style="color: #a69c0d" target="_blank">https://www.malwaretech.com/2014/02/the-0x33-segment-selector-heavens-gate.html</a><br><br>
+						Ahora el gran problema que tenemos con el calculo de "User Data Segment", es que el <b style="color: violet;">0x2b</b> es modificado por un 0x00 al entrar a la función <b style="color: brown;">copy_data_heap_to_stack()</b>.<br><br>
 
 						<h2><u><b>Explotación</b></u></h2><br>
 
