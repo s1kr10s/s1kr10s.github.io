@@ -200,10 +200,6 @@
                 var url = 'http://' + targetDomain + '/crossdomain.xml';
                 window.open(url, '_blank');
                 return;
-            case 23:
-                var url = 'http://threatcrowd.org/domain.php?domain=' + targetDomain;
-                window.open(url, '_blank');
-                return;
             case 24:
                 var site = '+inurl:' + targetDomain + ' +ext:swf';
                 var url = 'https://www.google.com/search?q=' + encodeURIComponent(site);
@@ -517,7 +513,6 @@
         <button class="futuristic-button" onclick="googleSearch(14)">Apache STRUTS RCE</button>
         <button class="futuristic-button" onclick="googleSearch(42)">Admin Portal</button>
         <button class="futuristic-button" onclick="googleSearch(5)">Backup and old files</button>
-        <button class="futuristic-button" onclick="googleSearch(23)">Check in ThreatCrowd</button>
         <button class="futuristic-button" onclick="googleSearch(30)">Certificate Transparency</button>
         <button class="futuristic-button" onclick="googleSearch(51)">Drupal Login</button>
         <button class="futuristic-button" onclick="googleSearch(1)">Directory listing vulnerabilities</button>
