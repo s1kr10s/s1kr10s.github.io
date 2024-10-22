@@ -210,6 +210,10 @@
                 var url = 'http://' + targetDomain + '/crossdomain.xml';
                 window.open(url, '_blank');
                 return;
+            case 23:
+                var url = 'https://github.com/search?type=code&q=email+OR+username+OR+password+OR+credential+OR+secret+OR+token+OR+access_token+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                window.open(url, '_blank');
+                return;
             case 24:
                 var site = '+inurl:' + targetDomain + ' +ext:swf';
                 var url = 'https://www.google.com/search?q=' + encodeURIComponent(site);
@@ -503,6 +507,46 @@
             case 95 :
                 searchQuery += ' & inurl:"=" & ext:php | ext:asp | ext:aspx | ext:asmx | ext:jsp | ext:jsf'
                 break
+            case 96:
+                var url = 'https://github.com/search?type=code&q=+api_key+OR+api_secret+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                window.open(url, '_blank');
+                return;
+            case 97:
+                var url = 'https://github.com/search?type=code&q=DB_PASSWORD+OR+DATABASE_URL+OR+DATABASE_Password+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                window.open(url, '_blank');
+                return;
+            case 98:
+                var url = 'https://github.com/search?type=code&q=ssh2_auth_password+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                window.open(url, '_blank');
+                return;
+            case 99:
+                var url = 'https://github.com/search?type=code&q=aws_access_key_id+OR+aws_secret_access_key+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                window.open(url, '_blank');
+                return;
+            case 100:
+                var url = 'https://github.com/search?type=code&q=webhook+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                window.open(url, '_blank');
+                return;
+            case 101:
+                var url = 'https://github.com/search?type=code&q=VPN_USER+OR+VPN_PASS+OR+VPN_SERVER+OR+private_key+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                window.open(url, '_blank');
+                return;
+            case 102:
+                var url = 'https://github.com/search?type=code&q=path%3A**%2F.env+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                window.open(url, '_blank');
+                return;
+            case 103:
+                var url = 'https://github.com/search?type=code&q=path%3A**%2F.bash_history+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                window.open(url, '_blank');
+                return;
+            case 104:
+                var url = 'https://github.com/search?type=code&q=path%3A**%2F.bashrc+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                window.open(url, '_blank');
+                return;
+            case 105:
+                var url = 'https://github.com/search?type=code&q="jdbc%3Asqlserver"+OR+"User+Id%3D"+OR+connectionstring+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                window.open(url, '_blank');
+                return;
             default:
                 alert('Invalid option.');
                 return;
