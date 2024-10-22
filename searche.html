@@ -512,7 +512,7 @@
                 window.open(url, '_blank');
                 return;
             case 97:
-                var url = 'https://github.com/search?type=code&q=DB_PASSWORD+OR+DATABASE_URL+OR+DATABASE_Password+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                var url = 'https://github.com/search?type=code&q=dbuser+OR+dbpassword+OR+dbpasswd+OR+db_password+OR+database_url+OR+database_password+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
                 window.open(url, '_blank');
                 return;
             case 98:
@@ -520,7 +520,7 @@
                 window.open(url, '_blank');
                 return;
             case 99:
-                var url = 'https://github.com/search?type=code&q=aws_access_key_id+OR+aws_secret_access_key+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                var url = 'https://github.com/search?type=code&q=bucket_password+OR+aws_access+OR+aws_key+OR+aws_secret+OR+aws_key+OR+AWSSecretKey+OR+aws_access_key_id+OR+aws_secret_access_key+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
                 window.open(url, '_blank');
                 return;
             case 100:
@@ -545,6 +545,10 @@
                 return;
             case 105:
                 var url = 'https://github.com/search?type=code&q="jdbc%3Asqlserver"+OR+"User+Id%3D"+OR+connectionstring+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                window.open(url, '_blank');
+                return;
+            case 106:
+                var url = 'https://github.com/search?type=code&q=auth_token+OR+authorizationToken+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
                 window.open(url, '_blank');
                 return;
             default:
