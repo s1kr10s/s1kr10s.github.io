@@ -508,7 +508,7 @@
                 searchQuery += ' & inurl:"=" & ext:php | ext:asp | ext:aspx | ext:asmx | ext:jsp | ext:jsf'
                 break
             case 96:
-                var url = 'https://github.com/search?type=code&q=+api_key+OR+api_secret+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                var url = 'https://github.com/search?type=code&q=apikey+OR+api_key+OR+api_secret+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
                 window.open(url, '_blank');
                 return;
             case 97:
@@ -536,19 +536,15 @@
                 window.open(url, '_blank');
                 return;
             case 103:
-                var url = 'https://github.com/search?type=code&q=path%3A**%2F.bash_history+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                var url = 'https://github.com/search?type=code&q=auth_token+OR+authorizationToken+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
                 window.open(url, '_blank');
                 return;
             case 104:
-                var url = 'https://github.com/search?type=code&q=path%3A**%2F.bashrc+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
+                var url = 'https://github.com/search?type=code&q=path%3A**%2F.bashrc+OR+path%3A**%2F.bash_history+OR+path%3A**%2F.git-credentials+OR+path%3A**%2F.ftpconfig+OR+path%3A**%2F.sh_history+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
                 window.open(url, '_blank');
                 return;
             case 105:
                 var url = 'https://github.com/search?type=code&q="jdbc%3Asqlserver"+OR+"User+Id%3D"+OR+connectionstring+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
-                window.open(url, '_blank');
-                return;
-            case 106:
-                var url = 'https://github.com/search?type=code&q=auth_token+OR+authorizationToken+'+ encodeURIComponent(targetDomain) +'+NOT+README.md';
                 window.open(url, '_blank');
                 return;
             default:
@@ -654,8 +650,8 @@
         <button class="futuristic-button" onclick="googleSearch(99)">Github Aws</button>
         <button class="futuristic-button" onclick="googleSearch(100)">Github Webhook</button>
         <button class="futuristic-button" onclick="googleSearch(101)">Github Vpn</button>
-        <button class="futuristic-button" onclick="googleSearch(102)">Github Env</button>
-        <button class="futuristic-button" onclick="googleSearch(103)">Github .history</button>
+        <button class="futuristic-button" onclick="googleSearch(102)">Github .env</button>
+        <button class="futuristic-button" onclick="googleSearch(103)">Github Auth</button>
         <button class="futuristic-button" onclick="googleSearch(104)">Github .bashrc</button>
         <button class="futuristic-button" onclick="googleSearch(105)">Github Jdbc</button>
         <button class="futuristic-button" onclick="googleSearch(73)">Gitter</button>
