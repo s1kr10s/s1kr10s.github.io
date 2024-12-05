@@ -548,7 +548,7 @@
                 window.open(url, '_blank');
                 return;
             case 106:
-                var url = '"'+ encodeURIComponent(targetDomain)+'"+(inurl:vulnerability+OR+inurl:exploit+OR+inurl:"CVE")+(intext:"vulnerability"+OR+intext:"exploit"+OR+intext:"CVE")+site:github.com+OR+site:exploit-db.com+OR+site:medium.com';
+                var url = 'https://github.com/search?type=code&q="'+ encodeURIComponent(targetDomain)+'"+(inurl:vulnerability+OR+inurl:exploit+OR+inurl:"CVE")+(intext:"vulnerability"+OR+intext:"exploit"+OR+intext:"CVE")+site:github.com+OR+site:exploit-db.com+OR+site:medium.com';
                 window.open(url, '_blank');
                 return;
             default:
