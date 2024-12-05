@@ -551,6 +551,10 @@
                 var url = 'https://www.google.com/search?q="'+ encodeURIComponent(targetDomain)+'"+(inurl:vulnerability+OR+inurl:exploit+OR+inurl:"CVE")+(intext:"vulnerability"+OR+intext:"exploit"+OR+intext:"CVE")+site:github.com+OR+site:exploit-db.com+OR+site:medium.com';
                 window.open(url, '_blank');
                 return;
+            case 107:
+                var url = 'https://www.google.com/search?q="'+ encodeURIComponent(targetDomain)+'"+(inurl:vulnerability+OR+inurl:exploit+OR+inurl:"CVE")+(intext:"vulnerability"+OR+intext:"exploit"+OR+intext:"CVE")';
+                window.open(url, '_blank');
+                return;
             default:
                 alert('Invalid option.');
                 return;
@@ -568,7 +572,8 @@
     <center>
         <br><br>
         <h2 style="font-family:courier,arial,helvética">Search Vulnerability / Exploit</h2>
-        <button class="futuristic-button" onclick="googleSearch(106)">Vulnerability Exploit</button>
+        <button class="futuristic-button" onclick="googleSearch(106)">Github|Exploit-db|Medium</button>
+        <button class="futuristic-button" onclick="googleSearch(107)">All Google</button>
         <br><br>
         <h2 style="font-family:courier,arial,helvética">Search Engine</h2>
         <button class="futuristic-button" onclick="googleSearch(39)">ArcGIS REST Services Directory</button>
