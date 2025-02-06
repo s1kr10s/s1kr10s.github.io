@@ -555,6 +555,15 @@
                 var url = 'https://www.google.com/search?q="'+ encodeURIComponent(targetDomain)+'"+(inurl:vulnerability+OR+inurl:exploit+OR+inurl:"CVE")+(intext:"vulnerability"+OR+intext:"exploit"+OR+intext:"CVE")';
                 window.open(url, '_blank');
                 return;
+            case 108:
+                var site = 'site:gitee.com intext:' + targetDomain;
+                var url = 'https://www.google.com/search?q=' + encodeURIComponent(site);
+                window.open(url, '_blank');
+                break
+            case 109:
+                var url = 'https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd="'+ encodeURIComponent(targetDomain)+'"+intext:"CVE"+intext:"exploit"+|+inurl:exploit+inurl:"CVE"';
+                window.open(url, '_blank');
+                return;
             default:
                 alert('Invalid option.');
                 return;
@@ -574,6 +583,7 @@
         <h2 style="font-family:courier,arial,helvética">Search Vulnerability & Exploit</h2>
         <button class="futuristic-button" onclick="googleSearch(106)">Github / Exploit-db / Medium</button>
         <button class="futuristic-button" onclick="googleSearch(107)">All Google</button>
+        <button class="futuristic-button" onclick="googleSearch(109)">All Baidu</button>
         <br><br>
         <h2 style="font-family:courier,arial,helvética">Search Engine</h2>
         <button class="futuristic-button" onclick="googleSearch(39)">ArcGIS REST Services Directory</button>
@@ -667,6 +677,7 @@
         <button class="futuristic-button" onclick="googleSearch(104)">Github .bashrc</button>
         <button class="futuristic-button" onclick="googleSearch(105)">Github Jdbc</button>
         <button class="futuristic-button" onclick="googleSearch(73)">Gitter</button>
+        <button class="futuristic-button" onclick="googleSearch(108)">Gitee</button>
         <button class="futuristic-button" onclick="googleSearch(86)">Ideone</button>
         <button class="futuristic-button" onclick="googleSearch(78)">Jsdelivr</button>
         <button class="futuristic-button" onclick="googleSearch(90)">Jsfiddle</button>
