@@ -255,20 +255,16 @@
                 var url = 'http://wwwb-dedup.us.archive.org:8083/cdx/search?url=' + encodeURIComponent(site) + '/&matchType=domain&collapse=digest&output=text&fl=original,timestamp&filter=urlkey:.*wp[-].*&limit=1000000&xx=';
                 window.open(url, '_blank');
                 return;
-            case 34:
-                var url = 'https://censys.io/ipv4?q=' + targetDomain;
-                window.open(url, '_blank');
-                return;
             case 35:
-                var url = 'https://censys.io/domain?q=' + targetDomain;
+                var url = 'https://search.censys.io/search?resource=hosts&sort=RELEVANCE&per_page=25&virtual_hosts=EXCLUDE&q=' + targetDomain;
                 window.open(url, '_blank');
                 return;
             case 36:
-                var url = 'https://censys.io/certificates?q=' + targetDomain;
+                var url = 'https://search.censys.io/search?resource=certificates&sort=RELEVANCE&per_page=25&virtual_hosts=EXCLUDE&q=' + targetDomain;
                 window.open(url, '_blank');
                 return;
             case 37:
-                var url = 'https://www.shodan.io/search?query=' + targetDomain;
+                var url = 'https://www.shodan.io/search?query=hostname%3A' + targetDomain;
                 window.open(url, '_blank');
                 return;
             case 38:
@@ -620,7 +616,6 @@
         <button class="futuristic-button" onclick="googleSearch(31)">Search OpenBugBounty</button>
         <button class="futuristic-button" onclick="googleSearch(32)">Search in Reddit</button>
         <button class="futuristic-button" onclick="googleSearch(33)">Search WP Config Backup</button>
-        <button class="futuristic-button" onclick="googleSearch(34)">Search in Censys (IPv4)</button>
         <button class="futuristic-button" onclick="googleSearch(35)">Search in Censys (Domain)</button>
         <button class="futuristic-button" onclick="googleSearch(36)">Search in Censys (Certificates)</button>
         <button class="futuristic-button" onclick="googleSearch(37)">Search in SHODAN</button>
