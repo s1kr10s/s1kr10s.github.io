@@ -226,11 +226,6 @@
                 var url = 'https://web.archive.org/cdx/search?url=' + encodeURIComponent(site) + '/&matchType=domain&collapse=urlkey&output=text&fl=original&filter=mimetype:application/x-shockwave-flash&limit=100000&_=1507209148310';
                 window.open(url, '_blank');
                 return;
-            case 28:
-                var site = '.' + targetDomain;
-                var url = 'https://web.archive.org/web/*/(.' + encodeURIComponent(site) + ')';
-                window.open(url, '_blank');
-                return;
             case 29:
                 var site = targetDomain;
                 var url = 'https://web.archive.org/web/*/' + encodeURIComponent(site) + '/*';
@@ -611,8 +606,7 @@
         <button class="futuristic-button" onclick="googleSearch(8)">Publicly exposed documents</button>
         <button class="futuristic-button" onclick="googleSearch(55)">Remote procedure call protocol</button>
         <button class="futuristic-button" onclick="googleSearch(7)">SQL errors</button>
-        <button class="futuristic-button" onclick="googleSearch(28)">Search in Web Archive #1</button>
-        <button class="futuristic-button" onclick="googleSearch(29)">Search in Web Archive #2</button>
+        <button class="futuristic-button" onclick="googleSearch(29)">Search in Web Archive</button>
         <button class="futuristic-button" onclick="googleSearch(31)">Search OpenBugBounty</button>
         <button class="futuristic-button" onclick="googleSearch(32)">Search in Reddit</button>
         <button class="futuristic-button" onclick="googleSearch(33)">Search WP Config Backup</button>
