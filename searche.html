@@ -144,9 +144,6 @@
             case 5:
                 searchQuery += ' ext:bkf | ext:bkp | ext:bak | ext:old | ext:backup';
                 break;
-            case 6:
-                searchQuery += ' inurl:login';
-                break;
             case 7:
                 searchQuery += ' intext:"sql syntax near" | intext:"syntax error has occurred" | intext:"incorrect syntax near" | intext:"unexpected end of SQL command" | intext:"Warning: mysql_connect()" | intext:"Warning: mysql_query()" | intext:"Warning: pg_connect()"';
                 break;
@@ -188,11 +185,6 @@
                 return;
             case 18:
                 var site = 'site:*.' + targetDomain;
-                var url = 'https://www.google.com/search?q=' + encodeURIComponent(site);
-                window.open(url, '_blank');
-                return;
-            case 19:
-                var site = 'site:*.*.' + targetDomain;
                 var url = 'https://www.google.com/search?q=' + encodeURIComponent(site);
                 window.open(url, '_blank');
                 return;
@@ -608,7 +600,6 @@
         <button class="futuristic-button" onclick="googleSearch(27)">Find MIME-SWF links in the past</button>
         <button class="futuristic-button" onclick="googleSearch(44)">File Upload</button>
         <button class="futuristic-button" onclick="googleSearch(18)">Find Subdomains</button>
-        <button class="futuristic-button" onclick="googleSearch(19)">Find Sub-Subdomains</button>
         <button class="futuristic-button" onclick="googleSearch(65)">Git Buckup</button>
         <button class="futuristic-button" onclick="googleSearch(49)">Github API</button>
         <button class="futuristic-button" onclick="googleSearch(83)">Gitlab</button>
@@ -617,7 +608,6 @@
         <button class="futuristic-button" onclick="googleSearch(12)">Install / Setup files</button>
         <button class="futuristic-button" onclick="googleSearch(52)">Joomla Database/</button>
         <button class="futuristic-button" onclick="googleSearch(57)">Jwks-rsa file</button>
-        <button class="futuristic-button" onclick="googleSearch(6)">Login pages</button>
         <button class="futuristic-button" onclick="googleSearch(41)">Main.yml file</button>
         <button class="futuristic-button" onclick="googleSearch(59)">Mysql file</button>
         <button class="futuristic-button" onclick="googleSearch(13)">Open Redirects</button>
