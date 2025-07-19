@@ -136,8 +136,6 @@
   <div id="results"></div>
 
   <script>
-    // Asumiendo que 'vulnerabilities' está definido en data.js
-
     const getUniqueCategories = () => {
       const categoriesSet = new Set();
       vulnerabilities.forEach(vuln => {
@@ -152,10 +150,23 @@
       categories.forEach(cat => {
         const option = document.createElement("option");
         option.value = cat;
-        option.textContent = cat;
+        option.textContent = cat.toUpperCase();
         select.appendChild(option);
       });
       search();
+    };
+
+    const capitalizeWords = (str) => {
+        return str
+        .split('~') // Separar por categorías
+        .map(segment =>
+        segment
+            .trim()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ')
+        )
+        .join(' ~ ');
     };
 
     const search = () => {
@@ -186,8 +197,12 @@
       results.forEach(r => {
         table += `
               <tr>
-                <td>${r.name}</td>
-                <td>${r.category}</td>
+                <td>
+                    <a href="./ctf/${r.name}.zip" target="_blank" style="color:#0f0; text-decoration:underline;">
+                        ${r.name}
+                    </a>
+                </td>
+                <td>${capitalizeWords(r.category)}</td>
               </tr>`;
       });
 
