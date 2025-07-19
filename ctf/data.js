@@ -5,7 +5,6 @@ const vulnerabilities = [
   { name: "steghide", category: "stack buffer overflow" },
   { name: "user_application_firewall", category: "tcache poisoning ~ use after free ~ free hook" },
   { name: "executor_revenge", category: "seccomp ~ side channel" },
-  { name: "dmz_firewall", category: "seccomp ~ use after free" },
   { name: "little_boi", category: "srop" },
-  { name: "dmz_firewall", category: "setcontext ~ use after free ~ read after free" }
+  { name: "dmz_firewall", category: "seccomp ~ setcontext ~ use after free ~ read after free" }
 ];
