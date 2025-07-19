@@ -129,7 +129,7 @@
     const getUniqueCategories = () => {
       const categoriesSet = new Set();
       vulnerabilities.forEach(vuln => {
-        vuln.category.split(',').forEach(cat => categoriesSet.add(cat.trim()));
+        vuln.category.split('~').forEach(cat => categoriesSet.add(cat.trim()));
       });
       return Array.from(categoriesSet).sort();
     };
