@@ -136,16 +136,16 @@
       vulnerabilities.forEach(vuln => {
         vuln.category.split('~').forEach(cat => categoriesSet.add(cat.trim()));
       });
-      return Array.from(categoriesSet).sort();
+      return Array.from(categoriesSet).sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
     };
-
+    
     const populateCategories = () => {
       const select = document.getElementById("category");
       const categories = getUniqueCategories();
       categories.forEach(cat => {
         const option = document.createElement("option");
         option.value = cat;
-        option.textContent = cat.toUpperCase();
+        option.textContent = capitalizeWords(cat); // cambia de .toUpperCase() a capitalizeWords()
         select.appendChild(option);
       });
       search();
