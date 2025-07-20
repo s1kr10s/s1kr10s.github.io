@@ -1,5 +1,5 @@
 const vulnerabilities = [
-  { name: "mining_hero", category: "format string" },
+  { name: "mining_hero", category: "format string" , level: "easy"},
   { name: "formatLaundromat", category: "format string" },
   { name: "invoice", category: "integer overflow ~ stack overflow" },
   { name: "steghide", category: "stack overflow" },
