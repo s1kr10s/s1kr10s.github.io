@@ -186,6 +186,7 @@
               <tr>
                 <th>Challenge Name</th>
                 <th>Vulnerability / Technique</th>
+                <th>Level</th>
               </tr>
             </thead>
             <tbody>`;
@@ -197,6 +198,7 @@
                     <a href="./ctf/${r.name}.zip" target="_blank" style="color:#0f0; text-decoration:underline;">${r.name}</a>
                 </td>
                 <td>${capitalizeWords(r.category)}</td>
+                <td>${capitalizeWords(r.level)}</td>
               </tr>`;
       });
 
