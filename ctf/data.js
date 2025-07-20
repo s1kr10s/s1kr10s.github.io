@@ -6,5 +6,5 @@ const vulnerabilities = [
   { name: "user_application_firewall", category: "tcache poisoning ~ use after free ~ free hook" },
   { name: "executor_revenge", category: "seccomp ~ side channel" },
   { name: "little_boi", category: "srop ~ stack overflow" },
-  { name: "dmz_firewall", category: "seccomp ~ setcontext ~ use after free ~ read after free" }
+  { name: "dmz_firewall", category: "seccomp ~ setcontext ~ use after free ~ read after free ~ doble free" }
 ];
