@@ -180,6 +180,7 @@
 
       let table = `
         <div class="table-container">
+        <pre>Challenges (zip) coming soon</pre>
           <table>
             <thead>
               <tr>
@@ -193,9 +194,7 @@
         table += `
               <tr>
                 <td>
-                    <a href="./ctf/${r.name}.zip" target="_blank" style="color:#0f0; text-decoration:underline;">
-                        ${r.name}
-                    </a>
+                    <a href="./ctf/${r.name}.zip" target="_blank" style="color:#0f0; text-decoration:underline;">${r.name}</a>
                 </td>
                 <td>${capitalizeWords(r.category)}</td>
               </tr>`;
