@@ -1,10 +1,10 @@
 const vulnerabilities = [
   { name: "mining_hero", category: "format string" },
   { name: "formatLaundromat", category: "format string" },
-  { name: "invoice", category: "integer overflow ~ stack buffer overflow" },
-  { name: "steghide", category: "stack buffer overflow" },
+  { name: "invoice", category: "integer overflow ~ stack overflow" },
+  { name: "steghide", category: "stack overflow" },
   { name: "user_application_firewall", category: "tcache poisoning ~ use after free ~ free hook" },
   { name: "executor_revenge", category: "seccomp ~ side channel" },
-  { name: "little_boi", category: "srop" },
+  { name: "little_boi", category: "srop ~ stack overflow" },
   { name: "dmz_firewall", category: "seccomp ~ setcontext ~ use after free ~ read after free" }
 ];
