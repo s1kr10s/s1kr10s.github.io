@@ -1,32 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Miguel M.Z - @s1kr10s</title>
-    <link rel="shortcut icon" href="./images/icon.png">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/bootstrap4-neon-glow.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel='stylesheet' href='//cdn.jsdelivr.net/font-hack/2.020/css/hack.min.css'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-    <script src="data.js"></script>
-    <style>
-      .ldt {
-        color:deeppink;
-        border:solid 1px palegreen;
-        font-size: 15px;
-        background:
-          linear-gradient(90deg, rgba(127,127,127,.1) 1px, transparent 1px),
-          linear-gradient(rgba(127,127,127,.1) 1px, transparent 1px);
-        background-size: 2px 2px, 2px 2px;
-        background-position: -1px -1px; /* so we don't start on a grid line */
-      }
-
-      body {
+<head>
+  <meta charset="UTF-8" />
+  <title>🕹️ Vulnerability for Challenge</title>
+  <script src="data.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>
+    body {
       font-family: 'Press Start 2P', monospace;
       background-color: #000;
       color: #0f0;
@@ -104,28 +84,13 @@
       width: 100%;
       height: 100%;
     }
-    </style>
-  </head>
-  <body>
-     <div class="navbar-dark text-white">
-    <div class="container">
-      <nav class="navbar px-0 navbar-expand-lg navbar-dark">
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a href="../index.html" class="pl-md-0 p-3 text-light" style="font-family:courier,arial,helvética;color: #dbebfb;"> # Start</a>
-            <a href="../whoami.html" class="p-3 text-decoration-none text-light" style="font-family:courier,arial,helvética;color: #dbebfb;"> # Whoami</a>
-            <a href="./ctf/ctf.html" class="p-3 text-decoration-none text-light" style="font-family:courier,arial,helvética;color: #dbebfb;"> # CTF's</a>
-            <a href="../TEB_PEB.html" class="p-3 text-decoration-none text-light" style="font-family:courier,arial,helvética;color: #dbebfb;"> # TeB/PeB</a>
-            <a href="../pwn.html" class="p-3 text-decoration-none text-light" style="font-family:courier,arial,helvética;color: #dbebfb;"> # Pwn!</a>
-            <a href="../plugin.html" class="p-3 text-decoration-none text-light" style="font-family:courier,arial,helvética;color: #dbebfb;"> # Plugin IDA</a>
-            <a href="../searche.html" class="p-3 text-decoration-none text-light" style="font-family:courier,arial,helvética;color: #dbebfb;"> # Search Engine</a>
-          </div>
-        </div>
-      </nav>
-    </div>
-  </div>
-  <br>
-  
+
+    audio {
+        display: none;
+    }
+  </style>
+</head>
+<body>
   <canvas id="matrixCanvas"></canvas>
 
   <h1>🕹️ Vulnerability for Challenges</h1>
@@ -213,87 +178,6 @@
       resultsDiv.innerHTML += table;
     };
 
-    // Música 8-bit inspirada en Super Mario Bros
-    const themeArray = [
-      // Parte A - Primera repetición
-      { freq: 659.26, duration: 300 }, // E5
-      { freq: 493.88, duration: 150 }, // B4
-      { freq: 523.25, duration: 150 }, // C5
-      { freq: 587.33, duration: 300 }, // D5
-      { freq: 523.25, duration: 150 }, // C5
-      { freq: 493.88, duration: 150 }, // B4
-      { freq: 440.00, duration: 300 }, // A4
-      { freq: 440.00, duration: 150 }, // A4
-      { freq: 523.25, duration: 150 }, // C5
-      { freq: 659.26, duration: 300 }, // E5
-      { freq: 587.33, duration: 150 }, // D5
-      { freq: 523.25, duration: 150 }, // C5
-      { freq: 493.88, duration: 300 }, // B4 (larga)
-      { freq: 493.88, duration: 150 }, // B4
-      { freq: 523.25, duration: 150 }, // C5
-      { freq: 587.33, duration: 300 }, // D5
-      { freq: 659.26, duration: 300 }, // E5
-      { freq: 523.25, duration: 300 }, // C5
-      { freq: 440.00, duration: 300 }, // A4
-      { freq: 440.00, duration: 300 }, // A4 (larga)
-
-      // Parte B
-      { freq: 493.88, duration: 300 }, // B4
-      { freq: 523.25, duration: 150 }, // C5
-      { freq: 587.33, duration: 150 }, // D5
-      { freq: 698.46, duration: 300 }, // F5
-      { freq: 880.00, duration: 300 }, // A5
-      { freq: 783.99, duration: 150 }, // G5
-      { freq: 698.46, duration: 150 }, // F5
-      { freq: 659.26, duration: 300 }, // E5
-      { freq: 523.25, duration: 300 }, // C5
-      { freq: 659.26, duration: 300 }, // E5
-      { freq: 587.33, duration: 150 }, // D5
-      { freq: 523.25, duration: 150 }, // C5
-      { freq: 493.88, duration: 300 }, // B4
-      { freq: 493.88, duration: 150 }, // B4
-      { freq: 523.25, duration: 150 }, // C5
-      { freq: 587.33, duration: 300 }, // D5
-      { freq: 659.26, duration: 300 }, // E5
-      { freq: 523.25, duration: 300 }, // C5
-      { freq: 440.00, duration: 300 }, // A4
-      { freq: 440.00, duration: 300 }, // A4 (larga)
-    ];
-
-    function playEpicTheme() {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      let index = 0;
-
-      function playNote() {
-        if (index >= themeArray.length) {
-          index = 0; // Loop infinito para el tema principal
-        }
-
-        const { freq, duration } = themeArray[index];
-
-        if (freq > 0) {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-
-          osc.type = 'sine'; // Crucial for that 8-bit sound sine/ square
-          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-          gain.gain.setValueAtTime(0.02, audioCtx.currentTime); // Adjust volume
-
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-
-          osc.start();
-          osc.stop(audioCtx.currentTime + duration / 1000);
-        }
-
-        setTimeout(() => {
-          index++;
-          playNote();
-        }, duration);
-      }
-      playNote();
-    }
-
     // Matrix background effect
     function runMatrixEffect() {
       const canvas = document.getElementById("matrixCanvas");
@@ -329,11 +213,20 @@
       setInterval(draw, 50);
     }
 
+    function playAudio() {
+        const audio = document.getElementById("bgm");
+        audio.volume = 0.2; // Puedes ajustar el volumen aquí
+        audio.loop = true; // Repetir indefinidamente
+        audio.play().catch(err => {
+            console.warn("Autoplay bloqueado, se requiere interacción del usuario.");
+        });
+    }
     window.onload = () => {
       populateCategories();
       runMatrixEffect();
-      playEpicTheme();
+      document.body.addEventListener("click", playAudio, { once: true });
     };
   </script>
+  <audio id="bgm" src="./ctf/pwned.mp3" preload="auto"></audio>
 </body>
 </html>
