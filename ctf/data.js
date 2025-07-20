@@ -14,7 +14,7 @@ const vulnerabilities = [
   { name: "bofa", category: "stack overflow" },
   { name: "buffers", category: "stack overflow" },
   { name: "doublenote", category: "underflow oob ~ use after free ~ read after free ~ write after free ~ free hook ~ tcache poisoning" },
-  { name: "learning_path", category: "format string ~ overflow overflow" },
+  { name: "learning_path", category: "format string ~ stack overflow" },
   { name: "morning_coffee", category: "format string ~ stack overflow ~ ret2win" },
   { name: "number_shop", category: "integer overflow" },
   { name: "steg_as_a_service", category: "stack overflow" },
