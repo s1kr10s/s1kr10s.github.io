@@ -187,6 +187,7 @@
                 <th>Challenge Name</th>
                 <th>Vulnerability / Technique</th>
                 <th>Level</th>
+                <th>Arch</th>
               </tr>
             </thead>
             <tbody>`;
@@ -199,6 +200,7 @@
                 </td>
                 <td>${capitalizeWords(r.category)}</td>
                 <td>${capitalizeWords(r.level)}</td>
+                <td>${capitalizeWords(r.arch)}</td>
               </tr>`;
       });
 
