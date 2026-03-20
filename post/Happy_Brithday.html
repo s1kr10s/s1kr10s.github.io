@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>s1kr10s // Happy_Brithday.exe</title>
+  <link rel="shortcut icon" href="../images/icon.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    :root { --green:#00ff41; --green-dim:#00b32c; --green-dark:#003b0f; --cyan:#00ffff; --bg:#000; --scanline:rgba(0,255,65,0.03); }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { overflow-y:scroll; }
+    html,body { background:var(--bg); color:var(--green); font-family:'Share Tech Mono','Courier New',monospace; overflow-x:hidden; min-height:100vh; }
+    body::before { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background:repeating-linear-gradient(0deg,transparent,transparent 2px,var(--scanline) 2px,var(--scanline) 4px); pointer-events:none; z-index:9999; }
+    body::after { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.85) 100%); pointer-events:none; z-index:9998; }
+    canvas#matrix { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; opacity:0.07; }
+    .wrapper { position:relative; z-index:10; max-width:1100px; margin:0 auto; padding:0 20px; }
+    nav { border-bottom:1px solid var(--green-dim); padding:12px 0; }
+    nav ul { list-style:none; display:flex; flex-wrap:wrap; gap:5px; align-items:center; }
+    nav ul li a { color:var(--green-dim); text-decoration:none; padding:4px 12px; border:1px solid transparent; font-size:0.9rem; letter-spacing:1px; transition:all 0.15s; }
+    nav ul li a:hover { color:var(--green); border-color:var(--green); text-shadow:0 0 8px var(--green); background:rgba(0,255,65,0.05); }
+    nav .brand { color:var(--green); font-size:1rem; letter-spacing:2px; text-shadow:0 0 10px var(--green); margin-right:auto; }
+    .page-header { padding:30px 0 5px; }
+    .prompt-line { color:var(--green); font-size:1.05rem; margin-bottom:25px; text-shadow:0 0 5px var(--green); }
+    .prompt-line .user { color:var(--cyan); text-shadow:0 0 8px var(--cyan); }
+    .prompt-line .path { color:var(--green-dim); }
+    .cursor { display:inline-block; width:9px; height:1em; background:var(--green); vertical-align:text-bottom; animation:blink 1s step-end infinite; box-shadow:0 0 8px var(--green); }
+    @keyframes blink { 50%{opacity:0;} }
+    .post-container { padding:5px 0 40px; }
+    .post-title { color:var(--green); font-size:1.3rem; text-shadow:0 0 8px var(--green); padding:10px 0 15px; letter-spacing:1px; }
+    .post-hr { border:none; border-top:1px solid var(--green-dark); margin:0 0 25px; }
+    .post-body { color:#c0d8c0; font-size:0.95rem; line-height:1.8; }
+    .post-body img { max-width:100%; height:auto; border-radius:4px; border:1px solid var(--green-dark); display:block; margin:10px auto; }
+    .post-body a { color:var(--cyan) !important; text-decoration:none; }
+    .post-body a:hover { text-shadow:0 0 6px var(--cyan); text-decoration:underline; }
+    footer { border-top:1px solid var(--green-dark); padding:20px 0; margin-top:20px; color:var(--green-dark); font-size:0.75rem; letter-spacing:1px; }
+    footer a { color:var(--green-dim); text-decoration:none; }
+    footer a:hover { color:var(--green); text-shadow:0 0 6px var(--green); }
+    ::-webkit-scrollbar { width:6px; background:#000; }
+    ::-webkit-scrollbar-thumb { background:var(--green-dark); }
+  </style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="wrapper">
+  <nav>
+    <ul>
+      <li><span class="brand">&gt; </span></li>
+      <li><a href="../index.html">[ ~/Start ]</a></li>
+      <li><a href="../whoami.html">[ ~/Whoami ]</a></li>
+      <li><a href="../ctf/ctf.html">[ ~/CTF's ]</a></li>
+    </ul>
+  </nav>
+  <div class="page-header">
+    <div class="prompt-line">
+      <span class="user">root</span>@<span class="host">pwn</span>:<span class="path">~/post</span>$ cat Happy_Brithday.txt
+      <span class="cursor"></span>
+    </div>
+  </div>
+  <div class="post-container">
+    <h2 class="post-title">Happy_Brithday.exe Binary Solution</h2>
+    <hr class="post-hr">
+    <div class="post-body">
+      <p>
+        Primero que todo quisiera agradecer a mi amigo <b>@dplastico</b> que me permitio aportar con un grano de arenas que fue este binario para la seccion de cracking. <br><br>Descargar binario <a href="https://github.com/s1kr10s/s1kr10s.github.io/raw/master/Binary/Happy_Brithday.zip"><b>Aquí</b></a> (Pass: pwn) y <a href="https://github.com/s1kr10s/s1kr10s.github.io/blob/master/Binary/main.cpp" target="_blank"><b>Source</b></a>
+        <br><br>
+        Description:<br>
+        Este post sera bien breve ya que el binario no tomaba mucho tiempo en resolver. Ahora existían dos caminos para solucionar este reto uno lago y otro corto. El corto solo se necesitaba parchar el binario y obtener la flag y el largo se necesitaba analizar que hacia el binario en si. Ahora esto hace la diferencia entre un reverse y un competidor de ctf ya que el reverse aunque sabe como resolver rápidamente el reto, de igual manera quiere entender el flujo y se lleva todo el tiempo jeje.<br><br>
+
+        Lo primero es ver que devuelve el binario cuando se ejecuta. Como resultado tenemos un "Try Harder..." entonces vamos a un nivel mas bajo.<br>
+        <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf1.png" width="500px"></center><br><br>
+        Despues de cargar el binario en un interactive disassembler como IDA, observamos el main() del binario y algunas de sus condiciones. Otra cosa a mencionar es que este binario contiene múltiples funciones anti-debug.<br><br>
+        <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf2.png" width="400px"></center><br><br>
+        Ahora pasamos a una pincelada de análisis, donde se observa la función flag1() que imprime el mensaje "Try Harder..." y que necesita un argumento para seguir con el flujo correcto.<br><br>
+        <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf3.png" width="800px"></center><br><br>
+        Cuando seguimos con el flujo se nos da la condición de seguir por la función flag2() que tiene un flag falso o thetime(), todo depende si pasamos la comprobacion de <b>IsDebuggerPresent().</b><br><br>
+        <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf4.png" width="800px"></center><br><br>
+        Si hacemos el bypass correcto de las funciones IsDebuggerPresent(), thetime() y anti_debug() que todas estas nos envían a fuera por estar depurando, nos encontramos con el ultimo obstaculo un fs:30h ¿que es esto?. Bueno en resumidas cuando se llama a un FS:[0x30] estamos cargando una dirección de Thread Environment Block (TEB) a PEB con desplazamiento 68h a NtGlobalFlag.<br><br>Despues de evitar esto ultimo, entramos a la rutina para obtener el flag correcto.<br><br>Leer mas de TEB <a href="https://www.aldeid.com/wiki/TEB-Thread-Environment-Block" target="_blank">aquí</a>.<br><br>
+        <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf5.png" width="800px"></center><br><br>
+        Acá encontramos un array de caracteres que serán utilizados para generar el string final del flag. Estos son calculados de la siguiente manera:<br><br>
+            - Toma los primeros byte de los array y los calcula 0x69^0x11=0x78<br>
+            - El resultado es xoreado con 0x122 y así sucesivamente con cada resultado.<br><br>
+            Despues al finalizar se realiza una lectura con size 0x29 en un for() donde es mayor al primer buffer[7], Entonces podemos leer todo los buffer que están por debajo.<br>
+            <br><br>
+        <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf6.png" width="600px"></center><br><br>
+        Este es el algoritmo que calcula mediante XOR los caracteres entre si.<br><br>
+        <center><img src="https://raw.githubusercontent.com/s1kr10s/s1kr10s.github.io/master/images/ctf7.png" width="500px"></center><br><br>
+        Video:<br>
+        <a href="https://www.youtube.com/watch?v=gcJ1xUB0-wU" target="_blank">https://www.youtube.com/watch?v=gcJ1xUB0-wU</a>
+      </p>
+    </div>
+  </div>
+  <footer>
+    <span>// &nbsp; root@pwn:~$ echo "The quieter you become, the more you are able to hear." &nbsp; // &nbsp;</span>
+    <a href="https://github.com/s1kr10s" target="_blank">github</a> &nbsp;|&nbsp;
+    <a href="https://x.com/s1kr10s" target="_blank">twitter/x</a> &nbsp;|&nbsp;
+    <a href="https://medium.com/@s1kr10s" target="_blank">medium</a>
+  </footer>
+</div>
+<script>
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  const chars = '01アイウエオカキクケコ<>{}[]\\!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const fontSize = 13;
+  let cols = Math.floor(window.innerWidth / fontSize);
+  let drops = Array(cols).fill(1);
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(0,0,0,0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00ff41'; ctx.font = fontSize + 'px Share Tech Mono, monospace';
+    cols = Math.floor(canvas.width / fontSize);
+    if (drops.length < cols) drops = drops.concat(Array(cols - drops.length).fill(1));
+    for (let i = 0; i < cols; i++) {
+      const c = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillText(c, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  setInterval(drawMatrix, 50);
+</script>
+</body>
+</html>

