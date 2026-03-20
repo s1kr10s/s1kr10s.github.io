@@ -1,232 +1,510 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Miguel M.Z - @s1kr10s</title>
-    <link rel="shortcut icon" href="./images/icon.png">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/bootstrap4-neon-glow.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel='stylesheet' href='//cdn.jsdelivr.net/font-hack/2.020/css/hack.min.css'>
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>s1kr10s // whoami</title>
+  <link rel="shortcut icon" href="./images/icon.png">
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+    :root {
+      --green: #00ff41;
+      --green-dim: #00b32c;
+      --green-dark: #003b0f;
+      --cyan: #00ffff;
+      --amber: #ffb000;
+      --bg: #000000;
+      --scanline: rgba(0, 255, 65, 0.03);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      overflow-y: scroll;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--green);
+      font-family: 'Share Tech Mono', 'Courier New', monospace;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        var(--scanline) 2px,
+        var(--scanline) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.85) 100%);
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    canvas#matrix {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      opacity: 0.07;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 10;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* NAV */
+    nav {
+      border-bottom: 1px solid var(--green-dim);
+      padding: 12px 0;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      align-items: center;
+    }
+
+    nav ul li a {
+      color: var(--green-dim);
+      text-decoration: none;
+      padding: 4px 12px;
+      border: 1px solid transparent;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      transition: all 0.15s;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: var(--green);
+      border-color: var(--green);
+      text-shadow: 0 0 8px var(--green);
+      background: rgba(0,255,65,0.05);
+    }
+
+    nav .brand {
+      color: var(--green);
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px var(--green);
+      margin-right: auto;
+    }
+
+    /* HEADER */
+    .page-header {
+      padding: 30px 0 5px;
+    }
+
+    .prompt-line {
+      color: var(--green);
+      font-size: 1.05rem;
+      margin-bottom: 25px;
+      text-shadow: 0 0 5px var(--green);
+    }
+
+    .prompt-line .user { color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+    .prompt-line .host { color: var(--green); }
+    .prompt-line .path { color: var(--green-dim); }
+
+    .cursor {
+      display: inline-block;
+      width: 9px;
+      height: 1em;
+      background: var(--green);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* PROFILE BLOCK */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 30px;
+      align-items: start;
+      margin-bottom: 40px;
+    }
+
+    .avatar-box {
+      text-align: center;
+    }
+
+    .avatar-box img {
+      width: 180px;
+      border-radius: 8px;
+      border: 2px solid var(--green-dim);
+      box-shadow: 0 0 20px rgba(0,255,65,0.2);
+      filter: grayscale(30%) brightness(0.9);
+    }
+
+    .avatar-box .handle {
+      margin-top: 12px;
+      color: var(--green);
+      font-size: 1rem;
+      text-shadow: 0 0 8px var(--green);
+    }
+
+    .avatar-box .fullname {
+      color: var(--green-dim);
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    .social-icons {
+      margin-top: 14px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .social-icons a { font-size: 1.3rem; transition: all 0.15s; }
+    .social-icons a:hover { filter: brightness(1.5); transform: scale(1.15); }
+    .social-icons .fa-x-twitter { color: #17b06b; }
+    .social-icons .fa-github { color: #ffffff; }
+    .social-icons .fa-youtube { color: #d74949; }
+    .social-icons .fa-linkedin { color: #5b90f4; }
+    .social-icons .fa-medium { color: #d2d2d2; }
+    .social-icons .fa-instagram { color: #e84792; }
+    .social-icons .fa-newspaper { color: #e3c000; }
+
+    .bio-box {
+      border-left: 2px solid var(--green-dark);
+      padding-left: 20px;
+    }
+
+    .bio-box .section-label {
+      color: var(--cyan);
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      text-shadow: 0 0 6px var(--cyan);
+    }
+
+    .bio-text {
+      color: #b0c8b0;
+      font-size: 0.92rem;
+      line-height: 1.7;
+      max-width: 600px;
+      margin-bottom: 25px;
+    }
+
+    /* SECTION BLOCKS */
+    .section-block {
+      margin-bottom: 35px;
+      padding: 18px 20px;
+      border: 1px solid var(--green-dark);
+      background: rgba(0, 255, 65, 0.02);
+      position: relative;
+    }
+
+    .section-block::before {
+      content: attr(data-label);
+      position: absolute;
+      top: -10px;
+      left: 15px;
+      background: #000;
+      padding: 0 8px;
+      color: var(--cyan);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-shadow: 0 0 6px var(--cyan);
+    }
+
+    /* CERTS */
+    .cert-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .cert-grid a img {
+      width: 85px;
+      filter: drop-shadow(0 0 8px rgba(0,255,65,0.3));
+      transition: all 0.2s;
+    }
+
+    .cert-grid a:hover img {
+      filter: drop-shadow(0 0 14px rgba(0,255,255,0.5));
+      transform: scale(1.08);
+    }
+
+    /* LISTS */
+    .hack-list {
+      list-style: none;
+      padding: 0;
+      columns: 2;
+      column-gap: 20px;
+    }
+
+    .hack-list li {
+      color: #b0c8b0;
+      font-size: 0.9rem;
+      padding: 3px 0;
+      border-bottom: 1px solid rgba(0,255,65,0.06);
+    }
+
+    .hack-list li::before {
+      content: '>> ';
+      color: var(--green-dim);
+    }
+
+    /* CVE LIST */
+    .cve-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .cve-grid a {
+      color: var(--cyan);
+      text-decoration: none;
+      font-size: 0.82rem;
+      padding: 3px 8px;
+      border: 1px solid rgba(0,255,255,0.2);
+      transition: all 0.15s;
+      text-shadow: 0 0 5px rgba(0,255,255,0.4);
+    }
+
+    .cve-grid a:hover {
+      background: rgba(0,255,255,0.05);
+      border-color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan);
+    }
+
+    /* HOF / EXPLOITS */
+    .link-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .link-list li {
+      padding: 4px 0;
+      font-size: 0.9rem;
+    }
+
+    .link-list li::before {
+      content: '[+] ';
+      color: var(--green-dim);
+    }
+
+    .link-list a {
+      color: var(--amber);
+      text-decoration: none;
+      text-shadow: 0 0 5px rgba(255,176,0,0.3);
+      transition: all 0.15s;
+    }
+
+    .link-list a:hover {
+      text-shadow: 0 0 10px var(--amber);
+      color: #ffd060;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--green-dark);
+      padding: 20px 0;
+      margin-top: 40px;
+      color: var(--green-dark);
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+    }
+
+    footer a { color: var(--green-dim); text-decoration: none; }
+    footer a:hover { color: var(--green); text-shadow: 0 0 6px var(--green); }
+
+    ::-webkit-scrollbar { width: 6px; background: #000; }
+    ::-webkit-scrollbar-thumb { background: var(--green-dark); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+
+    @media (max-width: 700px) {
+      .profile-grid { grid-template-columns: 1fr; }
+      .hack-list { columns: 1; }
+      .bio-box { border-left: none; padding-left: 0; border-top: 2px solid var(--green-dark); padding-top: 15px; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="navbar-dark text-white">
-    <div class="container">
-        <nav class="navbar px-0 navbar-expand-lg navbar-dark">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a href="index.html" class="pl-md-0 p-3 text-light" style="font-family:courier,arial,helvética"> # Start</a>
-                    <a href="whoami.html" class="p-3 text-decoration-none text-light" style="font-family:courier,arial,helvética"> # Whoami</a>
-                    <a href="./ctf/ctf.html" class="p-3 text-decoration-none text-light" style="font-family:courier,arial,helvética"> # CTF's</a>
-                    <a href="TEB_PEB.html" class="p-3 text-decoration-none text-light" style="font-family:courier,arial,helvética"> # TeB/PeB</a>
-                    <a href="pwn.html" class="p-3 text-decoration-none text-light" style="font-family:courier,arial,helvética"> # Pwn!</a>
-                    <a href="plugin.html" class="p-3 text-decoration-none text-light" style="font-family:courier,arial,helvética"> # Plugin IDA</a>
-                    <a href="searche.html" class="p-3 text-decoration-none text-light" style="font-family:courier,arial,helvética"> # Search Engine</a>
-                </div>
-            </div>
-        </nav>
-    </div>
-</div>
-<br>
-<div class="jumbotron bg-transparent mb-0 radius-0">
-    <div class="container">
-        <div class="row">
-            <div class="">
-                <h1 class="display-1" style="font-family:courier,arial,helvética">kd❯ <span class="vim-caret" style="font-family:courier,arial,helvética">g</span></h1>
-                <div class="lead mb-3 text-mono text-success" style="font-size: 25px;font-family:courier,arial,helvética">fffff803'00000000 EB FE jmp short loc_HackinG</div>
-                <p class="mt-5 text-grey text-spacey">
-                    <h1 style="font-family:courier,arial,helvética">~ vi profile.txt</h1><br><br><br>
-                    <table border="0">
-                        <tr>
-                            <td width="250px">
-                                <center>
-                                    <img src="./images/iam2.png" style="border-radius: 10%; width: 230px;">
-                                </center>
-                            </td>
-                            <td width="250px">
-                                <p style="font-size: 20px; color: aliceblue;font-family:courier,arial,helvética">&nbsp;&nbsp;&nbsp;Hobby</p>
-                            </td>
-                            <td width="500px">
-                                <p align="justify" style="font-size: 19px; color: aliceblue;font-family:courier,arial,helvética">
-                                    &nbsp;&nbsp;I'm extremely passionate about my work, especially when it comes to computer security. It provides me with the opportunity to learn and grow every day through research, and connect with incredibly talented people in the field. What started as a hobby has become a way of life for me, and I am grateful for the chance to pursue this passion as a career.
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <center><br>
-                                    <p style="font-size: 17px; color: aliceblue;font-family:courier,arial,helvética">Miguel Ángel Méndez Z.<br>@s1kr10s<br><br>
-                                    <a href="https://x.com/s1kr10s" target="_blank"><i class="fa-brands fa-x-twitter" style="font-size:25px; color:#17b06b"></i></a><br>
-                                    <a href="https://github.com/s1kr10s" target="_blank"><i class="fa-brands fa-github" style="font-size:25px; color:#fff"></i></a><br>
-                                    <a href="https://www.youtube.com/user/dthhack/videos" target="_blank"><i class="fa-brands fa-youtube" style="font-size:25px; color:#d74949"></i></a><br>
-                                    <a href="https://www.linkedin.com/in/miguel-angel-mz/" target="_blank"><i class="fa-brands fa-linkedin" style="font-size:25px; color:#5b90f4"></i></a><br>
-                                    <a href="https://medium.com/@s1kr10s" target="_blank"><i class="fa-brands fa-medium" style="font-size:25px; color:#d2d2d2"></i></a><br>
-                                    <a href="https://www.instagram.com/s1kr10s/" target="_blank"><i class="fa-brands fa-instagram" style="font-size:25px; color:#e84792"></i></a><br>
-                                    <a href="https://www.df.cl/tendencias/tecnologia/3-hackers-chilenos-en-primera-persona" target="_blank"><i class="fa-regular fa-newspaper" style="font-size:25px; color:#e3c000"></i></a>
-                                    </p>
-                                </center>
-                            </td>
-                            <td>
-                                <p style="font-size: 20px; color: aliceblue;font-family:courier,arial,helvética">&nbsp;&nbsp;&nbsp;Certifications</p>
-                            </td>
+<canvas id="matrix"></canvas>
 
-                            <td width="550px">
-                                <a href="https://credentials.offsec.com/822091cf-ad2c-44b3-8150-e098f021ee58" target="blank"><img src="./images/OSCP_Acclaim_Badge.svg" width="100px"></a>
-                                <a href="https://credentials.offsec.com/71cf9b24-2749-463b-925c-3eeb16e9d975" target="blank"><img src="./images/OSCE_Acclaim_Badge.svg" width="100px"></a>
-                                <a href="https://credentials.offsec.com/f10dacc0-6159-47c9-83c9-92c9417d3d90" target="blank"><img src="./images/OSWP_Acclaim_Badge.svg" width="100px"></a>
-                                <a href="https://credentials.offsec.com/6f923f31-40cb-4dfb-aea2-54387e7108ed" target="blank"><img src="./images/OSWE_Acclaim_Badge.svg" width="100px"></a>
-                                <a href="https://credentials.offsec.com/49f84552-6572-4972-a7fd-da1fb0415329" target="blank"><img src="./images/OSED_Acclaim_Badge.svg" width="100px"></a>
-                                <!--<a href="https://credentials.offsec.com/49f84552-6572-4972-a7fd-da1fb0415329" target="blank"><img src="./images/OSEP_Acclaim_Badge.svg" width="100px"></a>-->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <p style="font-size: 20px; color: aliceblue;font-family:courier,arial,helvética">&nbsp;&nbsp;&nbsp;Experience</p>
-                            </td>
-                            <td>
-                                <ul style="font-size: 19px; color: aliceblue;font-family:courier,arial,helvética">
-                                    <li>Reverse Enginner</li>
-                                    <li>Exploit Writing</li>
-                                    <li>Malware Analysis</li>
-                                    <li>Web Penetration Testing</li>
-                                    <li>Network Penetration Testing</li>
-                                    <li>Mobile Penetration Testing</li>
-                                    <li>Security Tools Development</li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                             <p style="font-size: 20px; color: aliceblue;font-family:courier,arial,helvética">&nbsp;&nbsp;&nbsp;CVEs</p>
-                            </td>
-                            <td>
-                              <br><br><br>
-                              <ul style="font-size: 19px; color: aliceblue;font-family:courier,arial,helvética">
+<div class="wrapper">
+  <nav>
+    <ul>
+      <li><span class="brand">&gt; </span></li>
+      <li><a href="index.html">[ ~/Start ]</a></li>
+      <li><a href="whoami.html" class="active">[ ~/Whoami ]</a></li>
+      <li><a href="./ctf/ctf.html">[ ~/CTF's ]</a></li>
+    </ul>
+  </nav>
 
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2024-51142" style="color: aquamarine;" target="blank">CVE-2024-51142</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2024-51141" style="color: aquamarine;" target="blank">CVE-2024-51141</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2024-24910" style="color: aquamarine;" target="blank">CVE-2024-24910</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2024-23940" style="color: aquamarine;" target="blank">CVE-2024-23940</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2023-51157" style="color: aquamarine;" target="blank">CVE-2023-51157</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2020-24755" style="color: aquamarine;" target="blank">CVE-2020-24755</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2020-10181" style="color: aquamarine;" target="blank">CVE-2020-10181</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2019-17621" style="color: aquamarine;" target="blank">CVE-2019-17621</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2019-20213" style="color: aquamarine;" target="blank">CVE-2019-20213</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2019-20215" style="color: aquamarine;" target="blank">CVE-2019-20215</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2019-20216" style="color: aquamarine;" target="blank">CVE-2019-20216</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2019-20217" style="color: aquamarine;" target="blank">CVE-2019-20217</a></li>        
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2019-20502" style="color: aquamarine;" target="blank">CVE-2019-20502</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2019-3477" style="color: aquamarine;" target="blank">CVE-2019-3477</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2019-5526" style="color: aquamarine;" target="blank">CVE-2019-5526</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2018-14064" style="color: aquamarine;" target="blank">CVE-2018-14064</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2017-16841" style="color: aquamarine;" target="blank">CVE-2017-16841</a></li>
-                                <li><a href="https://www.cve.org/CVERecord?id=CVE-2017-9833" style="color: aquamarine;" target="blank">CVE-2017-9833</a></li>
-                              </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                             <p style="font-size: 20px; color: aliceblue;font-family:courier,arial,helvética">&nbsp;&nbsp;&nbsp;Hall Of Fame</p>
-                            </td>
-                            <td>
-                              <br><br><br>
-                              <ul style="font-size: 19px; color: aliceblue;font-family:courier,arial,helvética">
-                                <li><a href="https://msrc.microsoft.com/update-guide/en-us/acknowledgement/online" style="color: aquamarine;" target="blank">Microsoft (Jun 30 2017)</a></li>
-                                <li><a href="https://supportannouncement.us.dlink.com/announcement/publication.aspx?name=SAP10147" style="color: aquamarine;" target="blank">D-Link</a></li>
-                                <li><a href="https://www.vmware.com/security/advisories/VMSA-2019-0007.html" style="color: aquamarine;" target="blank">VMware</a></li>
-                                <li><a href="https://www.nokia.com/notices/responsible-disclosure/" style="color: aquamarine;" target="blank">Nokia</a></li>
-                                <li><a href="https://www.oracle.com/security-alerts/cpujan2017.html" style="color: aquamarine;" target="blank">Oracle</a></li>
-                                <li><a href="http://help.serena.com/doc_center/sbm/ver11_4_2/sbm_release_notes.htm" style="color: aquamarine;" target="blank">Microfocus</a></li>
-                                <li><a href="https://csirt.gob.cl/documents/2677/13BCS20-00056-01.pdf" style="color: aquamarine;" target="blank">CSIRT Gob Chile</a></li>
-                                <li><a href="https://github.com/chamilo/chamilo-lms/wiki/security-issues#issue-175---2024-09-11---moderate-impact-moderate-risk---unauthenticated-data-injection-ajax-in-lp" style="color: aquamarine;" target="blank">Chamilo LMS</a></li>
-                              </ul>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td></td>
-                            <td>
-                             <p style="font-size: 20px; color: aliceblue;font-family:courier,arial,helvética">&nbsp;&nbsp;&nbsp;Exploits</p>
-                            </td>
-                            <td>
-                              <br><br><br>
-                              <ul style="font-size: 19px; color: aliceblue;font-family:courier,arial,helvética">
-                                <li><a href="https://www.exploit-db.com/search?e_author=Miguel+Mendez+Z" style="color: aquamarine;" target="blank">Exploit-DB</a></li>
-                                <li><a href="https://packetstormsecurity.com/files/author/13049/" style="color: aquamarine;" target="blank">Packet Storm</a></li>
-                              </ul>
-                            </td>
-                       </tr>
-                    </table>
-                </p>
-            </div>
-        </div>
+  <div class="page-header">
+    <div class="prompt-line">
+      <span class="user">root</span>@<span class="host">pwn</span>:<span class="path">~</span>$ cat profile.txt
+      <span class="cursor"></span>
     </div>
+  </div>
+
+  <div class="profile-grid">
+    <div class="avatar-box">
+      <img src="./images/iam2.png" alt="s1kr10s">
+      <div class="handle">@s1kr10s</div>
+      <div class="fullname">Miguel Angel Mendez Z.</div>
+      <div class="social-icons">
+        <a href="https://x.com/s1kr10s" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="https://github.com/s1kr10s" target="_blank"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.youtube.com/user/dthhack/videos" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://www.linkedin.com/in/miguel-angel-mz/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://medium.com/@s1kr10s" target="_blank"><i class="fa-brands fa-medium"></i></a>
+        <a href="https://www.instagram.com/s1kr10s/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://www.df.cl/tendencias/tecnologia/3-hackers-chilenos-en-primera-persona" target="_blank"><i class="fa-regular fa-newspaper"></i></a>
+      </div>
+    </div>
+
+    <div class="bio-box">
+      <div class="section-label">// ABOUT</div>
+      <p class="bio-text">
+        I'm extremely passionate about my work, especially when it comes to computer security.
+        It provides me with the opportunity to learn and grow every day through research, and connect
+        with incredibly talented people in the field. What started as a hobby has become a way of life
+        for me, and I am grateful for the chance to pursue this passion as a career.
+      </p>
+
+      <div class="section-label">// SKILLS</div>
+      <ul class="hack-list">
+        <li>Reverse Engineering</li>
+        <li>Exploit Writing</li>
+        <li>Malware Analysis</li>
+        <li>Web Penetration Testing</li>
+        <li>Network Penetration Testing</li>
+        <li>Mobile Penetration Testing</li>
+        <li>Security Tools Development</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block" data-label="// CERTIFICATIONS">
+    <div class="cert-grid">
+      <a href="https://credentials.offsec.com/822091cf-ad2c-44b3-8150-e098f021ee58" target="_blank"><img src="./images/OSCP_Acclaim_Badge.svg"></a>
+      <a href="https://credentials.offsec.com/71cf9b24-2749-463b-925c-3eeb16e9d975" target="_blank"><img src="./images/OSCE_Acclaim_Badge.svg"></a>
+      <a href="https://credentials.offsec.com/f10dacc0-6159-47c9-83c9-92c9417d3d90" target="_blank"><img src="./images/OSWP_Acclaim_Badge.svg"></a>
+      <a href="https://credentials.offsec.com/6f923f31-40cb-4dfb-aea2-54387e7108ed" target="_blank"><img src="./images/OSWE_Acclaim_Badge.svg"></a>
+      <a href="https://credentials.offsec.com/49f84552-6572-4972-a7fd-da1fb0415329" target="_blank"><img src="./images/OSED_Acclaim_Badge.svg"></a>
+    </div>
+  </div>
+
+  <div class="section-block" data-label="// CVEs">
+    <div class="cve-grid">
+      <a href="https://www.cve.org/CVERecord?id=CVE-2024-51142" target="_blank">CVE-2024-51142</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2024-51141" target="_blank">CVE-2024-51141</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2024-24910" target="_blank">CVE-2024-24910</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2024-23940" target="_blank">CVE-2024-23940</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2023-51157" target="_blank">CVE-2023-51157</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2020-24755" target="_blank">CVE-2020-24755</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2020-10181" target="_blank">CVE-2020-10181</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2019-17621" target="_blank">CVE-2019-17621</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2019-20213" target="_blank">CVE-2019-20213</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2019-20215" target="_blank">CVE-2019-20215</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2019-20216" target="_blank">CVE-2019-20216</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2019-20217" target="_blank">CVE-2019-20217</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2019-20502" target="_blank">CVE-2019-20502</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2019-3477" target="_blank">CVE-2019-3477</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2019-5526" target="_blank">CVE-2019-5526</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2018-14064" target="_blank">CVE-2018-14064</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2017-16841" target="_blank">CVE-2017-16841</a>
+      <a href="https://www.cve.org/CVERecord?id=CVE-2017-9833" target="_blank">CVE-2017-9833</a>
+    </div>
+  </div>
+
+  <div class="section-block" data-label="// HALL OF FAME">
+    <ul class="link-list">
+      <li><a href="https://msrc.microsoft.com/update-guide/en-us/acknowledgement/online" target="_blank">Microsoft (Jun 30 2017)</a></li>
+      <li><a href="https://supportannouncement.us.dlink.com/announcement/publication.aspx?name=SAP10147" target="_blank">D-Link</a></li>
+      <li><a href="https://www.vmware.com/security/advisories/VMSA-2019-0007.html" target="_blank">VMware</a></li>
+      <li><a href="https://www.nokia.com/notices/responsible-disclosure/" target="_blank">Nokia</a></li>
+      <li><a href="https://www.oracle.com/security-alerts/cpujan2017.html" target="_blank">Oracle</a></li>
+      <li><a href="http://help.serena.com/doc_center/sbm/ver11_4_2/sbm_release_notes.htm" target="_blank">Microfocus</a></li>
+      <li><a href="https://csirt.gob.cl/documents/2677/13BCS20-00056-01.pdf" target="_blank">CSIRT Gob Chile</a></li>
+      <li><a href="https://github.com/chamilo/chamilo-lms/wiki/security-issues#issue-175---2024-09-11---moderate-impact-moderate-risk---unauthenticated-data-injection-ajax-in-lp" target="_blank">Chamilo LMS</a></li>
+    </ul>
+  </div>
+
+  <div class="section-block" data-label="// PUBLIC EXPLOITS">
+    <ul class="link-list">
+      <li><a href="https://www.exploit-db.com/search?e_author=Miguel+Mendez+Z" target="_blank">Exploit-DB</a></li>
+      <li><a href="https://packetstormsecurity.com/files/author/13049/" target="_blank">Packet Storm</a></li>
+    </ul>
+  </div>
+
+  <footer>
+    <span>// &nbsp; root@pwn:~$ echo "The quieter you become, the more you are able to hear." &nbsp; // &nbsp;</span>
+    <a href="https://github.com/s1kr10s" target="_blank">github</a> &nbsp;|&nbsp;
+    <a href="https://x.com/s1kr10s" target="_blank">twitter/x</a> &nbsp;|&nbsp;
+    <a href="https://medium.com/@s1kr10s" target="_blank">medium</a>
+  </footer>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
 
-<!-- Custom Styles for Mobile View -->
-<style>
-    /* Adjustments for mobile responsiveness */
-    .navbar-nav a {
-        font-family: courier, arial, helvetica;
-        font-size: 1rem; /* Adjust as needed */
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン<>{}[]|\\!@#$%^&*()_+-=;:ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const fontSize = 13;
+  let cols = Math.floor(window.innerWidth / fontSize);
+  let drops = Array(cols).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00ff41';
+    ctx.font = fontSize + 'px Share Tech Mono, monospace';
+    cols = Math.floor(canvas.width / fontSize);
+    if (drops.length < cols) drops = drops.concat(Array(cols - drops.length).fill(1));
+    for (let i = 0; i < cols; i++) {
+      const c = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillText(c, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
     }
+  }
 
-    .jumbotron {
-        padding: 2rem;
-    }
-
-    .jumbotron img {
-        max-width: 100%;
-        height: auto;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    td, th {
-        padding: 0.5rem;
-        vertical-align: top;
-    }
-
-    @media (max-width: 768px) {
-        .navbar-nav a {
-            font-size: 0.9rem; /* Adjust as needed */
-        }
-
-        .jumbotron {
-            padding: 1rem;
-        }
-
-        .jumbotron img {
-            width: 100%;
-        }
-
-        table, td, th {
-            display: block;
-            width: 100%;
-        }
-
-        table td {
-            text-align: center;
-        }
-    }
-</style>
+  setInterval(drawMatrix, 50);
+</script>
 
 </body>
 </html>
