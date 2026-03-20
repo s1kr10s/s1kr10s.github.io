@@ -1,265 +1,459 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Miguel M.Z - @s1kr10s</title>
-    <link rel="shortcut icon" href="../images/icon.png">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/bootstrap4-neon-glow.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel='stylesheet' href='//cdn.jsdelivr.net/font-hack/2.020/css/hack.min.css'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-    <script src="./data.js"></script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>s1kr10s // CTF Challenges</title>
+  <link rel="shortcut icon" href="../images/icon.png">
+  <script src="./data.js"></script>
   <style>
-    body {
-      font-family: 'Press Start 2P', monospace;
-      background-color: #000;
-      color: #0f0;
-      text-align: center;
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+    :root {
+      --green: #00ff41;
+      --green-dim: #00b32c;
+      --green-dark: #003b0f;
+      --cyan: #00ffff;
+      --amber: #ffb000;
+      --purple: #9d00ff;
+      --bg: #000000;
+      --scanline: rgba(0, 255, 65, 0.03);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
       overflow-y: scroll;
-      padding: 20px;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--green);
+      font-family: 'Share Tech Mono', 'Courier New', monospace;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* CRT scanlines */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        var(--scanline) 2px,
+        var(--scanline) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* CRT vignette */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.85) 100%);
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    canvas#matrixCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      opacity: 0.07;
+    }
+
+    .wrapper {
       position: relative;
+      z-index: 10;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 
-    a {
+    /* NAV */
+    nav {
+      border-bottom: 1px solid var(--green-dim);
+      padding: 12px 0;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      align-items: center;
+    }
+
+    nav ul li a {
+      color: var(--green-dim);
       text-decoration: none;
-    }
-    
-    h1::after {
-      content: "_";
-      animation: blink 1s infinite;
-      margin-left: 5px;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+      padding: 4px 12px;
+      border: 1px solid transparent;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      transition: all 0.15s;
     }
 
-    label, select {
-      font-size: 10px;
-      margin-bottom: 15px;
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: var(--green);
+      border-color: var(--green);
+      text-shadow: 0 0 8px var(--green);
+      background: rgba(0,255,65,0.05);
     }
 
-    select {
-      background-color: #000;
-      color: #0f0;
-      border: 1px solid #0f0;
-      padding: 5px;
-      font-family: 'Press Start 2P', monospace;
+    nav .brand {
+      color: var(--green);
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px var(--green);
+      margin-right: auto;
     }
 
-    /* Contenedor para la tabla con scroll vertical */
+    /* PAGE HEADER */
+    .page-header {
+      padding: 30px 0 5px;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .prompt-line {
+      color: var(--green);
+      font-size: 1.05rem;
+      margin-bottom: 25px;
+      text-shadow: 0 0 5px var(--green);
+    }
+
+    .prompt-line .user { color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+    .prompt-line .host { color: var(--green); }
+    .prompt-line .path { color: var(--green-dim); }
+
+    .cursor {
+      display: inline-block;
+      width: 9px;
+      height: 1em;
+      background: var(--green);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+      margin: 20px 0 30px;
+      flex-wrap: wrap;
+    }
+
+    .filter-bar label {
+      color: var(--cyan);
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-shadow: 0 0 6px var(--cyan);
+    }
+
+    .filter-bar select {
+      background: #000;
+      color: var(--green);
+      border: 1px solid var(--green-dim);
+      padding: 6px 12px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.82rem;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.15s;
+      min-width: 200px;
+    }
+
+    .filter-bar select:hover,
+    .filter-bar select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 8px rgba(0,255,65,0.3);
+      color: var(--green);
+    }
+
+    .filter-bar select option {
+      background: #000;
+      color: var(--green);
+    }
+
+    /* RESULTS */
+    #results {
+      margin-bottom: 40px;
+    }
+
+    #results h2 {
+      color: var(--cyan);
+      font-size: 0.85rem;
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+      text-align: center;
+      text-shadow: 0 0 8px var(--cyan);
+    }
+
+    /* TABLE */
     .table-container {
-      /*max-height: 500px;*/
-      /*overflow-y: auto;*/
-      margin: 20px auto;
-      /*max-width: 90vw;*/
+      overflow-x: auto;
     }
 
     table {
+      width: 100%;
       border-collapse: collapse;
-      margin: 0 auto;
-      background-color: #000;
+      background: transparent;
+    }
+
+    thead tr {
+      border-bottom: 2px solid var(--green-dim);
     }
 
     th {
-      border: 1px solid #0f0;
-      padding: 8px;
-      text-align: center;
-      font-size: 11px;
-      white-space: normal;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      background-color: mediumpurple;
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      color: var(--cyan);
+      text-shadow: 0 0 6px var(--cyan);
+      background: rgba(0,255,255,0.04);
+      border: 1px solid rgba(0,255,65,0.15);
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
     td {
-      border: 1px solid #0f0;
-      padding: 8px;
-      text-align: left;
-      font-size: 10px;
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      border: 1px solid rgba(0,255,65,0.1);
+      color: #a0c8a0;
+      vertical-align: middle;
       white-space: normal;
       word-wrap: break-word;
-      overflow-wrap: break-word;
-      
     }
 
-    #matrixCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      width: 100%;
-      height: 100%;
+    tbody tr {
+      transition: background 0.1s;
     }
 
-    audio {
-        display: none;
+    tbody tr:hover {
+      background: rgba(0,255,65,0.04);
+    }
+
+    tbody tr:hover td {
+      color: var(--green);
+    }
+
+    td a {
+      color: var(--green);
+      text-decoration: none;
+      text-shadow: 0 0 5px rgba(0,255,65,0.5);
+      transition: all 0.15s;
+    }
+
+    td a:hover {
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan);
+      text-decoration: underline;
+    }
+
+    /* LEVEL BADGES */
+    .badge-easy   { color: var(--green); border: 1px solid var(--green-dim); padding: 1px 6px; font-size: 0.75rem; }
+    .badge-medium { color: var(--amber); border: 1px solid rgba(255,176,0,0.4); padding: 1px 6px; font-size: 0.75rem; }
+    .badge-hard   { color: #ff4444; border: 1px solid rgba(255,68,68,0.4); padding: 1px 6px; font-size: 0.75rem; }
+    .badge-insane { color: var(--purple); border: 1px solid rgba(157,0,255,0.4); padding: 1px 6px; font-size: 0.75rem; }
+    .badge-default { color: var(--green-dim); border: 1px solid var(--green-dark); padding: 1px 6px; font-size: 0.75rem; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--green-dark);
+      padding: 20px 0;
+      margin-top: 20px;
+      color: var(--green-dark);
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+    }
+
+    footer a { color: var(--green-dim); text-decoration: none; }
+    footer a:hover { color: var(--green); text-shadow: 0 0 6px var(--green); }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; background: #000; }
+    ::-webkit-scrollbar-thumb { background: var(--green-dark); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+
+    audio { display: none; }
+
+    @media (max-width: 600px) {
+      th, td { padding: 6px 8px; font-size: 0.75rem; }
     }
   </style>
 </head>
-  <body>
-    <div class="navbar-dark text-white">
-    <div class="container">
-      <nav class="navbar px-0 navbar-expand-lg navbar-dark">
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a href="../index.html" class="pl-md-0 p-3 text-light" style="color: #dbebfb;font-size: 11px;"> #Start</a>
-            <a href="../whoami.html" class="p-3 text-decoration-none text-light" style="color: #dbebfb;font-size: 11px;"> #Whoami</a>
-            <a href="./ctf.html" class="p-3 text-decoration-none text-light" style="color: #dbebfb;font-size: 11px;"> #CTF's</a>
-            <a href="../TEB_PEB.html" class="p-3 text-decoration-none text-light" style="color: #dbebfb;font-size: 11px;"> #TeB/PeB</a>
-            <a href="../pwn.html" class="p-3 text-decoration-none text-light" style="color: #dbebfb;font-size: 11px;"> #Pwn Linux</a>
-            <a href="../plugin.html" class="p-3 text-decoration-none text-light" style="color: #dbebfb;font-size: 11px;"> #Plugin IDA</a>
-            <a href="../searche.html" class="p-3 text-decoration-none text-light" style="color: #dbebfb;font-size: 11px;"> #Search Engine</a>
-          </div>
-        </div>
-      </nav>
+<body>
+
+<canvas id="matrixCanvas"></canvas>
+
+<div class="wrapper">
+  <nav>
+    <ul>
+      <li><span class="brand">&gt; </span></li>
+      <li><a href="../index.html">[ ~/Start ]</a></li>
+      <li><a href="../whoami.html">[ ~/Whoami ]</a></li>
+      <li><a href="./ctf.html" class="active">[ ~/CTF's ]</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="prompt-line">
+      <span class="user">root</span>@<span class="host">pwn</span>:<span class="path">~/ctf</span>$ ls -lt challenges/
+      <span class="cursor"></span>
     </div>
   </div>
-  <br>
-    
-  <canvas id="matrixCanvas"></canvas>
 
-  <h1>Vulnerability 🕹️ Challenges</h1>
-  <label for="category">Category >>></label>
-  <select id="category" onchange="search();"></select>
+  <div class="filter-bar">
+    <label for="category">&gt;&gt; CATEGORY:</label>
+    <select id="category" onchange="search();"></select>
+  </div>
 
   <div id="results"></div>
 
-  <script>
-    const getUniqueCategories = () => {
-      const categoriesSet = new Set();
-      vulnerabilities.forEach(vuln => {
-        vuln.category.split('~').forEach(cat => categoriesSet.add(cat.trim()));
-      });
-      return Array.from(categoriesSet).sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
-    };
-    
-    const populateCategories = () => {
-      const select = document.getElementById("category");
-      const categories = getUniqueCategories();
-      categories.forEach(cat => {
-        const option = document.createElement("option");
-        option.value = cat;
-        option.textContent = capitalizeWords(cat); // cambia de .toUpperCase() a capitalizeWords()
-        select.appendChild(option);
-      });
-      search();
-    };
+  <footer>
+    <span>// &nbsp; root@pwn:~$ echo "The quieter you become, the more you are able to hear." &nbsp; // &nbsp;</span>
+    <a href="https://github.com/s1kr10s" target="_blank">github</a> &nbsp;|&nbsp;
+    <a href="https://x.com/s1kr10s" target="_blank">twitter/x</a> &nbsp;|&nbsp;
+    <a href="https://medium.com/@s1kr10s" target="_blank">medium</a>
+  </footer>
+</div>
 
-    const capitalizeWords = (str) => {
-        return str
-        .split('~') // Separar por categorías
-        .map(segment =>
-        segment
-            .trim()
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-            .join(' ')
-        )
-        .join(' ~ ');
-    };
+<audio id="bgm" src="./pwned.mp3" preload="auto"></audio>
 
-    const search = () => {
-      const selected = document.getElementById("category").value;
-      const results = vulnerabilities.filter(v =>
-        v.category.includes(selected)
-      );
+<script>
+  const getUniqueCategories = () => {
+    const categoriesSet = new Set();
+    vulnerabilities.forEach(vuln => {
+      vuln.category.split('~').forEach(cat => categoriesSet.add(cat.trim()));
+    });
+    return Array.from(categoriesSet).sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
+  };
 
-      const resultsDiv = document.getElementById("results");
-      resultsDiv.innerHTML = `<h2 style="font-size:15px;padding: 30px;">-= ${capitalizeWords(selected)} =-</h2>`;
+  const populateCategories = () => {
+    const select = document.getElementById("category");
+    const categories = getUniqueCategories();
+    categories.forEach(cat => {
+      const option = document.createElement("option");
+      option.value = cat;
+      option.textContent = capitalizeWords(cat);
+      select.appendChild(option);
+    });
+    search();
+  };
 
-      if (results.length === 0) {
-        resultsDiv.innerHTML += "<p>No results found.</p>";
-        return;
-      }
+  const capitalizeWords = (str) => {
+    return str
+      .split('~')
+      .map(segment =>
+        segment.trim().split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+          .join(' ')
+      )
+      .join(' ~ ');
+  };
 
-      let table = `
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Challenge Name</th>
-                <th>Vulnerability / Technique</th>
-                <th>Level</th>
-                <th>Arch</th>
-              </tr>
-            </thead>
-            <tbody>`;
+  const getLevelBadge = (level) => {
+    const l = level.toLowerCase();
+    if (l.includes('easy'))   return `<span class="badge-easy">${capitalizeWords(level)}</span>`;
+    if (l.includes('medium')) return `<span class="badge-medium">${capitalizeWords(level)}</span>`;
+    if (l.includes('hard'))   return `<span class="badge-hard">${capitalizeWords(level)}</span>`;
+    if (l.includes('insane')) return `<span class="badge-insane">${capitalizeWords(level)}</span>`;
+    return `<span class="badge-default">${capitalizeWords(level)}</span>`;
+  };
 
-      results.forEach(r => {
-        table += `
-              <tr>
-                <td>
-                    <a href="./chal/${r.name}.zip" target="_blank" style="color:#0f0; text-decoration:underline;">${r.name}</a>
-                </td>
-                <td>${capitalizeWords(r.category)}</td>
-                <td>${capitalizeWords(r.level)}</td>
-                <td>${capitalizeWords(r.arch)}</td>
-              </tr>`;
-      });
+  const search = () => {
+    const selected = document.getElementById("category").value;
+    const results = vulnerabilities.filter(v => v.category.includes(selected));
 
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = `<h2>-= ${capitalizeWords(selected)} =- &nbsp; [${results.length} challenges]</h2>`;
+
+    if (results.length === 0) {
+      resultsDiv.innerHTML += `<p style="text-align:center;color:var(--green-dim);font-size:0.85rem;">[!] No results found.</p>`;
+      return;
+    }
+
+    let table = `
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Challenge Name</th>
+              <th>Vulnerability / Technique</th>
+              <th>Level</th>
+              <th>Arch</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+    results.forEach(r => {
       table += `
-            </tbody>
-          </table>
-        </div>`;
+        <tr>
+          <td><a href="./chal/${r.name}.zip" target="_blank">[+] ${r.name}</a></td>
+          <td>${capitalizeWords(r.category)}</td>
+          <td>${getLevelBadge(r.level)}</td>
+          <td>${capitalizeWords(r.arch)}</td>
+        </tr>`;
+    });
 
-      resultsDiv.innerHTML += table;
-    };
+    table += `</tbody></table></div>`;
+    resultsDiv.innerHTML += table;
+  };
 
-    // Matrix background effect
-    function runMatrixEffect() {
-      const canvas = document.getElementById("matrixCanvas");
-      const ctx = canvas.getContext("2d");
+  // Matrix background
+  function runMatrixEffect() {
+    const canvas = document.getElementById("matrixCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
 
-      canvas.height = window.innerHeight;
-      canvas.width = window.innerWidth;
+    const chars = '01アイウエオカキクケコ<>{}[]\\!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const fontSize = 13;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array.from({ length: columns }).fill(1);
 
-      const letters = "01";
-      const fontSize = 11;
-      const columns = canvas.width / fontSize;
-      const drops = Array.from({ length: columns }).fill(1);
-
-      function draw() {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        ctx.fillStyle = "#0f0";
-        ctx.font = fontSize + "px monospace";
-
-        for (let i = 0; i < drops.length; i++) {
-          const text = letters[Math.floor(Math.random() * letters.length)];
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
-          }
-
-          drops[i]++;
-        }
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#00ff41";
+      ctx.font = fontSize + "px Share Tech Mono, monospace";
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
       }
-
-      setInterval(draw, 50);
     }
+    setInterval(draw, 50);
+  }
 
-    function playAudio() {
-        const audio = document.getElementById("bgm");
-        audio.volume = 0.2; // Puedes ajustar el volumen aquí
-        audio.loop = true; // Repetir indefinidamente
-        audio.play().catch(err => {
-            console.warn("Autoplay bloqueado, se requiere interacción del usuario.");
-        });
-    }
-    window.onload = () => {
-      populateCategories();
-      runMatrixEffect();
-      document.body.addEventListener("click", playAudio, { once: true });
-    };
-  </script>
-  <audio id="bgm" src="./Retro_Platforming.mp3" preload="auto"></audio>
+  function playAudio() {
+    const audio = document.getElementById("bgm");
+    audio.volume = 0.2;
+    audio.loop = true;
+    audio.play().catch(() => {});
+  }
+
+  window.onload = () => {
+    populateCategories();
+    runMatrixEffect();
+    document.body.addEventListener("click", playAudio, { once: true });
+  };
+</script>
+
 </body>
 </html>
